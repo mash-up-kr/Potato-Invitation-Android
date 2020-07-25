@@ -19,7 +19,7 @@
 
         <activity
             android:name=".presentation.SplashActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,6 +27,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".presentation.select.SelectingDateTimeActivity"/>
         <activity android:name=".presentation.main.MainActivity" />
         <activity
             android:name=".presentation.invitationtitle.InvitationTitleActivity"

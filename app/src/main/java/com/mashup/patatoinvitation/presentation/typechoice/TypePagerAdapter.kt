@@ -49,6 +49,7 @@ class TypePagerAdapter(val context: Context, val inflater: LayoutInflater) : Pag
 
     fun addAllTypeDataList(data: List<TypeData>) {
         _dataList.addAll(data)
+        notifyDataSetChanged()
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
