@@ -59,7 +59,7 @@ class SearchAddressActivity : AppCompatActivity() {
         val data = searchAddressAdapter.getItem(position)
         Intent(this, InputAddressActivity::class.java).apply {
             putExtra("place", data.placeName)
-            //TODO: 건물이름, 도로명 주소, 좌표(x,y) 전달
+            //TODO: 건물이름 외에 도로명 주소, 좌표(x,y) 전달
             startActivity(this)
             finish()
         }

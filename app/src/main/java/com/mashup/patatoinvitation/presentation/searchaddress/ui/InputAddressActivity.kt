@@ -24,5 +24,9 @@ class InputAddressActivity : AppCompatActivity() {
             btnInputAddressSubmit.setTextColor(Color.parseColor("#000000"))
             tvInputAddress.setTextColor(Color.parseColor("#000000"))
         }
+
+        btnInputAddressSubmit.setOnClickListener {
+            //TODO: PreferenceUtils here
+        }
     }
 }
