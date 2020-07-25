@@ -45,6 +45,7 @@ ext{
     glide_version = '4.11.0'
     okhttp3_version = '4.8.0'
     fragment_ktx_version = '1.2.5'
+    ted_image_picker_version = '1.0.8'
 }
 
 dependencies {
@@ -71,6 +72,9 @@ dependencies {
 
     // ktx
     implementation "androidx.fragment:fragment-ktx:$fragment_ktx_version"
+
+    //ted image picker
+    implementation "gun0912.ted:tedimagepicker:$ted_image_picker_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

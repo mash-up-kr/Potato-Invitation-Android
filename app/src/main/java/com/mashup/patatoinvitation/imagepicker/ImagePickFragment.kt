@@ -10,11 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.databinding.FragmentImagePickerBinding
+import gun0912.tedimagepicker.builder.TedImagePicker
+import gun0912.tedimagepicker.builder.TedRxImagePicker
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 class ImagePickFragment : Fragment() {
     //    private val viewModel by viewModels<ImagePickerViewModel>()
     private lateinit var binding: FragmentImagePickerBinding
     private lateinit var imagePickAdapter: ImagePickerAdapter
+
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +40,8 @@ class ImagePickFragment : Fragment() {
     private fun initComponent() {
         if (null != context) {
             imagePickAdapter = ImagePickerAdapter(requireContext())
+            imagePickAdapter.itemClickSubject.subscribe(this::onClicked)
+                .addTo(compositeDisposable)
         }
     }
 
@@ -43,4 +51,20 @@ class ImagePickFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
+    }
+
+    fun onClicked(view: View){
+        TedRxImagePicker.with(view.context)
+            .startMultiImage()
+            .subscribe({uriList ->
+                
+            }, Throwable::printStackTrace)
+            .addTo(compositeDisposable)
+    }
+
+    private fun Disposable.addTo(compositeDisposable: CompositeDisposable) = compositeDisposable.add(this)
 }

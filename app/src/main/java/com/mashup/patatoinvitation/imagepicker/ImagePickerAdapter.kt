@@ -9,9 +9,14 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mashup.patatoinvitation.R
+import io.reactivex.subjects.PublishSubject
 
 class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var data: MutableList<Uri>? = null
+
+    private val _itemClickSubject = PublishSubject.create<View>()
+    val itemClickSubject: PublishSubject<View>
+    get() = _itemClickSubject
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ImagePickerViewHolder(
@@ -36,6 +41,10 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
 
         private fun initView(itemView: View) {
             ivPickedImage = itemView.findViewById(R.id.ivPickedImage)
+
+            ivPickedImage.setOnClickListener { view ->
+                itemClickSubject.onNext(view)
+            }
         }
 
         fun bind(uri: Uri) {
