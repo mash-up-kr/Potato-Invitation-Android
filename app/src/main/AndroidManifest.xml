@@ -24,17 +24,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-      
+
         <activity
             android:name=".presentation.invitationtitle.InvitationTitleActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".presentation.typechoice.TypeChoiceActivity"/>
+        <activity android:name=".presentation.typechoice.TypeChoiceActivity" />
         <activity android:name=".presentation.invitationpreview.InvitationPreviewActivity" />
         <activity android:name=".presentation.searchaddress.ui.InputAddressActivity" />
         <activity android:name=".presentation.searchaddress.ui.SearchAddressActivity" />
+        <activity android:name=".presentation.invitationdate.InvitationDateActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="16e5c5f8df2c682432c3659bd5c2a8d5" />
+
     </application>
 </manifest>

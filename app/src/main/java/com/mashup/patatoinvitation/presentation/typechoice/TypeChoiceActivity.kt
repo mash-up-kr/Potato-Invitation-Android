@@ -5,7 +5,6 @@ import androidx.viewpager.widget.ViewPager
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.BaseActivity
 import com.mashup.patatoinvitation.databinding.ActivityTypeChoiceBinding
-import com.mashup.patatoinvitation.presentation.typechoice.data.TypeData
 import kotlinx.android.synthetic.main.activity_type_choice.*
 
 class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.activity_type_choice) {
@@ -36,7 +35,7 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
             setPadding(margin, 0, margin, 0)
             pageMargin = margin / 2
 
-            addOnPageChangeListener(object: ViewPager.OnPageChangeListener{
+            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) {
                 }
 
