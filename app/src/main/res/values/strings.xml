@@ -11,4 +11,8 @@
     <string name="share">공유하기</string>
     <string name="complete">완료하기</string>
     <string name="make_invitation">초대장 만들기</string>
+    <string name="invitation_title">전달하고 싶은\n말을 적어볼까요?</string>
+    <string name="input_complete">입력 완료하기</string>
+    <string name="invitation_preview">초대장 미리보기</string>
+    <string name="please_input_invitation_title">초대말을 입력해주세요</string>
 </resources>

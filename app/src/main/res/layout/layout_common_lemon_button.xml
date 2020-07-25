@@ -22,6 +22,6 @@
             android:textColor="@color/black"
             android:textSize="24dp"
             android:textStyle="bold"
-            tools:text="@string/complete" />
+            tools:text="title" />
     </FrameLayout>
 </layout>
