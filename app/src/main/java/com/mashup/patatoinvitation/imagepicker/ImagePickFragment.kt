@@ -1,16 +1,16 @@
 package com.mashup.patatoinvitation.imagepicker
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.databinding.FragmentImagePickerBinding
-import gun0912.tedimagepicker.builder.TedImagePicker
+import com.mashup.patatoinvitation.imagepicker.data.ImageClickData
 import gun0912.tedimagepicker.builder.TedRxImagePicker
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -57,13 +57,29 @@ class ImagePickFragment : Fragment() {
         compositeDisposable.clear()
     }
 
-    fun onClicked(view: View){
+    fun onClicked(data: ImageClickData){
+        // add
+        showImagePicker(data.view)
+
+        // delete
+//        deleteImage(data.position)
+    }
+
+    private fun showImagePicker(view: View) {
         TedRxImagePicker.with(view.context)
             .startMultiImage()
             .subscribe({uriList ->
-                
+                addImageUriList(uriList)
             }, Throwable::printStackTrace)
             .addTo(compositeDisposable)
+    }
+
+    private fun addImageUriList(uriList: List<Uri>){
+        imagePickAdapter.addImageUriList(uriList)
+    }
+
+    private fun deleteImage(position: Int){
+        imagePickAdapter.deleteImage(position)
     }
 
     private fun Disposable.addTo(compositeDisposable: CompositeDisposable) = compositeDisposable.add(this)
