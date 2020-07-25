@@ -2,57 +2,83 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvInfoComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="22dp"
-            android:lineSpacingExtra="8sp"
-            android:text="@string/guide_comment_type_choice"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vpType"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_type_view_pager"
-            android:layout_marginTop="53dp"
-            android:clipToPadding="false"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvInfoComment" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tlDotIndicator"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vpType"
-            app:tabBackground="@drawable/selector_type_indicator"
-            app:tabGravity="center"
-            app:tabIndicatorHeight="0dp"
-            app:tabRippleColor="@null" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white_two"
+            android:elevation="5dp">
 
-        <TextView
-            android:id="@+id/tvStartInvitation"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_logo" />
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="#fef051"
-            android:gravity="center"
-            android:text="@string/start_comment_type_choice"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_height="match_parent"
+            android:background="@color/white_two">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvInfoComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="22dp"
+                android:lineSpacingExtra="8sp"
+                android:text="@string/guide_comment_type_choice"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vpType"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_type_view_pager"
+                android:layout_marginTop="53dp"
+                android:clipToPadding="false"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvInfoComment" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tlDotIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vpType"
+                app:tabBackground="@drawable/selector_type_indicator"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp"
+                app:tabRippleColor="@null" />
+
+            <TextView
+                android:id="@+id/tvStartInvitation"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#fef051"
+                android:gravity="center"
+                android:text="@string/start_comment_type_choice"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

@@ -15,9 +15,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         goTypeChoiceActivity()
     }
 
-    fun goTypeChoiceActivity() {
+    private fun goTypeChoiceActivity() {
         Handler(mainLooper).postDelayed({
             startActivity(Intent(this, TypeChoiceActivity::class.java))
+            finish()
         }, 3000L)
     }
 }
