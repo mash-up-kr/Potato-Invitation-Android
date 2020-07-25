@@ -1,5 +1,6 @@
 package com.mashup.patatoinvitation.imagepicker
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -59,14 +60,14 @@ class ImagePickFragment : Fragment() {
 
     fun onClicked(data: ImageClickData){
         // add
-        showImagePicker(data.view)
+        showImagePicker(data.view.context)
 
         // delete
 //        deleteImage(data.position)
     }
 
-    private fun showImagePicker(view: View) {
-        TedRxImagePicker.with(view.context)
+    private fun showImagePicker(context: Context) {
+        TedRxImagePicker.with(context)
             .startMultiImage()
             .subscribe({uriList ->
                 addImageUriList(uriList)
