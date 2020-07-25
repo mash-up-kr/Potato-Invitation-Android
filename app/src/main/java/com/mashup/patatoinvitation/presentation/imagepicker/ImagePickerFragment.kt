@@ -59,6 +59,21 @@ class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fr
         rvImagePicker.apply {
             adapter = imagePickAdapter
             layoutManager = LinearLayoutManager(context)
+            addItemDecoration(object : RecyclerView.ItemDecoration(){
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    super.getItemOffsets(outRect, view, parent, state)
+
+                    // 마지막 아이템을 제외하고 바텀 마진값을 줘서 이미지 간격 설정
+                    val position = parent.getChildAdapterPosition(view)
+                    if(position != imagePickAdapter.itemCount)
+                    outRect.bottom = AppUtils.dpToPx(context, 10)
+                }
+            })
         }
     }
 
