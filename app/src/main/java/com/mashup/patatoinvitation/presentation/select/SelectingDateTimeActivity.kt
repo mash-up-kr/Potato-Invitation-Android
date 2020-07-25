@@ -47,11 +47,14 @@ class SelectingDateTimeActivity : AppCompatActivity() {
             val timeMsg = "[Test] Time is: $userHour : $userMin $userAmPm"
             tvTimeTest.text = timeMsg
             tvTimeTest.visibility = ViewGroup.VISIBLE
+
+            finish()
         }
     }
 
     private fun OnClickDate() {
         val datePicker = findViewById<DatePicker>(R.id.date_Picker)
+        datePicker.minDate = System.currentTimeMillis()
         val today = Calendar.getInstance()
         datePicker.init(
             today.get(Calendar.YEAR), today.get(Calendar.MONTH),
@@ -67,7 +70,6 @@ class SelectingDateTimeActivity : AppCompatActivity() {
     }
 
     private fun OnClickTime() {
-        //val textView = findViewById<TextView>(R.id.tvTimeTest)
         val timePicker = findViewById<TimePicker>(R.id.timePicker)
         timePicker.setOnTimeChangedListener { _, hour, minute ->
             var hour = hour
