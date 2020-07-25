@@ -41,11 +41,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 ext{
     rx_java_version = '2.2.19'
     rx_kotlin_version = '2.4.0'
+    rx_android_version = '2.1.1'
     retrofit_version = '2.9.0'
     glide_version = '4.11.0'
     okhttp3_version = '4.8.0'
@@ -65,6 +67,7 @@ dependencies {
     // rx
     implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
     implementation "io.reactivex.rxjava2:rxkotlin:$rx_kotlin_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -90,6 +93,9 @@ dependencies {
 
     //ted image picker
     implementation "gun0912.ted:tedimagepicker:$ted_image_picker_version"
+
+    //timepicker
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

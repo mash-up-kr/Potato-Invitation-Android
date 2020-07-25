@@ -7,8 +7,10 @@ import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.BaseActivity
 import com.mashup.patatoinvitation.base.util.Dlog
 import com.mashup.patatoinvitation.databinding.ActivityMainBinding
+import com.mashup.patatoinvitation.presentation.invitationdate.InvitationDateActivity
 import com.mashup.patatoinvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.patatoinvitation.presentation.invitationtitle.InvitationTitleActivity
+import com.mashup.patatoinvitation.presentation.searchaddress.ui.InputAddressActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
@@ -48,15 +50,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     override fun goToInvitationDate() {
-
+        InvitationDateActivity.startInvitationDateActivity(this)
     }
 
     override fun goToInvitationLocation() {
-        // TODO : InputAddressActivity
+        startActivity(
+            Intent(this, InputAddressActivity::class.java)
+        )
     }
 
     override fun goToInvitationPhoto() {
-
+        //TODO next step
     }
 
     override fun goToPreview() {

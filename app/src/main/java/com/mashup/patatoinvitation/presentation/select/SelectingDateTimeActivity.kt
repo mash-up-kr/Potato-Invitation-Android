@@ -32,6 +32,7 @@ class SelectingDateTimeActivity : AppCompatActivity() {
 
         btnDateTimeFinish.setOnClickListener {
             //date
+            //todo 사용자가 선택한 date
             //$userDay $userMonth $userYear
             //test
             val dateMsg = "[Test] Date is : $userDay/$userMonth/$userYear"
@@ -40,6 +41,7 @@ class SelectingDateTimeActivity : AppCompatActivity() {
             //Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
 
             //time
+            //todo 사용자가 선택한 time
             //$userHour $userMin $userAmPm
             //test
             val timeMsg = "[Test] Time is: $userHour : $userMin $userAmPm"
