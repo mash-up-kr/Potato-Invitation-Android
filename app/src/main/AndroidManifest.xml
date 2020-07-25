@@ -24,11 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+      
         <activity
             android:name=".presentation.invitationtitle.InvitationTitleActivity"
             android:windowSoftInputMode="adjustResize" />
-
+        <activity android:name=".presentation.typechoice.TypeChoiceActivity"/>
         <activity android:name=".presentation.invitationpreview.InvitationPreviewActivity" />
         <activity android:name=".presentation.searchaddress.ui.InputAddressActivity" />
         <activity android:name=".presentation.searchaddress.ui.SearchAddressActivity" />
