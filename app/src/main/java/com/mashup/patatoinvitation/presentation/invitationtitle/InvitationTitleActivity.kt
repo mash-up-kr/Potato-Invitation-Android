@@ -7,11 +7,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.BaseActivity
-import com.mashup.patatoinvitation.base.ext.toast
+import com.mashup.patatoinvitation.data.injection.Injection
 import com.mashup.patatoinvitation.databinding.ActivityInvitationTitleBinding
 import kotlinx.android.synthetic.main.activity_invitation_title.*
 
-class InvitationTitleActivity :
+class InvitationTitleActivity() :
     BaseActivity<ActivityInvitationTitleBinding>(R.layout.activity_invitation_title) {
 
     companion object {
@@ -26,7 +26,7 @@ class InvitationTitleActivity :
     private val invitationTitleViewModel by lazy {
         ViewModelProvider(
             this, InvitationTitleViewModelFactory(
-
+                Injection.provideInvitationRepository()
             )
         ).get(InvitationTitleViewModel::class.java)
     }
@@ -41,7 +41,6 @@ class InvitationTitleActivity :
 
     private fun initObserver() {
         invitationTitleViewModel.finishView.observe(this, Observer {
-            toast("데이터 저장")
             finish()
         })
     }

@@ -2,6 +2,7 @@ package com.mashup.patatoinvitation.data.repository
 
 import com.mashup.patatoinvitation.data.api.InvitationApi
 import com.mashup.patatoinvitation.data.base.BaseResponse
+import com.mashup.patatoinvitation.data.model.request.InvitationWordsRequest
 import com.mashup.patatoinvitation.presentation.typechoice.data.TypeData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -39,6 +40,39 @@ class InvitationRepositoryImpl(
                 })
             }) {
                 // 에러 처리 작업을 구현합니다.
+                if (it is HttpException) {
+                    callback.onFail(it.message())
+                } else {
+                    callback.onError(it)
+                }
+            }
+    }
+
+    override fun patchInvitationWords(
+        deviceIdentifier: String,
+        invitationTitle: String,
+        invitationContents: String,
+        templatesId: Int,
+        callback: BaseResponse<Any>
+    ): Disposable {
+
+        val request = InvitationWordsRequest(
+            deviceIdentifier = deviceIdentifier,
+            invitationTitle = invitationTitle,
+            invitationContents = invitationContents,
+            templatesId = templatesId
+        )
+        return invitationApi.patchInvitationWords(request)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                callback.onLoading()
+            }
+            .doOnTerminate {
+                callback.onLoaded()
+            }
+            .subscribe({
+                callback.onSuccess(it)
+            }) {
                 if (it is HttpException) {
                     callback.onFail(it.message())
                 } else {

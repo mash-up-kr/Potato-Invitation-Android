@@ -9,4 +9,12 @@ interface InvitationRepository {
         deviceIdentifier: String,
         callback: BaseResponse<List<TypeData>>
     ): Disposable
+
+    fun patchInvitationWords(
+        deviceIdentifier: String,
+        invitationTitle: String,
+        invitationContents: String,
+        templatesId: Int,
+        callback: BaseResponse<Any>
+    ): Disposable
 }

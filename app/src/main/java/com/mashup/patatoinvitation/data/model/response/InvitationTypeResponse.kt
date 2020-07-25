@@ -1,4 +1,4 @@
-package com.mashup.patatoinvitation.data.model
+package com.mashup.patatoinvitation.data.model.response
 
 
 import com.google.gson.annotations.SerializedName
