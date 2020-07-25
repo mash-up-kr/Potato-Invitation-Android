@@ -3,7 +3,17 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    
+
     <color name="colorTypeIndicatorSelectedDot">#1f4bb3</color>
     <color name="colorTypeIndicatorUnSelectedDot">#4c1f4bb3</color>
+  
+    <color name="black">#000000</color>
+    <color name="blue_blue">#234eb6</color>
+    <color name="dark_mint">#60d170</color>
+    <color name="white">#d6d6d6</color>
+    <color name="white_two">#ffffff</color>
+    <color name="pinkish_grey">#c4c4c4</color>
+    <color name="lemon">#fef051</color>
+
+    <color name="colorBackgroundImagePickPlus">#D6D6D6</color>
 </resources>

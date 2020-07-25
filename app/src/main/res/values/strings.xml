@@ -5,4 +5,27 @@
     <string name="make_suggest_type_default">새로운 초대장을 만들어 볼까요?</string>
     <string name="make_suggest_type_editing">만들었던 초대장을 수정해볼까요?</string>
     <string name="description_type_default">난 너가 와줬으면 좋겠어\n와줄꺼지?</string>
+
+    <string name="input_invitation">초대말 입력</string>
+    <string name="input_date">날짜/시간 입력</string>
+    <string name="input_location">장소 입력</string>
+    <string name="input_photo">사진 등록</string>
+    <string name="input_invitation_title">초대장의 제목을 입력해주세요</string>
+
+    <string name="format_invitation_description_count">%d 자</string>
+    <string name="share">공유하기</string>
+    <string name="complete">완료하기</string>
+    <string name="make_invitation">초대장 만들기</string>
+
+    <string name="invitation_title">전달하고 싶은\n말을 적어볼까요?</string>
+    <string name="input_complete">입력 완료하기</string>
+    <string name="invitation_preview">초대장 미리보기</string>
+    <string name="please_input_invitation_title">초대말을 입력해주세요</string>
+  
+    <string name="input_address_title">장소 입력</string>
+    <string name="input_address_question">어떤 장소에서\n만날까요?</string>
+    <string name="input_address_search_text">주소를 검색해주세요.</string>
+    <string name="input_address_example_text">예시) 서울시 송파구 오금동, 유튜브, 링크</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="input_address_btn_text">입력 완료하기</string>
 </resources>

@@ -51,7 +51,7 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
         }
 
         private fun initView(itemView: View) {
-            ivPickedImage = itemView.findViewById(R.id.ivPickedImage)
+            ivPickedImage = itemView.findViewById(R.id.ivPickedImagePicker)
 
             ivPickedImage.setOnClickListener { view ->
                 itemClickSubject.onNext(ImageClickData(view, layoutPosition))
