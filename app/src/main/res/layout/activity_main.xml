@@ -86,7 +86,7 @@
         <androidx.cardview.widget.CardView
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="336dp"
+            android:layout_height="270dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:orientation="vertical"
@@ -137,6 +137,7 @@
                     bind:title="@{@string/input_location}" />
 
                 <include
+                    android:visibility="gone"
                     layout="@layout/layout_main_button"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"

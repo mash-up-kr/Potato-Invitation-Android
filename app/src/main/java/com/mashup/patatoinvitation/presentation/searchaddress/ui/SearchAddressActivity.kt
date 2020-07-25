@@ -57,12 +57,10 @@ class SearchAddressActivity : AppCompatActivity() {
 
     private fun clickCallback(position: Int) {
         val data = searchAddressAdapter.getItem(position)
-        Intent(this, InputAddressActivity::class.java).apply {
-            putExtra("place", data.placeName)
-            //TODO: 건물이름 외에 도로명 주소, 좌표(x,y) 전달
-            startActivity(this)
-            finish()
-        }
+        setResult(RESULT_OK, Intent().apply {
+            putExtra("place", data)
+        })
+        finish()
     }
 
     private fun searchViewListener() {

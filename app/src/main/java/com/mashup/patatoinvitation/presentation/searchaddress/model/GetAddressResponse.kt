@@ -1,6 +1,8 @@
 package com.mashup.patatoinvitation.presentation.searchaddress.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class GetAddressResponse(
     val meta: Meta,
@@ -14,10 +16,11 @@ data class Meta(
     @SerializedName("same_name") val sameName: RegionInfo
 )
 
+@Parcelize
 data class Documents(
     @SerializedName("address_name") val addressName: String? = "",
     @SerializedName("road_address_name") val roadAddressName: String? = "",
     @SerializedName("place_name") val placeName: String,
     val x: Double? = null,
     val y: Double? = null
-)
+) : Parcelable
