@@ -41,7 +41,7 @@ object PreferenceUtils {
     /**
      * String 저장
      */
-    fun setString(context: Context?, key: String?, value: String?) {
+    fun putString(context: Context?, key: String?, value: String?) {
         val prefs =
             getPreferences(
                 context
@@ -56,7 +56,7 @@ object PreferenceUtils {
     /**
      * boolean 저장
      */
-    fun setBoolean(context: Context?, key: String?, value: Boolean) {
+    fun putBoolean(context: Context?, key: String?, value: Boolean) {
         val prefs =
             getPreferences(
                 context
@@ -71,7 +71,7 @@ object PreferenceUtils {
     /**
      * int 저장
      */
-    fun setInt(context: Context?, key: String?, value: Int) {
+    fun putInt(context: Context?, key: String?, value: Int) {
         val prefs =
             getPreferences(
                 context
@@ -86,7 +86,7 @@ object PreferenceUtils {
     /**
      * long 저장
      */
-    fun setLong(context: Context?, key: String?, value: Long) {
+    fun putLong(context: Context?, key: String?, value: Long) {
         val prefs =
             getPreferences(
                 context
@@ -101,7 +101,7 @@ object PreferenceUtils {
     /**
      * float 저장
      */
-    fun setFloat(context: Context?, key: String?, value: Float) {
+    fun putFloat(context: Context?, key: String?, value: Float) {
         val prefs =
             getPreferences(
                 context
