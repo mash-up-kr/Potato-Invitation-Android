@@ -12,10 +12,16 @@
     <string name="complete">완료하기</string>
     <string name="make_invitation">초대장 만들기</string>
 
+    <string name="invitation_title">전달하고 싶은\n말을 적어볼까요?</string>
+    <string name="input_complete">입력 완료하기</string>
+    <string name="invitation_preview">초대장 미리보기</string>
+    <string name="please_input_invitation_title">초대말을 입력해주세요</string>
+  
     <string name="input_address_title">장소 입력</string>
     <string name="input_address_question">어떤 장소에서\n만날까요?</string>
     <string name="input_address_search_text">주소를 검색해주세요.</string>
     <string name="input_address_example_text">예시) 서울시 송파구 오금동, 유튜브, 링크</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="input_address_btn_text">입력 완료하기</string>
+
 </resources>
