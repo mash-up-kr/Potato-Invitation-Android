@@ -3,7 +3,7 @@
     package="com.mashup.patatoinvitation">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,8 +19,7 @@
 
         <activity
             android:name=".presentation.SplashActivity"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".presentation.select.SelectingDateTimeActivity">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,11 +36,11 @@
         <activity android:name=".presentation.searchaddress.ui.InputAddressActivity" />
         <activity android:name=".presentation.searchaddress.ui.SearchAddressActivity" />
         <activity android:name=".presentation.invitationdate.InvitationDateActivity" />
+        <activity android:name=".presentation.select.SelectingDateTimeActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="16e5c5f8df2c682432c3659bd5c2a8d5" />
-
     </application>
 
 </manifest>
