@@ -17,14 +17,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".presentation.main.MainActivity">
+        <activity android:name=".presentation.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-      
+
+        <activity android:name=".presentation.main.MainActivity" />
         <activity
             android:name=".presentation.invitationtitle.InvitationTitleActivity"
             android:windowSoftInputMode="adjustResize" />
