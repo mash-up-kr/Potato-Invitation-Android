@@ -21,7 +21,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_image_picker.*
 
-class ImagePickFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fragment_image_picker) {
+class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fragment_image_picker) {
     private lateinit var viewModel: ImagePickerViewModel
     private lateinit var imagePickAdapter: ImagePickerAdapter
 
