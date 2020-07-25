@@ -17,7 +17,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".presentation.SplashActivity">
+        <activity
+            android:name=".presentation.SplashActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".presentation.select.SelectingDateTimeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,4 +43,5 @@
             android:value="16e5c5f8df2c682432c3659bd5c2a8d5" />
 
     </application>
+
 </manifest>
