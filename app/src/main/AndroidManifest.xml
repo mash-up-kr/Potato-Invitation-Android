@@ -30,5 +30,11 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity android:name=".presentation.invitationpreview.InvitationPreviewActivity" />
+        <activity android:name=".presentation.searchaddress.ui.InputAddressActivity" />
+        <activity android:name=".presentation.searchaddress.ui.SearchAddressActivity" />
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="16e5c5f8df2c682432c3659bd5c2a8d5" />
     </application>
 </manifest>

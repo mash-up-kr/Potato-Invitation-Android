@@ -52,7 +52,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     override fun goToInvitationLocation() {
-
+        // TODO : InputAddressActivity
     }
 
     override fun goToInvitationPhoto() {
