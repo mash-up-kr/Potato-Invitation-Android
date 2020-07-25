@@ -31,9 +31,9 @@ class TypePagerAdapter(val context: Context, val inflater: LayoutInflater) : Pag
         binding.tvTypeDescription.text = _dataList[position].description
 
         binding.tvTypeMakeSuggest.text =
-            if(_dataList[position].isEditing){
+            if (_dataList[position].isEditing) {
                 context.getText(R.string.make_suggest_type_editing)
-            }else{
+            } else {
                 context.getText(R.string.make_suggest_type_default)
             }
 
@@ -47,7 +47,7 @@ class TypePagerAdapter(val context: Context, val inflater: LayoutInflater) : Pag
     }
 
 
-    fun addAllTypeDataList(data: List<TypeData>){
+    fun addAllTypeDataList(data: List<TypeData>) {
         _dataList.addAll(data)
     }
 
@@ -59,7 +59,7 @@ class TypePagerAdapter(val context: Context, val inflater: LayoutInflater) : Pag
         return _dataList.size
     }
 
-    fun getTypeData(position: Int) : TypeData{
+    fun getTypeData(position: Int): TypeData {
         return _dataList[position]
     }
 }

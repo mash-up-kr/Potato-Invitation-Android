@@ -91,6 +91,9 @@ dependencies {
     //ted image picker
     implementation "gun0912.ted:tedimagepicker:$ted_image_picker_version"
 
+    //timepicker
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

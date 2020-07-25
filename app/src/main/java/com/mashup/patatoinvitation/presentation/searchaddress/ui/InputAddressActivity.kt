@@ -5,28 +5,47 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.patatoinvitation.R
+import com.mashup.patatoinvitation.base.ext.toast
+import com.mashup.patatoinvitation.presentation.searchaddress.model.Documents
 import kotlinx.android.synthetic.main.activity_input_address.*
 
 //TODO: fragment 로 수정
 class InputAddressActivity : AppCompatActivity() {
+
+    companion object {
+        private const val RESULT_CODE = 1000
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_input_address)
 
         cvInputAddress.setOnClickListener {
-            startActivity(Intent(this, SearchAddressActivity::class.java))
-        }
-
-        val data = intent.getStringExtra("place")
-        data?.let {
-            tvInputAddress.text = it
-            btnInputAddressSubmit.setBackgroundColor(Color.parseColor("#fef051"))
-            btnInputAddressSubmit.setTextColor(Color.parseColor("#000000"))
-            tvInputAddress.setTextColor(Color.parseColor("#000000"))
+            startActivityForResult(
+                Intent(this, SearchAddressActivity::class.java),
+                RESULT_CODE
+            )
         }
 
         btnInputAddressSubmit.setOnClickListener {
-            //TODO: PreferenceUtils here
+            toast("$document")
+        }
+    }
+
+    private var document = intent?.getParcelableExtra<Documents>("place")
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RESULT_CODE) {
+
+            document = data?.getParcelableExtra("place")
+
+            document?.let {
+                tvInputAddress.text = it.placeName
+                btnInputAddressSubmit.setBackgroundColor(Color.parseColor("#fef051"))
+                btnInputAddressSubmit.setTextColor(Color.parseColor("#000000"))
+                tvInputAddress.setTextColor(Color.parseColor("#000000"))
+            }
         }
     }
 }
