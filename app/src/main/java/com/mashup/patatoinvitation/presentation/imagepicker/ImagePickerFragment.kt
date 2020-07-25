@@ -75,6 +75,10 @@ class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fr
                 }
             })
         }
+
+        tvInput.setOnClickListener { view ->
+            // TODO: 입력 완료 후 로직
+        }
     }
 
     override fun onDestroy() {
