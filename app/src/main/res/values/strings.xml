@@ -2,6 +2,7 @@
     <string name="app_name">PotatoInvitation</string>
     <string name="guide_comment_type_choice">원하는 유형을\n선택해볼까요?</string>
     <string name="start_comment_type_choice">초대장 시작하기</string>
+    <string name="modify_comment_type_choice">초대장 시작하기</string>
     <string name="make_suggest_type_default">새로운 초대장을 만들어 볼까요?</string>
     <string name="make_suggest_type_editing">만들었던 초대장을 수정해볼까요?</string>
     <string name="description_type_default">난 너가 와줬으면 좋겠어\n와줄꺼지?</string>

@@ -1,5 +1,6 @@
 package com.mashup.patatoinvitation.presentation.main
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +12,7 @@ import com.mashup.patatoinvitation.presentation.invitationpreview.InvitationPrev
 import com.mashup.patatoinvitation.presentation.invitationtitle.InvitationTitleActivity
 import com.mashup.patatoinvitation.presentation.searchaddress.ui.InputAddressActivity
 import com.mashup.patatoinvitation.presentation.select.SelectingDateTimeActivity
+import com.mashup.patatoinvitation.presentation.typechoice.data.TypeData
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
@@ -19,11 +21,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     companion object {
 
         private const val RESULT_CODE = 1000
+
+        private const val EXTRA_TYPE_DATA = "type_data"
+
+        fun startMainActivityWithData(context: Context, data: TypeData) {
+            context.startActivity(
+                Intent(context, MainActivity::class.java).apply {
+                    putExtra(EXTRA_TYPE_DATA, data)
+                }
+            )
+        }
     }
 
     private val mainViewModel by lazy {
         ViewModelProvider(
-            this, MainViewModelFactory(this)
+            this, MainViewModelFactory(this, getTypeData())
         ).get(MainViewModel::class.java)
     }
 
@@ -39,6 +51,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
             onBackPressed()
         }
     }
+
+    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

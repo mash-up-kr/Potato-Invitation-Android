@@ -1,6 +1,5 @@
 package com.mashup.patatoinvitation.presentation.typechoice
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,6 +13,7 @@ import com.mashup.patatoinvitation.data.repository.InvitationRepository
 import com.mashup.patatoinvitation.databinding.ActivityTypeChoiceBinding
 import com.mashup.patatoinvitation.presentation.main.MainActivity
 import com.mashup.patatoinvitation.presentation.typechoice.data.TypeData
+import com.mashup.patatoinvitation.utils.AppUtils
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_type_choice.*
 
@@ -63,18 +63,21 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
 
     private fun initButton() {
         tvStartInvitation.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            item?.let {
+                MainActivity.startMainActivityWithData(this, it)
+            }
         }
     }
+
+    private var item: TypeData? = null
 
     private fun initView() {
         binding.vpType.apply {
             adapter = typePagerAdapter
             offscreenPageLimit = 3
 
-            //TODO: dp값으로 수정 필요
-            val margin = 180
+            //TODO 두한이 수정 부탁드려요
+            val margin = AppUtils.dpToPx(context, 48)
             setPadding(margin, 0, margin, 0)
             pageMargin = margin / 2
 
@@ -90,8 +93,12 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
                 }
 
                 override fun onPageSelected(position: Int) {
-                    typePagerAdapter.getTypeData(position)
-                    //TODO: 탭 선택 후 로직 실행
+                    item = typePagerAdapter.getTypeData(position)
+                    tvStartInvitation.text = if (item?.isEditing == true) {
+                        getString(R.string.start_comment_type_choice)
+                    } else {
+                        getString(R.string.modify_comment_type_choice)
+                    }
                 }
             })
         }

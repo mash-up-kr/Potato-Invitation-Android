@@ -3,9 +3,11 @@ package com.mashup.patatoinvitation.presentation.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mashup.patatoinvitation.base.BaseViewModel
+import com.mashup.patatoinvitation.presentation.typechoice.data.TypeData
 
 class MainViewModel(
-    val listener: MainListener
+    val listener: MainListener,
+    val typeData: TypeData
 ) : BaseViewModel() {
 
     private val _isTitle = MutableLiveData(false)
