@@ -6,9 +6,10 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/ivPicked"
+        android:id="@+id/ivPlus"
         android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_image_plus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

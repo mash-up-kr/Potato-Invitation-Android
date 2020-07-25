@@ -1,4 +1,4 @@
-package com.mashup.patatoinvitation.imagepicker.data
+package com.mashup.patatoinvitation.presentation.imagepicker.data
 
 import android.view.View
 
