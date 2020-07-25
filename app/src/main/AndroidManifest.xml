@@ -19,7 +19,7 @@
 
         <activity
             android:name=".presentation.SplashActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,7 +1,6 @@
 package com.mashup.patatoinvitation.presentation.select
 
 import android.os.Bundle
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
@@ -36,8 +35,8 @@ class SelectingDateTimeActivity : AppCompatActivity() {
             //$userDay $userMonth $userYear
             //test
             val dateMsg = "[Test] Date is : $userDay/$userMonth/$userYear"
-            tvDateTest.text = dateMsg
-            tvDateTest.visibility = ViewGroup.VISIBLE
+            //tvDateTest.text = dateMsg
+            //tvDateTest.visibility = ViewGroup.VISIBLE
             //Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
 
             //time
@@ -45,13 +44,16 @@ class SelectingDateTimeActivity : AppCompatActivity() {
             //$userHour $userMin $userAmPm
             //test
             val timeMsg = "[Test] Time is: $userHour : $userMin $userAmPm"
-            tvTimeTest.text = timeMsg
-            tvTimeTest.visibility = ViewGroup.VISIBLE
+            //tvTimeTest.text = timeMsg
+            //tvTimeTest.visibility = ViewGroup.VISIBLE
+
+            finish()
         }
     }
 
     private fun OnClickDate() {
         val datePicker = findViewById<DatePicker>(R.id.date_Picker)
+        datePicker.minDate = System.currentTimeMillis()
         val today = Calendar.getInstance()
         datePicker.init(
             today.get(Calendar.YEAR), today.get(Calendar.MONTH),
@@ -67,7 +69,6 @@ class SelectingDateTimeActivity : AppCompatActivity() {
     }
 
     private fun OnClickTime() {
-        //val textView = findViewById<TextView>(R.id.tvTimeTest)
         val timePicker = findViewById<TimePicker>(R.id.timePicker)
         timePicker.setOnTimeChangedListener { _, hour, minute ->
             var hour = hour
