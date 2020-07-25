@@ -35,8 +35,8 @@ class ImagePickFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.frag
     }
 
     private fun observeLiveData() {
-        viewModel.imageUriList.observe(viewLifecycleOwner, Observer<List<Uri>>{list ->
-
+        viewModel.imageUriList.observe(viewLifecycleOwner, Observer<List<Uri>> { list ->
+            imagePickAdapter.setData(list)
         })
     }
 
@@ -60,52 +60,22 @@ class ImagePickFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.frag
         compositeDisposable.clear()
     }
 
-    fun onClicked(data: ImageClickData){
-        when(data.view.id){
+    fun onClicked(data: ImageClickData) {
+        when (data.view.id) {
             R.id.ivPicked -> {
                 // TODO: show choice dialog
                 // 삭제
-                deleteImage(data.position)
+//                deleteImage(data.position)
 
                 // 수정
-                showIamgeSinglePicker(data)
+                viewModel.requestUpdateImage(data.view.context, data.position)
             }
             R.id.ivPlus -> {
-                showImageMultiPicker(data.view.context)
+                viewModel.requestAddImage(data.view.context)
             }
         }
     }
 
-    private fun showImageMultiPicker(context: Context) {
-        TedRxImagePicker.with(context)
-            .startMultiImage()
-            .subscribe({uriList ->
-                addImageUriList(uriList)
-            }, Throwable::printStackTrace)
-            .addTo(compositeDisposable)
-    }
-
-    private fun showIamgeSinglePicker(data: ImageClickData){
-        TedRxImagePicker.with(data.view.context)
-            .start()
-            .subscribe({uri ->
-                updateImage(uri, data.position)
-            }, Throwable::printStackTrace)
-            .addTo(compositeDisposable)
-    }
-
-    private fun updateImage(uri: Uri, position: Int) {
-        imagePickAdapter.updateImage(uri, position)
-    }
-
-
-    private fun addImageUriList(uriList: List<Uri>){
-        imagePickAdapter.addImageUriList(uriList)
-    }
-
-    private fun deleteImage(position: Int){
-        imagePickAdapter.deleteImage(position)
-    }
-
-    private fun Disposable.addTo(compositeDisposable: CompositeDisposable) = compositeDisposable.add(this)
+    private fun Disposable.addTo(compositeDisposable: CompositeDisposable) =
+        compositeDisposable.add(this)
 }

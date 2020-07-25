@@ -19,14 +19,14 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
     private val TYPE_IMAGE = 0
     private val TYPE_PLUS = 1
 
-    private var _data: MutableList<Uri> = arrayListOf()
+    private var _data: List<Uri> = arrayListOf()
 
     private val _itemClickSubject = PublishSubject.create<ImageClickData>()
     val itemClickSubject: PublishSubject<ImageClickData>
-    get() = _itemClickSubject
+        get() = _itemClickSubject
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType){
+        return when (viewType) {
             TYPE_IMAGE -> ImagePickerViewHolder(
                 LayoutInflater.from(context).inflate(R.layout.item_image_picker, parent, false)
             )
@@ -38,34 +38,24 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
     }
 
     override fun getItemCount(): Int {
-        return if(_data.size >= MAX_IMAGE_COUNT) MAX_IMAGE_COUNT else _data.size+ 1
+        return if (_data.size >= MAX_IMAGE_COUNT) MAX_IMAGE_COUNT else _data.size + 1
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(position > _data.size) TYPE_PLUS else TYPE_IMAGE
+        return if (position > _data.size) TYPE_PLUS else TYPE_IMAGE
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(position > _data.size){
-            (holder as PlusImageViewHolder).bind()
-        }else{
-            (holder as ImagePickerViewHolder).bind(_data[position])
-        }
-    }
-
-    fun addImageUriList(uriList: List<Uri>){
-        _data.addAll(uriList)
+    fun setData(data: List<Uri>) {
+        _data = data
         notifyDataSetChanged()
     }
 
-    fun deleteImage(position: Int) {
-        _data.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
-    fun updateImage(uri: Uri, position: Int) {
-        _data[position] = uri
-        notifyItemChanged(position)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (position > _data.size) {
+            (holder as PlusImageViewHolder).bind()
+        } else {
+            (holder as ImagePickerViewHolder).bind(_data[position])
+        }
     }
 
     inner class ImagePickerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -90,7 +80,7 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    inner class PlusImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class PlusImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private lateinit var ivPlus: ImageView
 
         init {
