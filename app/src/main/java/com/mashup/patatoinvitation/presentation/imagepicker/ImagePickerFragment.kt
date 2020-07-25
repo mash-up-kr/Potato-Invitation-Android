@@ -68,7 +68,7 @@ class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fr
                 ) {
                     super.getItemOffsets(outRect, view, parent, state)
 
-                    // 마지막 아이템을 제외하고 바텀 마진값을 줘서 이미지 간격 설정
+                    // 마지막 아이템을 제외하고 바텀 마진값을 줘서 이미지 간격 설
                     val position = parent.getChildAdapterPosition(view)
                     if(position != imagePickAdapter.itemCount)
                     outRect.bottom = AppUtils.dpToPx(context, 10)
