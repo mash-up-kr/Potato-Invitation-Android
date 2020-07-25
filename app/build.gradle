@@ -47,6 +47,7 @@ android {
 ext{
     rx_java_version = '2.2.19'
     rx_kotlin_version = '2.4.0'
+    rx_android_version = '2.1.1'
     retrofit_version = '2.9.0'
     glide_version = '4.11.0'
     okhttp3_version = '4.8.0'
@@ -66,6 +67,7 @@ dependencies {
     // rx
     implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
     implementation "io.reactivex.rxjava2:rxkotlin:$rx_kotlin_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
