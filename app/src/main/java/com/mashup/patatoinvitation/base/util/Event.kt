@@ -1,4 +1,4 @@
-package com.example.toyproject.base.util
+package com.mashup.patatoinvitation.base.util
 
 /**
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.
