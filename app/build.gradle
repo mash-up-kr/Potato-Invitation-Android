@@ -27,7 +27,6 @@ android {
         dataBinding true
     }
 
-    //에러해결 현선 추가
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
