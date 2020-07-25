@@ -2,8 +2,10 @@ package com.mashup.patatoinvitation.utils
 
 import android.app.Activity
 import android.content.Context
+import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.FragmentActivity
+
 
 object AppUtils {
 
@@ -33,5 +35,14 @@ object AppUtils {
             fragmentActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(fragmentActivity.currentFocus?.windowToken, 0)
         view?.clearFocus()
+    }
+
+    // dp -> pixel 단위로 변경
+    fun dpToPx(context: Context, dp: Int): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            context.resources.displayMetrics
+        ).toInt()
     }
 }

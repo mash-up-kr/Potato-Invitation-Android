@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="itemDocuments"
+            type="com.mashup.patatoinvitation.presentation.searchaddress.model.Documents" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:id="@+id/ivMapPin"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="22dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_place_black_24" />
+
+        <TextView
+            android:id="@+id/tvSearchBuildingName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{itemDocuments.placeName}"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/ivMapPin"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMapAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text='@{itemDocuments.addressName ?? ""}'
+            android:textColor="#a9a9a9"
+            android:textSize="12sp"
+            android:visibility='@{itemDocuments.addressName.equals("")? View.GONE : View.VISIBLE}'
+            app:layout_constraintStart_toEndOf="@+id/ivMapPin"
+            app:layout_constraintTop_toBottomOf="@+id/tvSearchBuildingName" />
+
+        <TextView
+            android:id="@+id/tvMapRAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvMapAddress"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@id/ivMapPin"
+            android:text='@{itemDocuments.roadAddressName ?? ""}'
+            android:textColor="#a9a9a9"
+            android:textSize="12sp"
+            android:visibility='@{itemDocuments.roadAddressName.equals("") ? View.GONE : View.VISIBLE}'
+            app:layout_constraintStart_toEndOf="@+id/ivMapPin"
+            app:layout_constraintTop_toBottomOf="@+id/tvMapAddress" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
