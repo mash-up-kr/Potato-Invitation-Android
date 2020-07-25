@@ -8,4 +8,6 @@
     <string name="input_invitation_title">초대장의 제목을 입력해주세요</string>
 
     <string name="format_invitation_description_count">%d 자</string>
+    <string name="share">공유하기</string>
+    <string name="complete">완료하기</string>
 </resources>

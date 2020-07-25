@@ -28,5 +28,7 @@ class MainViewModel(
         fun goToInvitationLocation()
 
         fun goToInvitationPhoto()
+
+        fun goToPreview()
     }
 }
