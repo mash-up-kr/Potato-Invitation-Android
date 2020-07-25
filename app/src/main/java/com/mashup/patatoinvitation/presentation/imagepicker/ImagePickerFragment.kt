@@ -1,8 +1,10 @@
 package com.mashup.patatoinvitation.presentation.imagepicker
 
 import android.content.Context
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +14,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.BaseFragment
 import com.mashup.patatoinvitation.databinding.FragmentImagePickerBinding
 import com.mashup.patatoinvitation.presentation.imagepicker.data.ImageClickData
+import com.mashup.patatoinvitation.utils.AppUtils
 import gun0912.tedimagepicker.builder.TedRxImagePicker
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -45,7 +49,10 @@ class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fr
             imagePickAdapter = ImagePickerAdapter(requireContext())
             imagePickAdapter.itemClickSubject.subscribe(this::onClicked)
                 .addTo(compositeDisposable)
+            imagePickAdapter.itemLongClickSubject.subscribe(this::onLongClicked)
+                .addTo(compositeDisposable)
         }
+        viewModel = ViewModelProvider(this).get(ImagePickerViewModel::class.java)
     }
 
     private fun initView() {
@@ -62,18 +69,20 @@ class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fr
 
     fun onClicked(data: ImageClickData) {
         when (data.view.id) {
-            R.id.ivPicked -> {
-                // TODO: show choice dialog
-                // 삭제
-//                deleteImage(data.position)
-
-                // 수정
+            R.id.clRootImagePicker -> {
+                // 이미지 수정
                 viewModel.requestUpdateImage(data.view.context, data.position)
             }
-            R.id.ivPlus -> {
+            R.id.clRootImagePickerPlus -> {
+                // 이미지 추가
                 viewModel.requestAddImage(data.view.context)
             }
         }
+    }
+
+    fun onLongClicked(data: ImageClickData){
+        // 이미지 삭제
+        viewModel.deleteImage(data.position)
     }
 
     private fun Disposable.addTo(compositeDisposable: CompositeDisposable) =

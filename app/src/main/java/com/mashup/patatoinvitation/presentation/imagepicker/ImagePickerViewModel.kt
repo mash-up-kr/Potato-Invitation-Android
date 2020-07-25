@@ -16,6 +16,10 @@ class ImagePickerViewModel : BaseViewModel() {
     val imageUriList: MutableLiveData<MutableList<Uri>>
         get() = _imageUriList
 
+    init {
+        _imageUriList.value = arrayListOf()
+    }
+
     fun requestAddImage(context: Context) {
         TedRxImagePicker.with(context)
             .startMultiImage()

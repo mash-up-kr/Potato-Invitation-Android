@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mashup.patatoinvitation.R
@@ -25,6 +26,10 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
     val itemClickSubject: PublishSubject<ImageClickData>
         get() = _itemClickSubject
 
+    private val _itemLongClickSubject = PublishSubject.create<ImageClickData>()
+    val itemLongClickSubject: PublishSubject<ImageClickData>
+        get() = _itemLongClickSubject
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_IMAGE -> ImagePickerViewHolder(
@@ -42,7 +47,13 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position > _data.size) TYPE_PLUS else TYPE_IMAGE
+        return if (_data.size == 0
+            || position >= _data.size
+        ) {
+            TYPE_PLUS
+        } else {
+            TYPE_IMAGE
+        }
     }
 
     fun setData(data: List<Uri>) {
@@ -51,7 +62,9 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (position > _data.size) {
+        if (_data.size == 0
+            || position >= _data.size
+        ) {
             (holder as PlusImageViewHolder).bind()
         } else {
             (holder as ImagePickerViewHolder).bind(_data[position])
@@ -59,6 +72,7 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
     }
 
     inner class ImagePickerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private lateinit var clRoot: ConstraintLayout
         private lateinit var ivPicked: ImageView
 
         init {
@@ -66,31 +80,36 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
         }
 
         private fun initView(itemView: View) {
-            ivPicked = itemView.findViewById(R.id.ivPicked)
+            clRoot = itemView.findViewById(R.id.clRootImagePicker)
+            ivPicked = itemView.findViewById(R.id.ivPickedImagePicker)
 
-            ivPicked.setOnClickListener { view ->
-                itemClickSubject.onNext(ImageClickData(view, layoutPosition))
+            clRoot.setOnClickListener { view ->
+                _itemClickSubject.onNext(ImageClickData(view, layoutPosition))
+            }
+            clRoot.setOnLongClickListener{view ->
+                _itemLongClickSubject.onNext(ImageClickData(view, layoutPosition))
+                false
             }
         }
 
         fun bind(uri: Uri) {
             Glide.with(ivPicked.context)
                 .load(uri)
+                .centerCrop()
                 .into(ivPicked)
         }
     }
 
     inner class PlusImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private lateinit var ivPlus: ImageView
+        private lateinit var clRoot: ConstraintLayout
 
         init {
             initView(itemView)
         }
 
         private fun initView(itemView: View) {
-            ivPlus = itemView.findViewById(R.id.ivPlus)
-
-            ivPlus.setOnClickListener { view ->
+            clRoot = itemView.findViewById(R.id.clRootImagePickerPlus)
+            clRoot.setOnClickListener { view ->
                 itemClickSubject.onNext(ImageClickData(view, layoutPosition))
             }
         }
