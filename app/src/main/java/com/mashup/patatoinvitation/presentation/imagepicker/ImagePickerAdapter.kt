@@ -15,8 +15,6 @@ import io.reactivex.subjects.PublishSubject
 import java.lang.Exception
 
 class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val MAX_IMAGE_COUNT = 5
-
     private val TYPE_IMAGE = 0
     private val TYPE_PLUS_INIT = 1
     private val TYPE_PLUS = 2
@@ -50,8 +48,8 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
         return if (_data.isEmpty()) {
             // data가 없을 경우 이미지 추가 요청을 위한 view 추가 (InitPlusViewHolder, PlusViewHolder)
             2
-        } else if (_data.size >= MAX_IMAGE_COUNT) {
-            MAX_IMAGE_COUNT
+        } else if (_data.size >= Constant.MAX_IMAGE_COUNT) {
+            Constant.MAX_IMAGE_COUNT
         } else {
             // 마지막 아이템에 이미지 추가 view 추가를 위해 +1
             _data.size + 1
