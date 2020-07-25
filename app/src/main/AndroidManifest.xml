@@ -30,5 +30,6 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity android:name=".presentation.invitationpreview.InvitationPreviewActivity" />
+        <activity android:name=".presentation.invitationdate.InvitationDateActivity" />
     </application>
 </manifest>
