@@ -1,7 +1,6 @@
 package com.mashup.patatoinvitation.presentation.select
 
 import android.os.Bundle
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
@@ -36,8 +35,8 @@ class SelectingDateTimeActivity : AppCompatActivity() {
             //$userDay $userMonth $userYear
             //test
             val dateMsg = "[Test] Date is : $userDay/$userMonth/$userYear"
-            tvDateTest.text = dateMsg
-            tvDateTest.visibility = ViewGroup.VISIBLE
+            //tvDateTest.text = dateMsg
+            //tvDateTest.visibility = ViewGroup.VISIBLE
             //Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
 
             //time
@@ -45,8 +44,8 @@ class SelectingDateTimeActivity : AppCompatActivity() {
             //$userHour $userMin $userAmPm
             //test
             val timeMsg = "[Test] Time is: $userHour : $userMin $userAmPm"
-            tvTimeTest.text = timeMsg
-            tvTimeTest.visibility = ViewGroup.VISIBLE
+            //tvTimeTest.text = timeMsg
+            //tvTimeTest.visibility = ViewGroup.VISIBLE
 
             finish()
         }
