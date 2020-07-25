@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
@@ -23,6 +24,15 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     buildFeatures {
         dataBinding true
     }
@@ -34,6 +44,8 @@ ext{
     retrofit_version = '2.9.0'
     glide_version = '4.11.0'
     okhttp3_version = '4.8.0'
+    fragment_ktx_version = '1.2.5'
+    ted_image_picker_version = '1.0.8'
     lifecycle_version = '2.2.0'
 }
 
@@ -67,6 +79,12 @@ dependencies {
     // viewModel & liveData
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    // ktx
+    implementation "androidx.fragment:fragment-ktx:$fragment_ktx_version"
+
+    //ted image picker
+    implementation "gun0912.ted:tedimagepicker:$ted_image_picker_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
