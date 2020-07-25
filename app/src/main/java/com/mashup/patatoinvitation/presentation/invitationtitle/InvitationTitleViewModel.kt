@@ -13,4 +13,11 @@ class InvitationTitleViewModel : BaseViewModel() {
     val descriptionCount: LiveData<Int> = Transformations.map(description) { title ->
         title.length
     }
+
+    private val _finishView = MutableLiveData<String>()
+    val finishView: LiveData<String> get() = _finishView
+
+    fun saveData() {
+        _finishView.postValue("finish")
+    }
 }

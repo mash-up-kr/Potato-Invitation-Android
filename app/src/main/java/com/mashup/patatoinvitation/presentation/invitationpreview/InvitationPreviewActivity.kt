@@ -49,6 +49,10 @@ class InvitationPreviewActivity :
     }
 
     private fun initButton() {
+        btnPreviewBack.setOnClickListener {
+            onBackPressed()
+        }
+
         btnInvitationPreviewShare.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
