@@ -35,15 +35,22 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@android:color/background_dark"
+                android:src="@drawable/ic_invitation_chk_gray"
                 bind:isChecked="@{isChecked}" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@{title}"
-                tools:text="1. 초대말 입력" />
+                tools:text="초대말 입력" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

@@ -1,14 +1,14 @@
 package com.mashup.patatoinvitation.presentation.main.bindingadapter
 
-import android.graphics.Color
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.mashup.patatoinvitation.R
 
 @BindingAdapter("bind:isChecked")
 fun ImageView.setCheck(isChecked: Boolean) {
     if (isChecked) {
-        setBackgroundColor(Color.parseColor("#ffeedd"))
+        setImageResource(R.drawable.ic_invitation_chk_green)
     } else {
-        setBackgroundColor(Color.parseColor("#33ee22"))
+        setImageResource(R.drawable.ic_invitation_chk_gray)
     }
 }

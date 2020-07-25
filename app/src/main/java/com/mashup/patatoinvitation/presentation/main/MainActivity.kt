@@ -2,8 +2,6 @@ package com.mashup.patatoinvitation.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.BaseActivity
@@ -30,29 +28,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.model = mainViewModel
-        setSupportActionBar(toolbar)
-        toolbar.title = ""
 
-        initObserver()
+        initButton()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.appbar, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_settings -> {
-
-                return true
-            }
+    private fun initButton() {
+        btnMainBack.setOnClickListener {
+            onBackPressed()
         }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun initObserver() {
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
