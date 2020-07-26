@@ -15,6 +15,8 @@ data class InvitationTypeResponse(
         @SerializedName("imageUrl")
         val imageUrl: String,
         @SerializedName("isExistInvitation")
-        val isExistInvitation: Boolean
+        val isExistInvitation: Boolean,
+        @SerializedName("templateId")
+        val templateId: Int
     )
 }

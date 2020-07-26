@@ -13,6 +13,8 @@ object ApiProvider {
 
     fun provideRepoApi(): InvitationApi = getRetrofitBuild().create(InvitationApi::class.java)
 
+    fun provideUserApi(): UserApi = getRetrofitBuild().create(UserApi::class.java)
+
     private fun getRetrofitBuild() = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(getOkhttpClient())

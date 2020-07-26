@@ -8,7 +8,8 @@ import com.mashup.patatoinvitation.data.base.BaseResponse
 import com.mashup.patatoinvitation.data.repository.InvitationRepository
 
 class InvitationTitleViewModel(
-    private val repository: InvitationRepository
+    private val repository: InvitationRepository,
+    private val templateId: Int
 ) : BaseViewModel() {
 
     val title = MutableLiveData("")
@@ -29,8 +30,7 @@ class InvitationTitleViewModel(
 
         if (description.isNullOrEmpty()) return
 
-        //TODO deviceId 넣기
-        repository.patchInvitationWords("1111", title, description, 0, object : BaseResponse<Any> {
+        repository.patchInvitationWords(title, description, templateId, object : BaseResponse<Any> {
             override fun onSuccess(data: Any) {
                 _finishView.postValue("finish")
             }

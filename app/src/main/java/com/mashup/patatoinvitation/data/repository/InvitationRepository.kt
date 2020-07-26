@@ -6,12 +6,10 @@ import io.reactivex.disposables.Disposable
 
 interface InvitationRepository {
     fun getInvitationTypes(
-        deviceIdentifier: String,
         callback: BaseResponse<List<TypeData>>
     ): Disposable
 
     fun patchInvitationWords(
-        deviceIdentifier: String,
         invitationTitle: String,
         invitationContents: String,
         templatesId: Int,

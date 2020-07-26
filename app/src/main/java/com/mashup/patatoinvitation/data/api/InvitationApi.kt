@@ -8,28 +8,31 @@ import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.PATCH
-import retrofit2.http.Query
 
 interface InvitationApi {
 
     @GET("template-types-list")
     fun getTemplateTypes(
-        @Query("deviceIdentifier") deviceIdentifier: String
+        @Header("deviceIdentifier") deviceIdentifier: String
     ): Single<InvitationTypeResponse>
 
     @PATCH("invitation/words")
     fun patchInvitationWords(
+        @Header("deviceIdentifier") deviceIdentifier: String,
         @Body request: InvitationWordsRequest
     ): Single<Response<Void>>
 
     @PATCH("invitation/time")
     fun patchInvitationTime(
+        @Header("deviceIdentifier") deviceIdentifier: String,
         @Body request: InvitationTimeRequest
     ): Single<Response<Void>>
 
     @PATCH("invitation/address")
     fun patchInvitationAddress(
+        @Header("deviceIdentifier") deviceIdentifier: String,
         @Body request: InvitationAddressRequest
     ): Single<Response<Void>>
 }

@@ -1,11 +1,14 @@
 package com.mashup.patatoinvitation.presentation.searchaddress.ui
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.ext.toast
+import com.mashup.patatoinvitation.data.injection.Injection
+import com.mashup.patatoinvitation.data.repository.InvitationRepository
 import com.mashup.patatoinvitation.presentation.searchaddress.model.Documents
 import kotlinx.android.synthetic.main.activity_input_address.*
 
@@ -14,6 +17,20 @@ class InputAddressActivity : AppCompatActivity() {
 
     companion object {
         private const val RESULT_CODE = 1000
+
+        private const val EXTRA_TEMPLATE_ID = "template_id"
+
+        fun startInputAddressActivity(context: Context, templateId: Int) {
+            context.startActivity(
+                Intent(context, InputAddressActivity::class.java).apply {
+                    putExtra(EXTRA_TEMPLATE_ID, templateId)
+                }
+            )
+        }
+    }
+
+    private val repository: InvitationRepository by lazy {
+        Injection.provideInvitationRepository()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

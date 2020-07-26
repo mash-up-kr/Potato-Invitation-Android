@@ -60,19 +60,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     override fun goToInvitationTitle() {
-        InvitationTitleActivity.startInvitationTitleActivityForResult(this, RESULT_CODE)
+        InvitationTitleActivity.startInvitationTitleActivityForResult(
+            this,
+            RESULT_CODE,
+            getTypeData().templateId
+        )
     }
 
     override fun goToInvitationDate() {
         //InvitationDateActivity.startInvitationDateActivity(this)
-        startActivity(
-            Intent(this, SelectingDateTimeActivity::class.java)
+        SelectingDateTimeActivity.startSelectingDateActivity(
+            this, getTypeData().templateId
         )
     }
 
     override fun goToInvitationLocation() {
-        startActivity(
-            Intent(this, InputAddressActivity::class.java)
+        InputAddressActivity.startInputAddressActivity(
+            this, getTypeData().templateId
         )
     }
 

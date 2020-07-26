@@ -107,7 +107,7 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
     }
 
     private fun requestType() {
-        invitationRepository.getInvitationTypes("1111", object : BaseResponse<List<TypeData>> {
+        invitationRepository.getInvitationTypes(object : BaseResponse<List<TypeData>> {
             override fun onSuccess(data: List<TypeData>) {
                 typePagerAdapter.addAllTypeDataList(data)
             }

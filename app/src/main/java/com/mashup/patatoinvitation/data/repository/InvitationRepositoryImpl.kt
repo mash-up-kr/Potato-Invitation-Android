@@ -1,5 +1,6 @@
 package com.mashup.patatoinvitation.data.repository
 
+import com.mashup.patatoinvitation.PotatoInvitationApplication
 import com.mashup.patatoinvitation.data.api.InvitationApi
 import com.mashup.patatoinvitation.data.base.BaseResponse
 import com.mashup.patatoinvitation.data.model.request.InvitationWordsRequest
@@ -12,8 +13,9 @@ class InvitationRepositoryImpl(
     private val invitationApi: InvitationApi
 ) : InvitationRepository {
 
+    private val deviceIdentifier = PotatoInvitationApplication.INSTANCE.deviceIdentifier
+
     override fun getInvitationTypes(
-        deviceIdentifier: String,
         callback: BaseResponse<List<TypeData>>
     ): Disposable {
         return invitationApi.getTemplateTypes(deviceIdentifier)
@@ -35,7 +37,8 @@ class InvitationRepositoryImpl(
                         title = it.typeName,
                         description = it.typeDescription,
                         imageUrl = it.imageUrl,
-                        isEditing = it.isExistInvitation
+                        isEditing = it.isExistInvitation,
+                        templateId = it.templateId
                     )
                 })
             }) {
@@ -49,7 +52,6 @@ class InvitationRepositoryImpl(
     }
 
     override fun patchInvitationWords(
-        deviceIdentifier: String,
         invitationTitle: String,
         invitationContents: String,
         templatesId: Int,
@@ -57,12 +59,11 @@ class InvitationRepositoryImpl(
     ): Disposable {
 
         val request = InvitationWordsRequest(
-            deviceIdentifier = deviceIdentifier,
             invitationTitle = invitationTitle,
             invitationContents = invitationContents,
             templatesId = templatesId
         )
-        return invitationApi.patchInvitationWords(request)
+        return invitationApi.patchInvitationWords(deviceIdentifier, request)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 callback.onLoading()

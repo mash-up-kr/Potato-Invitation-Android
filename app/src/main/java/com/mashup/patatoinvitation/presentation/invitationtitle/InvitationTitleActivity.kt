@@ -11,13 +11,22 @@ import com.mashup.patatoinvitation.data.injection.Injection
 import com.mashup.patatoinvitation.databinding.ActivityInvitationTitleBinding
 import kotlinx.android.synthetic.main.activity_invitation_title.*
 
-class InvitationTitleActivity() :
+class InvitationTitleActivity :
     BaseActivity<ActivityInvitationTitleBinding>(R.layout.activity_invitation_title) {
 
     companion object {
-        fun startInvitationTitleActivityForResult(activity: Activity, resultCode: Int) {
+
+        private const val EXTRA_TYPE_ID = "type_id"
+
+        fun startInvitationTitleActivityForResult(
+            activity: Activity,
+            resultCode: Int,
+            templateId: Int
+        ) {
             activity.startActivityForResult(
-                Intent(activity, InvitationTitleActivity::class.java),
+                Intent(activity, InvitationTitleActivity::class.java).apply {
+                    putExtra(EXTRA_TYPE_ID, templateId)
+                },
                 resultCode
             )
         }
@@ -26,7 +35,8 @@ class InvitationTitleActivity() :
     private val invitationTitleViewModel by lazy {
         ViewModelProvider(
             this, InvitationTitleViewModelFactory(
-                Injection.provideInvitationRepository()
+                Injection.provideInvitationRepository(),
+                intent?.getIntExtra(EXTRA_TYPE_ID, -1) ?: -1
             )
         ).get(InvitationTitleViewModel::class.java)
     }
