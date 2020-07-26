@@ -77,7 +77,7 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
             offscreenPageLimit = 3
 
             //TODO 두한이 수정 부탁드려요
-            val margin = AppUtils.dpToPx(context, 48)
+            val margin = AppUtils.dpToPx(context, 96)
             setPadding(margin, 0, margin, 0)
             pageMargin = margin / 2
 
@@ -93,12 +93,8 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
                 }
 
                 override fun onPageSelected(position: Int) {
-                    item = typePagerAdapter.getTypeData(position)
-                    tvStartInvitation.text = if (item?.isEditing == true) {
-                        getString(R.string.start_comment_type_choice)
-                    } else {
-                        getString(R.string.modify_comment_type_choice)
-                    }
+                    updateCurrentItem(typePagerAdapter.getTypeData(position))
+
                 }
             })
         }
@@ -106,9 +102,19 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
         tlDotIndicator.setupWithViewPager(vpType, true)
     }
 
+    fun updateCurrentItem(data: TypeData){
+        item = data
+        tvStartInvitation.text = if (item?.isEditing == true) {
+            getString(R.string.start_comment_type_choice)
+        } else {
+            getString(R.string.modify_comment_type_choice)
+        }
+    }
+
     private fun requestType() {
         invitationRepository.getInvitationTypes(object : BaseResponse<List<TypeData>> {
             override fun onSuccess(data: List<TypeData>) {
+                updateCurrentItem(data.first())
                 typePagerAdapter.addAllTypeDataList(data)
             }
 
