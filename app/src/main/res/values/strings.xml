@@ -24,6 +24,9 @@
     <string name="invitation_preview">초대장 미리보기</string>
     <string name="please_input_invitation_title">초대말을 입력해주세요</string>
 
+    <string name="input_date_time_title">언제 초대하고\n싶으신가요?</string>
+    <string name="input_date_text">날짜를 입력해주세요</string>
+
     <string name="input_address_title">장소 입력</string>
     <string name="input_address_question">어떤 장소에서\n만날까요?</string>
     <string name="input_address_search_text">주소를 검색해주세요.</string>
