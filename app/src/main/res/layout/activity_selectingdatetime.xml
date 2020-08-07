@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.select.SelectingDateTimeActivity">
 
     <data></data>
 
@@ -10,169 +11,11 @@
         android:background="@color/white_two"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+
+        <FrameLayout
+            android:id="@+id/fragment"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white_two">
+            android:layout_height="match_parent"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/btnInvitationDateBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="6dp"
-                    android:src="@drawable/ic_arrow_back" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/input_date"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:clipToPadding="false"
-                android:paddingBottom="30dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="23dp"
-                    android:text="@string/input_date_time_title"
-                    android:textColor="@color/black"
-                    android:textSize="24dp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="35dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_date" />
-
-                    <TextView
-                        android:id="@+id/tvDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="날짜"
-                        android:textColor="#234eb6"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cvInputDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="110dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="vertical"
-                    app:cardCornerRadius="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tvInputDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="@string/input_date_text"
-                            android:textColor="@color/pinkish_grey"
-                            android:textSize="18sp" />
-
-                        <View
-                            android:id="@+id/var"
-                            android:layout_width="250dp"
-                            android:layout_height="2dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="11dp"
-                            android:background="@color/blue_blue" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:id="@+id/tvDateTest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_time" />
-
-                    <TextView
-                        android:id="@+id/tvTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignBottom="@+id/tvDateTest"
-                        android:text="시간"
-                        android:textColor="#234eb6"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="vertical"
-                    app:cardCornerRadius="16dp">
-
-                    <TimePicker
-                        android:id="@+id/timePicker"
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp"
-                        style="@style/MyTimePickerStyle"
-                        android:theme="@style/MyTimePickerStyle"
-                        android:timePickerMode="spinner" />
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-        </ScrollView>
-
-        <Button
-            android:id="@+id/btnDateTimeFinish"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@color/lemon"
-            android:text="입력 완료 하기"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 </layout>
