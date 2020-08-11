@@ -7,4 +7,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+        <item name="colorControlNormal">@color/blue_blue</item>
+    </style>
+    -->
+
+    <style name="MyDatePickerDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/blue_blue</item>
+    </style>
+
+    <style name="MyTimePickerStyle" parent="@android:style/Widget.Material.TimePicker">
+        <item name="android:timePickerMode">spinner</item>
+        <item name="colorControlNormal">@color/blue_blue</item>
+    </style>
+
 </resources>
