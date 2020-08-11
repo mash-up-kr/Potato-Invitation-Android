@@ -7,11 +7,12 @@
         <import type="android.view.View" />
 
         <variable
-            name="itemDocuments"
-            type="com.mashup.patatoinvitation.presentation.searchaddress.model.Documents" />
+            name="model"
+            type="com.mashup.patatoinvitation.presentation.searchlocation.api.Documents" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clLocationItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp">
@@ -30,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{itemDocuments.placeName}"
+            android:text="@{model.placeName}"
             android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/ivMapPin"
@@ -42,10 +43,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            android:text='@{itemDocuments.addressName ?? ""}'
+            android:text='@{model.addressName ?? ""}'
             android:textColor="#a9a9a9"
             android:textSize="12sp"
-            android:visibility='@{itemDocuments.addressName.equals("")? View.GONE : View.VISIBLE}'
+            android:visibility='@{model.addressName.equals("")? View.GONE : View.VISIBLE}'
             app:layout_constraintStart_toEndOf="@+id/ivMapPin"
             app:layout_constraintTop_toBottomOf="@+id/tvSearchBuildingName" />
 
@@ -57,10 +58,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@id/ivMapPin"
-            android:text='@{itemDocuments.roadAddressName ?? ""}'
+            android:text='@{model.roadAddressName ?? ""}'
             android:textColor="#a9a9a9"
             android:textSize="12sp"
-            android:visibility='@{itemDocuments.roadAddressName.equals("") ? View.GONE : View.VISIBLE}'
+            android:visibility='@{model.roadAddressName.equals("") ? View.GONE : View.VISIBLE}'
             app:layout_constraintStart_toEndOf="@+id/ivMapPin"
             app:layout_constraintTop_toBottomOf="@+id/tvMapAddress" />
     </androidx.constraintlayout.widget.ConstraintLayout>
