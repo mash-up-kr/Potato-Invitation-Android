@@ -1,4 +1,4 @@
-package com.mashup.patatoinvitation.presentation.searchaddress
+package com.mashup.patatoinvitation.presentation.searchlocation.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,14 +6,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.databinding.ItemSearchAddressBinding
-import com.mashup.patatoinvitation.presentation.searchaddress.model.Documents
+import com.mashup.patatoinvitation.presentation.searchlocation.api.Documents
 
-class SearchAddressAdapter(private val click: (position: Int) -> Unit) :
-    RecyclerView.Adapter<SearchAddressAdapter.MapHolder>() {
+class SearchLocationAdapter(private val click: (position: Int) -> Unit) :
+    RecyclerView.Adapter<SearchLocationAdapter.MapHolder>() {
 
     private val itemAddress = mutableListOf<Documents>()
 
-    fun setData(data: MutableList<Documents>) {
+    fun setData(data: List<Documents>) {
         data.let {
             itemAddress.clear()
             itemAddress.addAll(data)
@@ -49,7 +49,7 @@ class SearchAddressAdapter(private val click: (position: Int) -> Unit) :
         }
 
         fun bind(bindingItem: Documents) {
-            binding.itemDocuments = bindingItem
+            binding.model = bindingItem
         }
     }
 
