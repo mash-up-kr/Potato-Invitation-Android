@@ -1,4 +1,4 @@
-package com.mashup.patatoinvitation.presentation.searchaddress.model
+package com.mashup.patatoinvitation.presentation.searchlocation.api
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

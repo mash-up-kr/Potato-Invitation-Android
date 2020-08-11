@@ -1,6 +1,6 @@
-package com.mashup.patatoinvitation.presentation.searchaddress.api
+package com.mashup.patatoinvitation.presentation.searchlocation.api
 
-import com.mashup.patatoinvitation.presentation.searchaddress.model.GetAddressResponse
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -27,14 +27,14 @@ interface KakaoApi {
     @Headers("Authorization: KakaoAK ${KakaoApiProvider.API_KEY}")
     @GET(KakaoApiProvider.SEARCH_KEYWORD)
     fun getSearchKeyword(
-        @Query("query") query: String,
-        @Query("category_group_code") cgCode: String? = null,
-        @Query("x") longitude: Double? = null,
-        @Query("y") latitude: Double? = null,
-        @Query("radius") radius: Int? = null,
-        @Query("rect") rect: String? = null,
-        @Query("page") page: Int? = null,
-        @Query("size") size: Int? = null,
-        @Query("sort") sort: Int? = null
-    ): Call<GetAddressResponse>
+        @Query("query") query: String
+//        @Query("category_group_code") cgCode: String? = null,
+//        @Query("x") longitude: Double? = null,
+//        @Query("y") latitude: Double? = null,
+//        @Query("radius") radius: Int? = null,
+//        @Query("rect") rect: String? = null,
+//        @Query("page") page: Int? = null,
+//        @Query("size") size: Int? = null,
+//        @Query("sort") sort: Int? = null
+    ): Single<GetAddressResponse>
 }
