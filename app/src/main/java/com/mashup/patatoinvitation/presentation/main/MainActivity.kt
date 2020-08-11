@@ -10,7 +10,7 @@ import com.mashup.patatoinvitation.base.util.Dlog
 import com.mashup.patatoinvitation.databinding.ActivityMainBinding
 import com.mashup.patatoinvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.patatoinvitation.presentation.invitationtitle.InvitationTitleActivity
-import com.mashup.patatoinvitation.presentation.searchaddress.ui.InputAddressActivity
+import com.mashup.patatoinvitation.presentation.searchlocation.view.SearchLocationActivity
 import com.mashup.patatoinvitation.presentation.select.SelectingDateTimeActivity
 import com.mashup.patatoinvitation.presentation.typechoice.data.TypeData
 import kotlinx.android.synthetic.main.activity_main.*
@@ -75,7 +75,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     override fun goToInvitationLocation() {
-        InputAddressActivity.startInputAddressActivity(
+        SearchLocationActivity.startSearchLocationActivity(
             this, getTypeData().templateId
         )
     }

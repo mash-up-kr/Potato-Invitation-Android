@@ -34,9 +34,8 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".presentation.typechoice.TypeChoiceActivity" />
         <activity android:name=".presentation.invitationpreview.InvitationPreviewActivity" />
-        <activity android:name=".presentation.searchaddress.ui.InputAddressActivity" />
-        <activity android:name=".presentation.searchaddress.ui.SearchAddressActivity" />
         <activity android:name=".presentation.invitationdate.InvitationDateActivity" />
+        <activity android:name=".presentation.searchlocation.view.SearchLocationActivity" />
         <activity android:name=".presentation.select.SelectingDateTimeActivity" />
 
         <meta-data
