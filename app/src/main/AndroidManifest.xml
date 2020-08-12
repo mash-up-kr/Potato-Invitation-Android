@@ -28,10 +28,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.main.MainActivity" />
         <activity
-            android:name=".presentation.invitationtitle.InvitationTitleActivity"
+            android:name=".presentation.main.MainActivity"
             android:windowSoftInputMode="adjustResize" />
+
         <activity android:name=".presentation.typechoice.TypeChoiceActivity" />
         <activity android:name=".presentation.invitationpreview.InvitationPreviewActivity" />
         <activity android:name=".presentation.invitationdate.InvitationDateActivity" />

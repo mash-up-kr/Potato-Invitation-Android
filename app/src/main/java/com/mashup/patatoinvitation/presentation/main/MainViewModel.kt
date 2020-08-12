@@ -23,7 +23,9 @@ class MainViewModel(
     val isPhoto: LiveData<Boolean> get() = _isPhoto
 
     interface MainListener {
-        fun goToInvitationTitle()
+        fun goToInvitationMain()
+
+        fun goToInvitationInfo()
 
         fun goToInvitationDate()
 

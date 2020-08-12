@@ -1,4 +1,4 @@
-package com.mashup.patatoinvitation.presentation.invitationtitle
+package com.mashup.patatoinvitation.presentation.invitationinfo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,10 +6,11 @@ import androidx.lifecycle.Transformations
 import com.mashup.patatoinvitation.base.BaseViewModel
 import com.mashup.patatoinvitation.data.base.BaseResponse
 import com.mashup.patatoinvitation.data.repository.InvitationRepository
+import com.mashup.patatoinvitation.presentation.main.MainViewModel
 
-class InvitationTitleViewModel(
+class InvitationInfoViewModel(
     private val repository: InvitationRepository,
-    private val templateId: Int
+    private val mainViewModel: MainViewModel
 ) : BaseViewModel() {
 
     val title = MutableLiveData("")
@@ -19,9 +20,6 @@ class InvitationTitleViewModel(
         title.length
     }
 
-    private val _finishView = MutableLiveData<String>()
-    val finishView: LiveData<String> get() = _finishView
-
     fun saveData() {
         val title = title.value
         val description = description.value
@@ -30,20 +28,24 @@ class InvitationTitleViewModel(
 
         if (description.isNullOrEmpty()) return
 
-        repository.patchInvitationWords(title, description, templateId, object : BaseResponse<Any> {
-            override fun onSuccess(data: Any) {
-                _finishView.postValue("finish")
-            }
+        repository.patchInvitationWords(
+            title,
+            description,
+            mainViewModel.typeData.templateId,
+            object : BaseResponse<Any> {
+                override fun onSuccess(data: Any) {
+                    mainViewModel.listener.goToInvitationMain()
+                }
 
-            override fun onFail(description: String) {
+                override fun onFail(description: String) {
 
-            }
+                }
 
-            override fun onError(throwable: Throwable) {
+                override fun onError(throwable: Throwable) {
 
-            }
+                }
 
-            override fun onLoading() {
+                override fun onLoading() {
 
             }
 

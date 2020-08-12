@@ -11,6 +11,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     companion object {
 
+        const val TAG_ID = "MainFragment"
+
         fun newInstance(): MainFragment {
             return MainFragment()
         }
