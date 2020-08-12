@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.BaseActivity
-import com.mashup.patatoinvitation.base.util.Dlog
 import com.mashup.patatoinvitation.databinding.ActivityMainBinding
 import com.mashup.patatoinvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.patatoinvitation.presentation.invitationtitle.InvitationTitleActivity
@@ -43,21 +42,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         super.onCreate(savedInstanceState)
         binding.model = mainViewModel
 
-        initButton()
+        initTopBar()
+        initFragment()
     }
 
-    private fun initButton() {
+    private fun initTopBar() {
+        tvMainTopBardTitle.text = getString(R.string.make_invitation)
         btnMainBack.setOnClickListener {
             onBackPressed()
         }
     }
 
-    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Dlog.d("requestCode : $requestCode , resultCode : $resultCode")
+    private fun initFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.flMainContainer, MainFragment.newInstance())
+            .commit()
     }
+
+    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
 
     override fun goToInvitationTitle() {
         InvitationTitleActivity.startInvitationTitleActivityForResult(
