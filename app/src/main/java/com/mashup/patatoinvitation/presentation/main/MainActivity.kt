@@ -10,7 +10,8 @@ import com.mashup.patatoinvitation.base.BaseActivity
 import com.mashup.patatoinvitation.databinding.ActivityMainBinding
 import com.mashup.patatoinvitation.presentation.invitationinfo.InvitationInfoFragment
 import com.mashup.patatoinvitation.presentation.invitationpreview.InvitationPreviewActivity
-import com.mashup.patatoinvitation.presentation.searchlocation.view.SearchLocationActivity
+import com.mashup.patatoinvitation.presentation.searchlocation.view.InputLocationFragment
+import com.mashup.patatoinvitation.presentation.searchlocation.view.SearchLocationFragment
 import com.mashup.patatoinvitation.presentation.selectdatatime.SelectingDateTimeFragment
 import com.mashup.patatoinvitation.presentation.typechoice.data.TypeData
 import kotlinx.android.synthetic.main.activity_main.*
@@ -58,7 +59,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         goToInvitationMain()
     }
 
-    private fun replaceFragment(fragment: Fragment, tag: String? = null) {
+    private fun replaceFragmentWithTitle(title: String, fragment: Fragment, tag: String? = null) {
+        tvMainTopBardTitle.text = title
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.flMainContainer, fragment, tag)
             .commit()
@@ -68,23 +71,38 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     override fun goToInvitationMain() {
         //TODO 데이터 동기화 필요
-        tvMainTopBardTitle.text = getString(R.string.make_invitation)
-        replaceFragment(MainFragment.newInstance(), MainFragment.TAG_ID)
+        replaceFragmentWithTitle(
+            getString(R.string.make_invitation),
+            MainFragment.newInstance(),
+            MainFragment.TAG_ID
+        )
     }
 
     override fun goToInvitationInfo() {
-        tvMainTopBardTitle.text = getString(R.string.input_invitation)
-        replaceFragment(InvitationInfoFragment.newInstance())
+        replaceFragmentWithTitle(
+            getString(R.string.input_invitation),
+            InvitationInfoFragment.newInstance()
+        )
     }
 
     override fun goToInvitationDate() {
-        tvMainTopBardTitle.text = getString(R.string.input_date)
-        replaceFragment(SelectingDateTimeFragment.newInstance())
+        replaceFragmentWithTitle(
+            getString(R.string.input_date),
+            SelectingDateTimeFragment.newInstance()
+        )
     }
 
-    override fun goToInvitationLocation() {
-        SearchLocationActivity.startSearchLocationActivity(
-            this, getTypeData().templateId
+    override fun goToInvitationInputLocation() {
+        replaceFragmentWithTitle(
+            getString(R.string.input_address_title),
+            InputLocationFragment.newInstance()
+        )
+    }
+
+    override fun goToInvitationSearchLocation() {
+        replaceFragmentWithTitle(
+            getString(R.string.input_address_title),
+            SearchLocationFragment.newInstance()
         )
     }
 

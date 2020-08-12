@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.BaseFragment
 import com.mashup.patatoinvitation.databinding.FragmentSearchLocationBinding
+import com.mashup.patatoinvitation.presentation.main.MainViewModel
 import com.mashup.patatoinvitation.presentation.searchlocation.api.Documents
 import com.mashup.patatoinvitation.presentation.searchlocation.viewmodel.LocationViewModel
 import com.mashup.patatoinvitation.presentation.searchlocation.viewmodel.LocationViewModelFactory
@@ -19,14 +20,26 @@ import kotlinx.android.synthetic.main.fragment_search_location.*
 class SearchLocationFragment :
     BaseFragment<FragmentSearchLocationBinding>(R.layout.fragment_search_location) {
 
+    companion object {
+
+        fun newInstance(): SearchLocationFragment {
+            return SearchLocationFragment()
+        }
+    }
+
     private val searchAddressAdapter: SearchLocationAdapter by lazy {
         SearchLocationAdapter { clickCallback(it) }
 
     }
 
-    private val viewModel: LocationViewModel by lazy {
+    private val mainViewModel: MainViewModel by lazy {
+        ViewModelProvider(requireActivity())
+            .get(MainViewModel::class.java)
+    }
+
+    private val locationViewModel: LocationViewModel by lazy {
         ViewModelProvider(
-            requireActivity(),
+            this,
             LocationViewModelFactory()
         ).get(LocationViewModel::class.java)
     }
@@ -37,7 +50,7 @@ class SearchLocationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.model = viewModel
+        binding.model = locationViewModel
         init()
     }
 
@@ -45,6 +58,7 @@ class SearchLocationFragment :
         initSearchView()
         initRecyclerview()
         searchViewListener()
+        openInputLocation()
     }
 
     private fun initSearchView() {
@@ -63,13 +77,13 @@ class SearchLocationFragment :
 
     private fun clickCallback(position: Int) {
         val data = searchAddressAdapter.getItem(position)
-        viewModel.setClickItem(data)
+        locationViewModel.setClickItem(data)
     }
 
     private fun observableLocationData(keyword: String?) {
         keyword?.let {
-            viewModel.getLocationList(it)
-            viewModel.locationList.observe(requireActivity(), Observer { list ->
+            locationViewModel.getLocationList(it)
+            locationViewModel.locationList.observe(requireActivity(), Observer { list ->
                 addLocationList(list)
             })
         }
@@ -90,10 +104,17 @@ class SearchLocationFragment :
                 if (svSearchLocation.query.isEmpty()) {
                     Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
                     searchAddressAdapter.resetData()
-                    viewModel.clearLocationList()
+                    locationViewModel.clearLocationList()
                 }
                 return false
             }
+        })
+    }
+
+    private fun openInputLocation() {
+        locationViewModel.isItemSelected.observe(viewLifecycleOwner, Observer {
+            //TODO [초희] inputLocation 으로 화면 전환 할 때 장소 데이터를 같이 넘겨 주어야 합니다.
+            if (it) mainViewModel.listener.goToInvitationInputLocation()
         })
     }
 

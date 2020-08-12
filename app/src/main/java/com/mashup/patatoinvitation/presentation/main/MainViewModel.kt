@@ -29,7 +29,9 @@ class MainViewModel(
 
         fun goToInvitationDate()
 
-        fun goToInvitationLocation()
+        fun goToInvitationInputLocation()
+
+        fun goToInvitationSearchLocation()
 
         fun goToInvitationPhoto()
 

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.BaseFragment
 import com.mashup.patatoinvitation.databinding.FragmentInputLocationBinding
+import com.mashup.patatoinvitation.presentation.main.MainViewModel
 import com.mashup.patatoinvitation.presentation.searchlocation.viewmodel.LocationViewModel
 import com.mashup.patatoinvitation.presentation.searchlocation.viewmodel.LocationViewModelFactory
 
@@ -17,16 +18,32 @@ import com.mashup.patatoinvitation.presentation.searchlocation.viewmodel.Locatio
 class InputLocationFragment :
     BaseFragment<FragmentInputLocationBinding>(R.layout.fragment_input_location) {
 
-    private val viewModel: LocationViewModel by lazy {
+    companion object {
+
+        fun newInstance(): InputLocationFragment {
+            return InputLocationFragment()
+        }
+    }
+
+    private val mainViewModel: MainViewModel by lazy {
+        ViewModelProvider(requireActivity())
+            .get(MainViewModel::class.java)
+    }
+
+    private val locationViewModel: LocationViewModel by lazy {
         ViewModelProvider(
-            requireActivity(),
+            this,
             LocationViewModelFactory()
         ).get(LocationViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.model = viewModel
+        binding.model = locationViewModel
+        locationViewModel.initValue()
+
+        openSearchLocation()
+        goToMain()
     }
 
     override fun onCreateView(
@@ -39,13 +56,27 @@ class InputLocationFragment :
     }
 
     private fun submitLocationData() {
-        viewModel.place.observe(requireActivity(), Observer { doc ->
-            viewModel.isSubmit.observe(requireActivity(), Observer {
+        locationViewModel.place.observe(requireActivity(), Observer { doc ->
+            locationViewModel.isSubmit.observe(requireActivity(), Observer {
                 if (it) {
                     Toast.makeText(requireActivity(), "$doc", Toast.LENGTH_SHORT).show()
                     // TODO : 서버 통신
                 }
             })
+        })
+    }
+
+    private fun openSearchLocation() {
+        locationViewModel.isSearch.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) mainViewModel.listener.goToInvitationSearchLocation()
+        })
+    }
+
+
+    private fun goToMain() {
+        locationViewModel.isSubmit.observe(viewLifecycleOwner, Observer<Boolean> {
+            if (it) {
+            } // TODO: Main으로 화면 이동
         })
     }
 }

@@ -102,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="16dp"
-                    android:onClick="@{() -> model.listener.goToInvitationLocation()}"
+                    android:onClick="@{() -> model.listener.goToInvitationInputLocation()}"
                     bind:isChecked="@{model.isLocation()}"
                     bind:title="@{@string/input_location}" />
 
