@@ -1,7 +1,7 @@
 package com.mashup.patatoinvitation.base.util
 
 import android.util.Log
-import androidx.databinding.library.BuildConfig
+import com.mashup.patatoinvitation.BuildConfig
 
 
 object Dlog {
