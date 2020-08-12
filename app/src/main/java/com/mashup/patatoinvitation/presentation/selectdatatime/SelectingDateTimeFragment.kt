@@ -1,4 +1,4 @@
-package com.mashup.patatoinvitation.presentation.select
+package com.mashup.patatoinvitation.presentation.selectdatatime
 
 import android.app.DatePickerDialog
 import android.graphics.Color
@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
@@ -17,6 +16,13 @@ import java.util.*
 
 
 class SelectingDateTimeFragment : Fragment() {
+
+    companion object {
+
+        fun newInstance(): SelectingDateTimeFragment {
+            return SelectingDateTimeFragment()
+        }
+    }
 
     //TODO 회의 : 초대장에 보여지는 형식 -> 넘기는 방식 논의, spinner 10분 단위?, 디자인 확인
     //로케일, 배포 직전 테스트 코드 지우기, 데이터 바인딩 이해 -> fragment 레이아웃에 데이터 바인딩, 애뮬레이터말고도 테스트 해보기
@@ -57,9 +63,6 @@ class SelectingDateTimeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val btnDateTimeFinish = getView()?.findViewById<View>(R.id.btnDateTimeFinish) as Button
-
 
         cvInputDate.setOnClickListener {
             this.InitializeListener()
