@@ -3,15 +3,16 @@ package com.mashup.patatoinvitation.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.BaseActivity
-import com.mashup.patatoinvitation.base.util.Dlog
 import com.mashup.patatoinvitation.databinding.ActivityMainBinding
+import com.mashup.patatoinvitation.presentation.invitationinfo.InvitationInfoFragment
 import com.mashup.patatoinvitation.presentation.invitationpreview.InvitationPreviewActivity
-import com.mashup.patatoinvitation.presentation.invitationtitle.InvitationTitleActivity
-import com.mashup.patatoinvitation.presentation.searchlocation.view.SearchLocationActivity
-import com.mashup.patatoinvitation.presentation.select.SelectingDateTimeActivity
+import com.mashup.patatoinvitation.presentation.searchlocation.view.InputLocationFragment
+import com.mashup.patatoinvitation.presentation.searchlocation.view.SearchLocationFragment
+import com.mashup.patatoinvitation.presentation.selectdatatime.SelectingDateTimeFragment
 import com.mashup.patatoinvitation.presentation.typechoice.data.TypeData
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -43,40 +44,65 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         super.onCreate(savedInstanceState)
         binding.model = mainViewModel
 
-        initButton()
+        initTopBar()
+        initFragment()
     }
 
-    private fun initButton() {
+    private fun initTopBar() {
         btnMainBack.setOnClickListener {
             onBackPressed()
         }
     }
 
-    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Dlog.d("requestCode : $requestCode , resultCode : $resultCode")
+    private fun initFragment() {
+        //TODO 처음 초기화시 서버로 부터 데이터를 받아온다.
+        goToInvitationMain()
     }
 
-    override fun goToInvitationTitle() {
-        InvitationTitleActivity.startInvitationTitleActivityForResult(
-            this,
-            RESULT_CODE,
-            getTypeData().templateId
+    private fun replaceFragmentWithTitle(title: String, fragment: Fragment, tag: String? = null) {
+        tvMainTopBardTitle.text = title
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.flMainContainer, fragment, tag)
+            .commit()
+    }
+
+    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
+
+    override fun goToInvitationMain() {
+        //TODO 데이터 동기화 필요
+        replaceFragmentWithTitle(
+            getString(R.string.make_invitation),
+            MainFragment.newInstance(),
+            MainFragment.TAG_ID
+        )
+    }
+
+    override fun goToInvitationInfo() {
+        replaceFragmentWithTitle(
+            getString(R.string.input_invitation),
+            InvitationInfoFragment.newInstance()
         )
     }
 
     override fun goToInvitationDate() {
-        //InvitationDateActivity.startInvitationDateActivity(this)
-        SelectingDateTimeActivity.startSelectingDateActivity(
-            this, getTypeData().templateId
+        replaceFragmentWithTitle(
+            getString(R.string.input_date),
+            SelectingDateTimeFragment.newInstance()
         )
     }
 
-    override fun goToInvitationLocation() {
-        SearchLocationActivity.startSearchLocationActivity(
-            this, getTypeData().templateId
+    override fun goToInvitationInputLocation() {
+        replaceFragmentWithTitle(
+            getString(R.string.input_address_title),
+            InputLocationFragment.newInstance()
+        )
+    }
+
+    override fun goToInvitationSearchLocation() {
+        replaceFragmentWithTitle(
+            getString(R.string.input_address_title),
+            SearchLocationFragment.newInstance()
         )
     }
 
@@ -86,5 +112,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     override fun goToPreview() {
         InvitationPreviewActivity.startPreviewActivity(this)
+    }
+
+    override fun onBackPressed() {
+        val isMainFragment = supportFragmentManager.findFragmentByTag(MainFragment.TAG_ID)
+        if (isMainFragment == null) {
+            goToInvitationMain()
+        } else {
+            super.onBackPressed()
+        }
     }
 }
