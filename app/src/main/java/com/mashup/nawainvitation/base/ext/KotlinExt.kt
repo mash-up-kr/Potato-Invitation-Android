@@ -1,9 +1,11 @@
 package com.mashup.nawainvitation.base.ext
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.mashup.nawainvitation.base.ext.dialog.AlertBuilder
 import com.mashup.nawainvitation.base.ext.dialog.AndroidAlertBuilder
@@ -53,5 +55,9 @@ fun Context.alert(
 
 fun Fragment.showNetworkErrorDialog(){
     NetworkErrorDialog().show(parentFragmentManager, TAG_DIALOG_ERROR)
+}
+
+fun AppCompatActivity.showNetworkErrorDialog(){
+    NetworkErrorDialog().show(supportFragmentManager, TAG_DIALOG_ERROR)
 }
 
