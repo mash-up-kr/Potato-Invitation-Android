@@ -10,7 +10,8 @@ import java.util.concurrent.TimeUnit
 
 object ApiProvider {
 
-    private const val baseUrl = "http://ec2-13-124-3-1.ap-northeast-2.compute.amazonaws.com:8080/"
+    private const val baseUrl =
+        "http://ec2-15-164-188-237.ap-northeast-2.compute.amazonaws.com:8080/"
 
     fun provideRepoApi(): InvitationApi = getRetrofitBuild().create(InvitationApi::class.java)
 
