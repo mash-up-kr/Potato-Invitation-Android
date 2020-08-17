@@ -9,11 +9,9 @@ import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
 import com.mashup.nawainvitation.databinding.ActivityMainBinding
 import com.mashup.nawainvitation.presentation.invitationinfo.InvitationInfoFragment
-import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
 import com.mashup.nawainvitation.presentation.selectdatatime.SelectingDateTimeFragment
-import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
@@ -21,14 +19,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     companion object {
 
-        private const val RESULT_CODE = 1000
+        private const val EXTRA_TEMPLATE_ID = "template_id"
 
-        private const val EXTRA_TYPE_DATA = "type_data"
-
-        fun startMainActivityWithData(context: Context, data: TypeData) {
+        fun startMainActivityWithData(context: Context, templateId: Int) {
             context.startActivity(
                 Intent(context, MainActivity::class.java).apply {
-                    putExtra(EXTRA_TYPE_DATA, data)
+                    putExtra(EXTRA_TEMPLATE_ID, templateId)
                 }
             )
         }
@@ -36,7 +32,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     private val mainViewModel by lazy {
         ViewModelProvider(
-            this, MainViewModelFactory(this, getTypeData())
+            this, MainViewModelFactory(this, getTemplateId())
         ).get(MainViewModel::class.java)
     }
 
@@ -55,7 +51,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     private fun initFragment() {
-        //TODO 처음 초기화시 서버로 부터 데이터를 받아온다.
         goToInvitationMain()
     }
 
@@ -67,10 +62,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
             .commit()
     }
 
-    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
+    private fun getTemplateId() = intent?.getIntExtra(EXTRA_TEMPLATE_ID, -1) ?: -1
 
     override fun goToInvitationMain() {
-        //TODO 데이터 동기화 필요
         replaceFragmentWithTitle(
             getString(R.string.make_invitation),
             MainFragment.newInstance(),
@@ -111,7 +105,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     override fun goToPreview() {
-        InvitationPreviewActivity.startPreviewActivity(this)
+        //TODO preview for share
     }
 
     override fun onBackPressed() {
