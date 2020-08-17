@@ -54,6 +54,7 @@ ext{
     fragment_ktx_version = '1.2.5'
     ted_image_picker_version = '1.0.8'
     lifecycle_version = '2.2.0'
+    lottie_version = '3.4.1'
 }
 
 dependencies {
@@ -96,6 +97,9 @@ dependencies {
 
     //timepicker
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
+    // lottie
+    implementation "com.airbnb.android:lottie:$lottie_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
