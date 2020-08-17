@@ -31,7 +31,7 @@ class InvitationInfoViewModel(
         repository.patchInvitationWords(
             title,
             description,
-            mainViewModel.typeData.templateId,
+            mainViewModel.templateId,
             object : BaseResponse<Any> {
                 override fun onSuccess(data: Any) {
                     mainViewModel.listener.goToInvitationMain()
