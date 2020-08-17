@@ -4,8 +4,12 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.mashup.nawainvitation.base.ext.dialog.AlertBuilder
 import com.mashup.nawainvitation.base.ext.dialog.AndroidAlertBuilder
+import com.mashup.nawainvitation.custom.NetworkErrorDialog
+
+const val TAG_DIALOG_ERROR = "tag_dialog_error"
 
 inline fun <A, B, R> ifNotNull(a: A?, b: B?, code: (A, B) -> R) {
     if (a != null && b != null) {
@@ -45,5 +49,9 @@ fun Context.alert(
         }
         if (init != null) init()
     }
+}
+
+fun Fragment.showNetworkErrorDialog(){
+    NetworkErrorDialog().show(parentFragmentManager, TAG_DIALOG_ERROR)
 }
 
