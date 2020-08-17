@@ -1,6 +1,5 @@
 package com.mashup.nawainvitation.data.repository
 
-import com.mashup.nawainvitation.NawaInvitationApplication
 import com.mashup.nawainvitation.data.api.UserApi
 import com.mashup.nawainvitation.data.base.BaseResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,10 +10,8 @@ class UserRepositoryImpl(
     private val userApi: UserApi
 ) : UserRepository {
 
-    private val deviceIdentifier = NawaInvitationApplication.INSTANCE.deviceIdentifier
-
     override fun getUsers(callback: BaseResponse<Any>): Disposable {
-        return userApi.postUsers(deviceIdentifier)
+        return userApi.postUsers()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 callback.onLoading()

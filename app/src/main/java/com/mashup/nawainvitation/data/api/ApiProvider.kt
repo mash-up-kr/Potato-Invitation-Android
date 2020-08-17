@@ -35,6 +35,9 @@ object ApiProvider {
 
         // 이 클라이언트를 통해 오고 가는 네트워크 요청/응답을 로그로 표시하도록 합니다.
         addInterceptor(getLoggingInterceptor())
+
+        // header 에 정보를 추가해 준다.
+        addInterceptor(AddHeaderInterceptor())
     }.build()
 
     private fun getLoggingInterceptor(): HttpLoggingInterceptor =
