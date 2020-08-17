@@ -1,4 +1,4 @@
-package com.mashup.patatoinvitation.presentation.selectdatatime
+package com.mashup.patatoinvitation.presentation.select
 
 import android.app.DatePickerDialog
 import android.graphics.Color
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
@@ -17,17 +18,10 @@ import java.util.*
 
 class SelectingDateTimeFragment : Fragment() {
 
-    companion object {
-
-        fun newInstance(): SelectingDateTimeFragment {
-            return SelectingDateTimeFragment()
-        }
-    }
-
-    //TODO 회의 : 초대장에 보여지는 형식 -> 넘기는 방식 논의, spinner 10분 단위?, 디자인 확인
-    //로케일, 배포 직전 테스트 코드 지우기, 데이터 바인딩 이해 -> fragment 레이아웃에 데이터 바인딩, 애뮬레이터말고도 테스트 해보기
-
-    //사용자가 시간 스피너 변경없이, 현재 시간 바로 입력했을 경우 대비해서 초기 시간 설정 //TODO 오후에도 현재값 잘 받나 테스트 해보기
+    //TODO 초대장에 보여지는 형식 -> 넘기는 방식 논의/ spinner 10분 단위? / 디자인 확인 / 완료 버튼 후에 추가 확인창
+    // 날짜 선택 안하면 완료 버튼 비활성화
+    //로케일, 배포 직전 테스트 코드 지우기, 데이터 바인딩 이해 -> fragment 레이아웃에 데이터 바인딩, 애뮬레이터말고도 테스트 해보기,
+    //사용자가 시간 스피너 변경없이, 현재 시간 바로 입력했을 경우 대비해서 초기 시간 설정
     var now = System.currentTimeMillis()
     var mDate = Date(now)
 
@@ -63,6 +57,9 @@ class SelectingDateTimeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val btnDateTimeFinish = getView()?.findViewById<View>(R.id.btnDateTimeFinish) as Button
+
 
         cvInputDate.setOnClickListener {
             this.InitializeListener()
