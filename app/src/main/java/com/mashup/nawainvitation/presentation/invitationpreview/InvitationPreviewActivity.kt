@@ -10,7 +10,6 @@ import com.mashup.nawainvitation.base.BaseActivity
 import com.mashup.nawainvitation.databinding.ActivityInvitationPreviewBinding
 import com.mashup.nawainvitation.presentation.main.MainActivity
 import kotlinx.android.synthetic.main.activity_invitation_preview.*
-import kotlinx.android.synthetic.main.layout_common_lemon_button.view.*
 
 class InvitationPreviewActivity :
     BaseActivity<ActivityInvitationPreviewBinding>(R.layout.activity_invitation_preview) {
@@ -104,7 +103,7 @@ class InvitationPreviewActivity :
     }
 
     private fun initView() {
-        btnInvitationPreview.tvCommonLemonButtonTitle.text = when (getViewType()) {
+        btnInvitationPreview.text = when (getViewType()) {
             ViewType.PREVIEW -> getString(R.string.make_invitation)
             ViewType.SHARE_VIEW -> getString(R.string.share)
         }

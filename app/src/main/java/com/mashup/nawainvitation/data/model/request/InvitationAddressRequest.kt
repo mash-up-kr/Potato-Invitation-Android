@@ -1,9 +1,10 @@
 package com.mashup.nawainvitation.data.model.request
 
 data class InvitationAddressRequest(
-    val deviceIdentifier: String,
-    val invitationLatitude: Double,
-    val invitationLongitude: Double,
-    val invitationAddress: String,
-    val templatesId: Int
+    val invitationAddressName: String?,
+    val invitationPlaceName: String?,
+    val invitationRoadAddressName: String?,
+    val templatesId: Int,
+    val x: Double?,
+    val y: Double?
 )

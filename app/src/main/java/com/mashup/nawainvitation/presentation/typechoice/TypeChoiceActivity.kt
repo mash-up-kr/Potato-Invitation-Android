@@ -110,9 +110,9 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
     fun updateCurrentItem(data: TypeData) {
         item = data
         tvStartInvitation.text = if (item?.isEditing == true) {
-            getString(R.string.start_comment_type_choice)
-        } else {
             getString(R.string.modify_comment_type_choice)
+        } else {
+            getString(R.string.start_comment_type_choice)
         }
     }
 

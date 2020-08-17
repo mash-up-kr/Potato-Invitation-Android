@@ -2,6 +2,7 @@ package com.mashup.nawainvitation
 
 import android.app.Application
 import android.provider.Settings
+import com.mashup.nawainvitation.base.util.Dlog
 
 class NawaInvitationApplication : Application() {
 
@@ -17,5 +18,7 @@ class NawaInvitationApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
+
+        Dlog.d("deviceIdentifier : ${NawaInvitationApplication.INSTANCE.deviceIdentifier}")
     }
 }
