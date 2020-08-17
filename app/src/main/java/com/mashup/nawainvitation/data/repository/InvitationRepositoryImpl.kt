@@ -1,6 +1,5 @@
 package com.mashup.nawainvitation.data.repository
 
-import com.mashup.nawainvitation.NawaInvitationApplication
 import com.mashup.nawainvitation.data.api.InvitationApi
 import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.model.request.InvitationWordsRequest
@@ -13,12 +12,10 @@ class InvitationRepositoryImpl(
     private val invitationApi: InvitationApi
 ) : InvitationRepository {
 
-    private val deviceIdentifier = NawaInvitationApplication.INSTANCE.deviceIdentifier
-
     override fun getInvitationTypes(
         callback: BaseResponse<List<TypeData>>
     ): Disposable {
-        return invitationApi.getTemplateTypes(deviceIdentifier)
+        return invitationApi.getTemplateTypes()
             //이 이후에 수행되는 코드는 메인 쓰레드에서 실행됩니다.
             .observeOn(AndroidSchedulers.mainThread())
             //구독할 때 수행할 작업을 구현합니다.
@@ -63,7 +60,7 @@ class InvitationRepositoryImpl(
             invitationContents = invitationContents,
             templatesId = templatesId
         )
-        return invitationApi.patchInvitationWords(deviceIdentifier, request)
+        return invitationApi.patchInvitationWords(request)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 callback.onLoading()
