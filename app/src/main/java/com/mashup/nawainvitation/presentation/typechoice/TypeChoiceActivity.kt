@@ -28,9 +28,6 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
 
     lateinit var typePagerAdapter: TypePagerAdapter
 
-    private val compositeDisposable = CompositeDisposable()
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
