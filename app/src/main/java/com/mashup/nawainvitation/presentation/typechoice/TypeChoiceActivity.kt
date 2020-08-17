@@ -11,10 +11,11 @@ import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.databinding.ActivityTypeChoiceBinding
+import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
+import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.nawainvitation.presentation.main.MainActivity
 import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import com.mashup.nawainvitation.utils.AppUtils
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_type_choice.*
 
 class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.activity_type_choice) {
@@ -26,8 +27,6 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
 
     lateinit var typePagerAdapter: TypePagerAdapter
 
-    private val compositeDisposable = CompositeDisposable()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(toolbar)
@@ -36,11 +35,6 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
         initView()
         initButton()
         requestType()
-    }
-
-    override fun onDestroy() {
-        compositeDisposable.dispose()
-        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -64,8 +58,12 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
 
     private fun initButton() {
         tvStartInvitation.setOnClickListener {
-            item?.let {
-                MainActivity.startMainActivityWithData(this, it)
+            item?.let { typeData ->
+                if (typeData.isEditing) {
+                    MainActivity.startMainActivityWithData(this, typeData.templateId)
+                } else {
+                    InvitationPreviewActivity.startPreviewActivity(this, typeData.templateId)
+                }
             }
         }
     }
@@ -133,14 +131,22 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
             }
 
             override fun onLoading() {
-
+                showLoading()
             }
 
             override fun onLoaded() {
-
+                hideLoading()
             }
         })
     }
 
+    private val loadingDialog by lazy { LoadingDialog(this) }
 
+    private fun showLoading() {
+        loadingDialog.show()
+    }
+
+    private fun hideLoading() {
+        loadingDialog.hide()
+    }
 }

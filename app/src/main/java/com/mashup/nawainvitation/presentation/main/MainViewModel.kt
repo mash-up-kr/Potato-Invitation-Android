@@ -3,11 +3,10 @@ package com.mashup.nawainvitation.presentation.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mashup.nawainvitation.base.BaseViewModel
-import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 
 class MainViewModel(
     val listener: MainListener,
-    val typeData: TypeData
+    val templateId: Int
 ) : BaseViewModel() {
 
     private val _isTitle = MutableLiveData(false)
