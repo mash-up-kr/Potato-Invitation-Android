@@ -3,6 +3,7 @@ package com.mashup.patatoinvitation.presentation.typechoice
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.mashup.patatoinvitation.R
 import com.mashup.patatoinvitation.base.BaseActivity
@@ -18,6 +19,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_type_choice.*
 
 class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.activity_type_choice) {
+    private val MARGIN_SIDE_VIEW_PAGE_DP = 48
 
     private val invitationRepository: InvitationRepository by lazy {
         Injection.provideInvitationRepository()
@@ -76,10 +78,7 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
             adapter = typePagerAdapter
             offscreenPageLimit = 3
 
-            //TODO 두한이 수정 부탁드려요
-            val margin = AppUtils.dpToPx(context, 96)
-            setPadding(margin, 0, margin, 0)
-            pageMargin = margin / 2
+            setViewPageSideMargin(MARGIN_SIDE_VIEW_PAGE_DP)
 
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) {
@@ -102,7 +101,13 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
         tlDotIndicator.setupWithViewPager(vpType, true)
     }
 
-    fun updateCurrentItem(data: TypeData){
+    private fun ViewPager.setViewPageSideMargin(dpMargin: Int) {
+        val margin = AppUtils.dpToPx(context, dpMargin)
+        pageMargin = 0
+        setPadding(margin, 0, margin, 0)
+    }
+
+    fun updateCurrentItem(data: TypeData) {
         item = data
         tvStartInvitation.text = if (item?.isEditing == true) {
             getString(R.string.start_comment_type_choice)
