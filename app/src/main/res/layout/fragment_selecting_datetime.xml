@@ -131,13 +131,12 @@
             </LinearLayout>
         </ScrollView>
 
-        <Button
+        <com.mashup.nawainvitation.custom.LemonButton
             android:id="@+id/btnDateTimeFinish"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="@color/lemon"
             android:text="@string/input_complete"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:enabled="true"/>
     </LinearLayout>
 </layout>

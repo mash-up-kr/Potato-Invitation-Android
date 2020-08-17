@@ -9,21 +9,12 @@
             type="String" />
     </data>
 
-    <FrameLayout
+    <com.mashup.nawainvitation.custom.LemonButton
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:background="@color/lemon">
-
-        <TextView
-            android:id="@+id/tvCommonLemonButtonTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@{title}"
-            android:textColor="@color/black"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            tools:text="title" />
-    </FrameLayout>
+        android:text="@{title}"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        tools:text="title"
+        android:enabled="true"/>
 </layout>
