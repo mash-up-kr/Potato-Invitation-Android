@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="com.mashup.patatoinvitation.presentation.invitationinfo.InvitationInfoViewModel" />
+            type="com.mashup.nawainvitation.presentation.invitationinfo.InvitationInfoViewModel" />
     </data>
 
     <LinearLayout

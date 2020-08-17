@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.mashup.patatoinvitation.presentation.main.MainViewModel" />
+            type="com.mashup.nawainvitation.presentation.main.MainViewModel" />
     </data>
 
     <LinearLayout
