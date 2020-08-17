@@ -109,6 +109,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     override fun onBackPressed() {
+        //TODO 지역 검색 페이지에서 뒤로 가기 시 지역 입력 페이지로 가기
         val isMainFragment = supportFragmentManager.findFragmentByTag(MainFragment.TAG_ID)
         if (isMainFragment == null) {
             goToInvitationMain()
