@@ -17,6 +17,7 @@ import com.mashup.patatoinvitation.utils.AppUtils
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_type_choice.*
 
+
 class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.activity_type_choice) {
 
     private val invitationRepository: InvitationRepository by lazy {
@@ -27,6 +28,8 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
 
     private val compositeDisposable = CompositeDisposable()
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(toolbar)
@@ -35,6 +38,7 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
         initView()
         initButton()
         requestType()
+
     }
 
     override fun onDestroy() {
@@ -49,7 +53,7 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_settings -> {
+            R.id.action_version -> {
                 return true
             }
         }
@@ -137,6 +141,4 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
             }
         })
     }
-
-
 }
