@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="com.mashup.patatoinvitation.presentation.main.MainViewModel" />
+            type="com.mashup.nawainvitation.presentation.main.MainViewModel" />
     </data>
 
     <LinearLayout
@@ -37,7 +37,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@{model.typeData.title}"
                     android:textColor="@color/black"
                     android:textSize="24dp"
                     android:textStyle="bold"
@@ -48,7 +47,6 @@
                 android:layout_width="104dp"
                 android:layout_height="96dp"
                 android:layout_gravity="center|bottom"
-                bind:setImageUrl="@{model.typeData.imageUrl}"
                 tools:background="@color/white" />
         </FrameLayout>
 
@@ -74,7 +72,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{model.typeData.description}"
                     android:textColor="@color/black"
                     android:textSize="16dp"
                     tools:text="난 너가 꼭 와주면 좋겠어💖 와줄꺼지?" />

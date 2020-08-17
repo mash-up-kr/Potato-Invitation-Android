@@ -17,4 +17,5 @@
     <color name="brownish_grey">#6a6a6a</color>
     <color name="lemon">#fef051</color>
     <color name="colorBackgroundImagePickPlus">#D6D6D6</color>
+    <color name="btn_lemon_unenable_text_color">#7e7e7e</color>
 </resources>

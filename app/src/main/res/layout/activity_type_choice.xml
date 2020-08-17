@@ -66,14 +66,12 @@
                 app:tabIndicatorHeight="0dp"
                 app:tabRippleColor="@null" />
 
-            <TextView
+            <com.mashup.nawainvitation.custom.LemonButton
                 android:id="@+id/tvStartInvitation"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="#fef051"
-                android:gravity="center"
+                android:enabled="true"
                 android:text="@string/start_comment_type_choice"
-                android:textColor="@color/black"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

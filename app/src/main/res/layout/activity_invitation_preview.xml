@@ -49,7 +49,7 @@
             android:layout_weight="1" />
 
         <include
-            android:id="@+id/btnInvitationPreviewShare"
+            android:id="@+id/btnInvitationPreview"
             layout="@layout/layout_common_lemon_button"
             bind:title="@{@string/share}" />
     </LinearLayout>

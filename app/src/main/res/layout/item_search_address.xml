@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="com.mashup.patatoinvitation.presentation.searchlocation.api.Documents" />
+            type="com.mashup.nawainvitation.presentation.searchlocation.api.Documents" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
