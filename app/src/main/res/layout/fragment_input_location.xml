@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.mashup.patatoinvitation.presentation.searchlocation.viewmodel.LocationViewModel" />
+            type="com.mashup.nawainvitation.presentation.searchlocation.viewmodel.LocationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
