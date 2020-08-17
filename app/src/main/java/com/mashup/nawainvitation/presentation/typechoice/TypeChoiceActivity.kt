@@ -18,6 +18,7 @@ import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import com.mashup.nawainvitation.utils.AppUtils
 import kotlinx.android.synthetic.main.activity_type_choice.*
 
+
 class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.activity_type_choice) {
     private val MARGIN_SIDE_VIEW_PAGE_DP = 48
 
@@ -27,6 +28,7 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
 
     lateinit var typePagerAdapter: TypePagerAdapter
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(toolbar)
@@ -35,6 +37,7 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
         initView()
         initButton()
         requestType()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -44,7 +47,7 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_settings -> {
+            R.id.action_version -> {
                 return true
             }
         }
