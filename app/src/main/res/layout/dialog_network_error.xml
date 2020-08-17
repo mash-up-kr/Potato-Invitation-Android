@@ -82,6 +82,8 @@
             android:layout_height="64dp"
             android:enabled="true"
             android:text="@string/dialog_network_error_button"
+            android:textSize="18dp"
+            android:lineSpacingExtra="14dp"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
