@@ -103,15 +103,14 @@
             app:layout_constraintTop_toBottomOf="@+id/tvQuestion"
             app:srcCompat="@drawable/ic_place_blue_24" />
 
-        <Button
+        <com.mashup.nawainvitation.custom.LemonButton
             android:id="@+id/btnInputAddressSubmit"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="@{model.isItemSelected() ? @color/lemon : @color/pinkish_grey }"
             android:onClick="@{()->model.clickSubmit()}"
             android:text="@string/input_address_btn_text"
-            android:textColor='@{model.isItemSelected() ? @color/black : @color/brownish_grey}'
             android:textSize="24sp"
+            android:enabled="@{model.isItemSelected()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
