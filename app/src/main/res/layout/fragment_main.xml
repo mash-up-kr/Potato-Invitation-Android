@@ -120,9 +120,12 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <include
-            layout="@layout/layout_common_lemon_button"
+        <com.mashup.nawainvitation.custom.LemonButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:onClick="@{() -> model.listener.goToPreview()}"
-            bind:title="@{@string/complete}" />
+            android:enabled="true"
+            android:text="@string/complete"
+            android:textSize="24dp" />
     </LinearLayout>
 </layout>
