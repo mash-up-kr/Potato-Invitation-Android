@@ -16,6 +16,8 @@ data class InvitationTypeResponse(
         val imageUrl: String,
         @SerializedName("isExistInvitation")
         val isExistInvitation: Boolean,
+        @SerializedName("invitationHashCode")
+        val invitationHashCode: String,
         @SerializedName("templateId")
         val templateId: Int
     )

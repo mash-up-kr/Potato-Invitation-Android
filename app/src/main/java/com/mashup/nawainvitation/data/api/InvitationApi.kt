@@ -9,11 +9,15 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.Path
 
 interface InvitationApi {
 
     @GET("template-types-list")
     fun getTemplateTypes(): Single<InvitationTypeResponse>
+
+    @GET("invitations/{hash-code}")
+    fun getInvitations(@Path("hash-code") hashCode: String): Single<Any> //TODO InvitationsResponse
 
     @PATCH("invitation/words")
     fun patchInvitationWords(

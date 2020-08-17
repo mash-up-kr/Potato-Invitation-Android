@@ -2,7 +2,10 @@ package com.mashup.nawainvitation.data.repository
 
 import com.mashup.nawainvitation.data.api.InvitationApi
 import com.mashup.nawainvitation.data.base.BaseResponse
+import com.mashup.nawainvitation.data.model.request.InvitationAddressRequest
+import com.mashup.nawainvitation.data.model.request.InvitationTimeRequest
 import com.mashup.nawainvitation.data.model.request.InvitationWordsRequest
+import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -54,13 +57,74 @@ class InvitationRepositoryImpl(
         templatesId: Int,
         callback: BaseResponse<Any>
     ): Disposable {
-
         val request = InvitationWordsRequest(
             invitationTitle = invitationTitle,
             invitationContents = invitationContents,
             templatesId = templatesId
         )
+
         return invitationApi.patchInvitationWords(request)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                callback.onLoading()
+            }
+            .doOnTerminate {
+                callback.onLoaded()
+            }
+            .subscribe({
+                callback.onSuccess(it)
+            }) {
+                if (it is HttpException) {
+                    callback.onFail(it.message())
+                } else {
+                    callback.onError(it)
+                }
+            }
+    }
+
+    override fun patchInvitationAddress(
+        documents: Documents,
+        templatesId: Int,
+        callback: BaseResponse<Any>
+    ): Disposable {
+        val request = InvitationAddressRequest(
+            invitationAddressName = documents.addressName,
+            invitationPlaceName = documents.placeName,
+            invitationRoadAddressName = documents.roadAddressName,
+            x = documents.x,
+            y = documents.y,
+            templatesId = templatesId
+        )
+
+        return invitationApi.patchInvitationAddress(request)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                callback.onLoading()
+            }
+            .doOnTerminate {
+                callback.onLoaded()
+            }
+            .subscribe({
+                callback.onSuccess(it)
+            }) {
+                if (it is HttpException) {
+                    callback.onFail(it.message())
+                } else {
+                    callback.onError(it)
+                }
+            }
+    }
+
+    override fun patchInvitationTime(
+        invitationTime: String,
+        templatesId: Int,
+        callback: BaseResponse<Any>
+    ): Disposable {
+        val request = InvitationTimeRequest(
+            invitationTime = invitationTime,
+            templatesId = templatesId
+        )
+        return invitationApi.patchInvitationTime(request)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 callback.onLoading()
