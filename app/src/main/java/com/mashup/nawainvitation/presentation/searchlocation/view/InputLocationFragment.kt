@@ -1,27 +1,31 @@
 package com.mashup.nawainvitation.presentation.searchlocation.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
+import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.databinding.FragmentInputLocationBinding
 import com.mashup.nawainvitation.presentation.main.MainViewModel
-import com.mashup.nawainvitation.presentation.searchlocation.viewmodel.LocationViewModel
-import com.mashup.nawainvitation.presentation.searchlocation.viewmodel.LocationViewModelFactory
-
+import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
+import com.mashup.nawainvitation.presentation.searchlocation.viewmodel.InputLocationViewModel
+import com.mashup.nawainvitation.presentation.searchlocation.viewmodel.InputLocationViewModelFactory
 
 class InputLocationFragment :
-    BaseFragment<FragmentInputLocationBinding>(R.layout.fragment_input_location) {
+    BaseFragment<FragmentInputLocationBinding>(R.layout.fragment_input_location),
+    InputLocationViewModel.InputListener {
 
     companion object {
-
-        fun newInstance(): InputLocationFragment {
-            return InputLocationFragment()
+        const val PLACE_DATA = "place"
+        fun newInstance(data: Documents?): InputLocationFragment {
+            return InputLocationFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(PLACE_DATA, data)
+                }
+            }
         }
     }
 
@@ -30,53 +34,40 @@ class InputLocationFragment :
             .get(MainViewModel::class.java)
     }
 
-    private val locationViewModel: LocationViewModel by lazy {
+    private val inputLocationVM: InputLocationViewModel by lazy {
         ViewModelProvider(
             this,
-            LocationViewModelFactory()
-        ).get(LocationViewModel::class.java)
+            InputLocationViewModelFactory(this)
+        ).get(InputLocationViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.model = locationViewModel
-        locationViewModel.initValue()
-
-        openSearchLocation()
-        goToMain()
+        binding.model = inputLocationVM
+        Dlog.d("${getDocuments()}")
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        submitLocationData()
-        return super.onCreateView(inflater, container, savedInstanceState)
+    private fun getDocuments() = arguments?.getParcelable(PLACE_DATA) as Documents?
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getData()
     }
 
-    private fun submitLocationData() {
-        locationViewModel.place.observe(requireActivity(), Observer { doc ->
-            locationViewModel.isSubmit.observe(requireActivity(), Observer {
-                if (it) {
-                    Toast.makeText(requireActivity(), "$doc", Toast.LENGTH_SHORT).show()
-                    // TODO : 서버 통신
-                }
-            })
+    override fun goToSearch() {
+        mainViewModel.listener.goToInvitationSearchLocation()
+    }
+
+    override fun submit() {
+        inputLocationVM.place.observe(viewLifecycleOwner, Observer { doc ->
+            Toast.makeText(requireActivity(), "$doc", Toast.LENGTH_SHORT).show()
         })
+        mainViewModel.listener.goToInvitationMain()
     }
 
-    private fun openSearchLocation() {
-        locationViewModel.isSearch.observe(viewLifecycleOwner, Observer<Boolean> {
-            if (it) mainViewModel.listener.goToInvitationSearchLocation()
-        })
-    }
-
-
-    private fun goToMain() {
-        locationViewModel.isSubmit.observe(viewLifecycleOwner, Observer<Boolean> {
-            if (it) {
-            } // TODO: Main으로 화면 이동
-        })
+    private fun getData() {
+        inputLocationVM.dataExists()
+        val placeData = arguments?.getParcelable(PLACE_DATA) as Documents?
+        placeData?.let { inputLocationVM.setLocation(it) }
     }
 }

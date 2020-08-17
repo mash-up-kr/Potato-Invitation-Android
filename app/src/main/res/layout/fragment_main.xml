@@ -9,6 +9,10 @@
         <variable
             name="model"
             type="com.mashup.nawainvitation.presentation.main.MainViewModel" />
+
+        <variable
+            name="documents"
+            type="com.mashup.nawainvitation.presentation.searchlocation.api.Documents" />
     </data>
 
     <LinearLayout
@@ -99,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="16dp"
-                    android:onClick="@{() -> model.listener.goToInvitationInputLocation()}"
+                    android:onClick="@{() -> model.listener.goToInvitationInputLocation(documents)}"
                     bind:isChecked="@{model.isLocation()}"
                     bind:title="@{@string/input_location}" />
 

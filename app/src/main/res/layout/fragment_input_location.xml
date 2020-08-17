@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="model"
-            type="com.mashup.nawainvitation.presentation.searchlocation.viewmodel.LocationViewModel" />
+            type="com.mashup.nawainvitation.presentation.searchlocation.viewmodel.InputLocationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +34,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="16dp"
-            android:onClick="@{()-> model.clickSearch()}"
+            android:onClick="@{()-> model.listener.goToSearch()}"
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/ivSearchIcon"
-                    android:text="@{model.isItemSelected() ? model.placeName : @string/input_address_search_text}"
+                    android:text='@{model.placeName != "" ? model.placeName : @string/input_address_search_text}'
                     android:textSize="16sp" />
 
                 <View
@@ -103,14 +102,14 @@
             app:layout_constraintTop_toBottomOf="@+id/tvQuestion"
             app:srcCompat="@drawable/ic_place_blue_24" />
 
-        <com.mashup.nawainvitation.custom.LemonButton
+        <Button
             android:id="@+id/btnInputAddressSubmit"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:onClick="@{()->model.clickSubmit()}"
+            android:enabled='@{model.placeName != "" ? true : false}'
+            android:onClick="@{()->model.listener.submit()}"
             android:text="@string/input_address_btn_text"
             android:textSize="24sp"
-            android:enabled="@{model.isItemSelected()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

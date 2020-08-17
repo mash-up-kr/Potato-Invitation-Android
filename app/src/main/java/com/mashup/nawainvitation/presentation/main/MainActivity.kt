@@ -10,6 +10,7 @@ import com.mashup.nawainvitation.base.BaseActivity
 import com.mashup.nawainvitation.databinding.ActivityMainBinding
 import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
 import com.mashup.nawainvitation.presentation.invitationinfo.InvitationInfoFragment
+import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
 import com.mashup.nawainvitation.presentation.selectdatatime.SelectingDateTimeFragment
@@ -87,10 +88,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         )
     }
 
-    override fun goToInvitationInputLocation() {
+    override fun goToInvitationInputLocation(documents: Documents?) {
         replaceFragmentWithTitle(
             getString(R.string.input_address_title),
-            InputLocationFragment.newInstance()
+            InputLocationFragment.newInstance(documents)
         )
     }
 

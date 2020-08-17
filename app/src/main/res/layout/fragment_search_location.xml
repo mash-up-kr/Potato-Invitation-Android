@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="com.mashup.nawainvitation.presentation.searchlocation.viewmodel.LocationViewModel" />
+            type="com.mashup.nawainvitation.presentation.searchlocation.viewmodel.SearchLocationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

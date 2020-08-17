@@ -3,6 +3,7 @@ package com.mashup.nawainvitation.presentation.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mashup.nawainvitation.base.BaseViewModel
+import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 
 class MainViewModel(
     val listener: MainListener,
@@ -28,7 +29,7 @@ class MainViewModel(
 
         fun goToInvitationDate()
 
-        fun goToInvitationInputLocation()
+        fun goToInvitationInputLocation(data: Documents?)
 
         fun goToInvitationSearchLocation()
 

@@ -9,27 +9,28 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
+import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.databinding.FragmentSearchLocationBinding
 import com.mashup.nawainvitation.presentation.main.MainViewModel
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
-import com.mashup.nawainvitation.presentation.searchlocation.viewmodel.LocationViewModel
-import com.mashup.nawainvitation.presentation.searchlocation.viewmodel.LocationViewModelFactory
+import com.mashup.nawainvitation.presentation.searchlocation.viewmodel.SearchLocationViewModel
+import com.mashup.nawainvitation.presentation.searchlocation.viewmodel.SearchLocationViewModelFactory
 import kotlinx.android.synthetic.main.fragment_search_location.*
 
 
 class SearchLocationFragment :
-    BaseFragment<FragmentSearchLocationBinding>(R.layout.fragment_search_location) {
+    BaseFragment<FragmentSearchLocationBinding>(R.layout.fragment_search_location),
+    SearchLocationViewModel.SearchListener {
+
+    private var data = Documents("", "", "")
 
     companion object {
-
-        fun newInstance(): SearchLocationFragment {
-            return SearchLocationFragment()
-        }
+        fun newInstance() =
+            SearchLocationFragment()
     }
 
     private val searchAddressAdapter: SearchLocationAdapter by lazy {
         SearchLocationAdapter { clickCallback(it) }
-
     }
 
     private val mainViewModel: MainViewModel by lazy {
@@ -37,28 +38,24 @@ class SearchLocationFragment :
             .get(MainViewModel::class.java)
     }
 
-    private val locationViewModel: LocationViewModel by lazy {
+    private val searchLocationVM: SearchLocationViewModel by lazy {
         ViewModelProvider(
             this,
-            LocationViewModelFactory()
-        ).get(LocationViewModel::class.java)
+            SearchLocationViewModelFactory(this)
+        ).get(SearchLocationViewModel::class.java)
     }
-
-//    private val repository: InvitationRepository by lazy {
-//        Injection.provideInvitationRepository()
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.model = locationViewModel
+        binding.model = searchLocationVM
         init()
     }
+
 
     private fun init() {
         initSearchView()
         initRecyclerview()
         searchViewListener()
-        openInputLocation()
     }
 
     private fun initSearchView() {
@@ -76,14 +73,15 @@ class SearchLocationFragment :
     }
 
     private fun clickCallback(position: Int) {
-        val data = searchAddressAdapter.getItem(position)
-        locationViewModel.setClickItem(data)
+        Dlog.d("click")
+        data = searchAddressAdapter.getItem(position)
+        goToInput()
     }
 
     private fun observableLocationData(keyword: String?) {
         keyword?.let {
-            locationViewModel.getLocationList(it)
-            locationViewModel.locationList.observe(requireActivity(), Observer { list ->
+            searchLocationVM.getLocationList(it)
+            searchLocationVM.locationList.observe(viewLifecycleOwner, Observer { list ->
                 addLocationList(list)
             })
         }
@@ -104,18 +102,14 @@ class SearchLocationFragment :
                 if (svSearchLocation.query.isEmpty()) {
                     Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
                     searchAddressAdapter.resetData()
-                    locationViewModel.clearLocationList()
+                    searchLocationVM.clearLocationList()
                 }
                 return false
             }
         })
     }
 
-    private fun openInputLocation() {
-        locationViewModel.isItemSelected.observe(viewLifecycleOwner, Observer {
-            //TODO [초희] inputLocation 으로 화면 전환 할 때 장소 데이터를 같이 넘겨 주어야 합니다.
-            if (it) mainViewModel.listener.goToInvitationInputLocation()
-        })
+    override fun goToInput() {
+        mainViewModel.listener.goToInvitationInputLocation(data)
     }
-
 }
