@@ -9,7 +9,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
+import com.mashup.nawainvitation.base.util.Dlog
+import com.mashup.nawainvitation.data.api.ApiProvider
+import com.mashup.nawainvitation.data.base.BaseResponse
+import com.mashup.nawainvitation.data.repository.InvitationRepositoryImpl
+import com.mashup.nawainvitation.presentation.main.MainViewModel
+import com.mashup.nawainvitation.utils.TimeUtils
 import kotlinx.android.synthetic.main.fragment_selecting_datetime.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,6 +31,17 @@ class SelectingDateTimeFragment : Fragment() {
         }
     }
 
+    private val mainViewModel: MainViewModel by lazy {
+        ViewModelProvider(requireActivity())
+            .get(MainViewModel::class.java)
+    }
+
+    private val invitationRepository by lazy {
+        InvitationRepositoryImpl(
+            ApiProvider.provideInvitationApi()
+        )
+    }
+
     //TODO 회의 : 초대장에 보여지는 형식 -> 넘기는 방식 논의, spinner 10분 단위?, 디자인 확인
     //로케일, 배포 직전 테스트 코드 지우기, 데이터 바인딩 이해 -> fragment 레이아웃에 데이터 바인딩, 애뮬레이터말고도 테스트 해보기
 
@@ -35,7 +53,7 @@ class SelectingDateTimeFragment : Fragment() {
     var minNow: SimpleDateFormat = SimpleDateFormat("mm")
 
     var hourNowInt = hourNow.format(mDate).toInt()
-    var hourNow12 = if (hourNowInt < 12) hourNowInt else hourNowInt-12
+    var hourNow12 = if (hourNowInt < 12) hourNowInt else hourNowInt - 12
 
     var userHour = if (hourNow12 < 10) "0" + hourNow12 else "" + hourNow12
     var userMin = "" + minNow.format(mDate)
@@ -97,12 +115,10 @@ class SelectingDateTimeFragment : Fragment() {
 
         btnDateTimeFinish.setOnClickListener {
             //date
-            //TODO 사용자가 선택한 date
             //$userDay $userMonth $userYear
             //2020 08 04
 
             //time
-            //TODO 사용자가 선택한 time
             //$userHour $userMin $userAmPm
             //04 05 오전
 
@@ -111,7 +127,40 @@ class SelectingDateTimeFragment : Fragment() {
             //val timeMsg = "[Test] Time is: $userHour : $userMin $userAmPm"
             //tvTest.text = timeMsg
 
-            activity?.finish()
+            val invitationTime = TimeUtils.getDataLocalTime(
+                year = userYear,
+                month = userMonth,
+                day = userDay,
+                hour = userHour,
+                minute = userMin,
+                userAmPm = userAmPm
+            )
+            Dlog.d("invitationTime : $invitationTime")
+
+            invitationRepository.patchInvitationTime(
+                invitationTime,
+                mainViewModel.templateId,
+                object : BaseResponse<Any> {
+                    override fun onSuccess(data: Any) {
+                        mainViewModel.listener.goToInvitationMain()
+                    }
+
+                    override fun onFail(description: String) {
+                        Dlog.e("onFail : $description")
+                    }
+
+                    override fun onError(throwable: Throwable) {
+                        Dlog.e("onError : ${throwable.message}")
+                    }
+
+                    override fun onLoading() {
+                        mainViewModel.listener.showLoading()
+                    }
+
+                    override fun onLoaded() {
+                        mainViewModel.listener.hideLoading()
+                    }
+                })
         }
 
     }

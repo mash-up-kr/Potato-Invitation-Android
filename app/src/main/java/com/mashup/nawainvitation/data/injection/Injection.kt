@@ -10,7 +10,7 @@ object Injection {
 
     fun provideInvitationRepository(): InvitationRepository {
         return InvitationRepositoryImpl(
-            ApiProvider.provideRepoApi()
+            ApiProvider.provideInvitationApi()
         )
     }
 

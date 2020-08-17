@@ -35,5 +35,9 @@ class MainViewModel(
         fun goToInvitationPhoto()
 
         fun goToPreview()
+
+        fun showLoading()
+
+        fun hideLoading()
     }
 }

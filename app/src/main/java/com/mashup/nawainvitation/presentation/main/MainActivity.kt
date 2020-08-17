@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
 import com.mashup.nawainvitation.databinding.ActivityMainBinding
+import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
 import com.mashup.nawainvitation.presentation.invitationinfo.InvitationInfoFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
@@ -106,6 +107,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     override fun goToPreview() {
         //TODO preview for share
+    }
+
+    private val loadingDialog by lazy {
+        LoadingDialog(this)
+    }
+
+    override fun showLoading() {
+        if (loadingDialog.isShowing) return
+        loadingDialog.show()
+    }
+
+    override fun hideLoading() {
+        if (loadingDialog.isShowing) {
+            loadingDialog.hide()
+        }
     }
 
     override fun onBackPressed() {
