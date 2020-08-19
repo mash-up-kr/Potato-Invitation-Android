@@ -7,7 +7,6 @@ import com.mashup.nawainvitation.presentation.searchlocation.repository.Location
 
 class SearchLocationViewModel(val listener: SearchListener) : BaseViewModel() {
     private val mRepository by lazy { LocationRepository() }
-    private val tempList = mutableListOf<Documents>()
     private val _isDataExists = MutableLiveData(false)
 
     val locationList = MutableLiveData<List<Documents>>()
@@ -15,11 +14,10 @@ class SearchLocationViewModel(val listener: SearchListener) : BaseViewModel() {
     fun getLocationList(keyword: String) {
         mRepository.getLocationResponse(keyword).subscribe(
             {
-                tempList.run {
-                    add(Documents("", "", keyword))
-                    it.documents.forEach { doc -> this.add(doc) }
+                it.documents.let {list->
+                    list.add(0, Documents("","", keyword))
+                    setLocationList(list)
                 }
-                setLocationList()
             },
             {
                 //error
@@ -27,14 +25,13 @@ class SearchLocationViewModel(val listener: SearchListener) : BaseViewModel() {
         ).apply { compositeDisposable.add(this) }
     }
 
-    private fun setLocationList() {
-        locationList.value = tempList
+    private fun setLocationList(data: MutableList<Documents>) {
+        locationList.value = data
         _isDataExists.value = true
     }
 
-    fun clearLocationList() {
-        tempList.clear()
-        locationList.value = tempList
+    fun clearLocationList(data: MutableList<Documents>) {
+        locationList.value = data
     }
 
     interface SearchListener {

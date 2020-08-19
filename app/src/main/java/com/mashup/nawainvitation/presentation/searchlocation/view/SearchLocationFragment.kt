@@ -82,13 +82,9 @@ class SearchLocationFragment :
         keyword?.let {
             searchLocationVM.getLocationList(it)
             searchLocationVM.locationList.observe(viewLifecycleOwner, Observer { list ->
-                addLocationList(list)
+                searchAddressAdapter.setData(list)
             })
         }
-    }
-
-    private fun addLocationList(locationList: List<Documents>) {
-        searchAddressAdapter.setData(locationList)
     }
 
     private fun searchViewListener() {
@@ -101,8 +97,7 @@ class SearchLocationFragment :
             override fun onQueryTextChange(query: String?): Boolean {
                 if (svSearchLocation.query.isEmpty()) {
                     Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
-                    searchAddressAdapter.resetData()
-                    searchLocationVM.clearLocationList()
+                    searchLocationVM.clearLocationList(searchAddressAdapter.resetData())
                 }
                 return false
             }
