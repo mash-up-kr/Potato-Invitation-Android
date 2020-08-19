@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@color/white_two"
         android:orientation="vertical">
 
         <TextView
@@ -102,17 +102,16 @@
             app:layout_constraintTop_toBottomOf="@+id/tvQuestion"
             app:srcCompat="@drawable/ic_place_blue_24" />
 
-        <Button
+        <com.mashup.nawainvitation.custom.LemonButton
             android:id="@+id/btnInputAddressSubmit"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="60dp"
             android:enabled='@{model.placeName != "" ? true : false}'
             android:onClick="@{()->model.listener.submit()}"
             android:text="@string/input_address_btn_text"
-            android:textSize="24sp"
+            android:textSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
