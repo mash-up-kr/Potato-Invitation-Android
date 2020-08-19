@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@color/white_two"
         android:orientation="vertical">
 
         <TextView
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
-            android:text="@string/input_address_title"
+            android:text="@string/input_location_title"
             android:textColor="@color/blue_blue"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/ivSearchIcon"
-                    android:text='@{model.placeName != "" ? model.placeName : @string/input_address_search_text}'
+                    android:text='@{model.placeName != "" ? model.placeName : @string/input_location_search_text}'
                     android:textSize="16sp" />
 
                 <View
@@ -74,7 +74,7 @@
                     android:layout_below="@id/viewLine"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
-                    android:text="@string/input_address_example_text"
+                    android:text="@string/input_location_example_text"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="57dp"
-            android:text="@string/input_address_question"
+            android:text="@string/input_location_question"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,17 +102,16 @@
             app:layout_constraintTop_toBottomOf="@+id/tvQuestion"
             app:srcCompat="@drawable/ic_place_blue_24" />
 
-        <Button
+        <com.mashup.nawainvitation.custom.LemonButton
             android:id="@+id/btnInputAddressSubmit"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="60dp"
             android:enabled='@{model.placeName != "" ? true : false}'
             android:onClick="@{()->model.listener.submit()}"
-            android:text="@string/input_address_btn_text"
-            android:textSize="24sp"
+            android:text="@string/input_location_btn_text"
+            android:textSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

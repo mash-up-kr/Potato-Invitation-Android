@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.nawainvitation.R
-import com.mashup.nawainvitation.databinding.ItemSearchAddressBinding
+import com.mashup.nawainvitation.databinding.ItemSearchLocationBinding
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 
 class SearchLocationAdapter(private val click: (position: Int) -> Unit) :
@@ -21,17 +21,18 @@ class SearchLocationAdapter(private val click: (position: Int) -> Unit) :
         }
     }
 
-    fun resetData() {
+    fun resetData() : MutableList<Documents> {
         itemAddress.clear()
         notifyDataSetChanged()
+        return itemAddress
     }
 
     fun getItem(position: Int) = itemAddress[position]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MapHolder {
-        val binding: ItemSearchAddressBinding = DataBindingUtil.inflate(
+        val binding: ItemSearchLocationBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.item_search_address, parent, false
+            R.layout.item_search_location, parent, false
         )
         return MapHolder(binding, click)
     }
@@ -42,7 +43,7 @@ class SearchLocationAdapter(private val click: (position: Int) -> Unit) :
         holder.bind(itemAddress[position])
     }
 
-    class MapHolder(private val binding: ItemSearchAddressBinding, click: (position: Int) -> Unit) :
+    class MapHolder(private val binding: ItemSearchLocationBinding, click: (position: Int) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             itemView.setOnClickListener { click(adapterPosition) }

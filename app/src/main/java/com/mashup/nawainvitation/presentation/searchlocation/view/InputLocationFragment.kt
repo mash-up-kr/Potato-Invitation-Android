@@ -2,12 +2,14 @@ package com.mashup.nawainvitation.presentation.searchlocation.view
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
 import com.mashup.nawainvitation.base.util.Dlog
+import com.mashup.nawainvitation.data.base.BaseResponse
+import com.mashup.nawainvitation.data.injection.Injection
+import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.databinding.FragmentInputLocationBinding
 import com.mashup.nawainvitation.presentation.main.MainViewModel
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
@@ -27,6 +29,10 @@ class InputLocationFragment :
                 }
             }
         }
+    }
+
+    private val invitationRepository: InvitationRepository by lazy {
+        Injection.provideInvitationRepository()
     }
 
     private val mainViewModel: MainViewModel by lazy {
@@ -60,7 +66,28 @@ class InputLocationFragment :
 
     override fun submit() {
         inputLocationVM.place.observe(viewLifecycleOwner, Observer { doc ->
-            Toast.makeText(requireActivity(), "$doc", Toast.LENGTH_SHORT).show()
+            invitationRepository.patchInvitationAddress(doc, mainViewModel.templateId, object : BaseResponse<Any>{
+                override fun onSuccess(data: Any) {
+                    mainViewModel.listener.goToInvitationMain()
+                    Dlog.d("$data")
+                }
+
+                override fun onFail(description: String) {
+                    Dlog.e(description)
+                }
+
+                override fun onError(throwable: Throwable) {
+                    Dlog.e("$throwable")
+                }
+
+                override fun onLoading() {
+                    mainViewModel.listener.showLoading()
+                }
+
+                override fun onLoaded() {
+                    mainViewModel.listener.hideLoading()
+                }
+            })
         })
         mainViewModel.listener.goToInvitationMain()
     }

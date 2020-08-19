@@ -15,7 +15,8 @@
         android:id="@+id/clLocationItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:background="@color/white_two">
 
         <ImageView
             android:id="@+id/ivMapPin"
@@ -44,25 +45,40 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text='@{model.addressName ?? ""}'
-            android:textColor="#a9a9a9"
+            android:textColor="@color/greyish"
             android:textSize="12sp"
             android:visibility='@{model.addressName.equals("")? View.GONE : View.VISIBLE}'
             app:layout_constraintStart_toEndOf="@+id/ivMapPin"
             app:layout_constraintTop_toBottomOf="@+id/tvSearchBuildingName" />
 
         <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/background_load_address_text"
+            android:padding="3dp"
+            android:text="@string/input_location_road_title"
+            android:textColor="@color/greyish"
+            android:textSize="10sp"
+            android:visibility='@{model.addressName.equals("")? View.GONE : View.VISIBLE}'
+            app:layout_constraintStart_toEndOf="@+id/ivMapPin"
+            app:layout_constraintTop_toBottomOf="@+id/tvMapAddress" />
+
+        <TextView
             android:id="@+id/tvMapRAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvMapAddress"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="6dp"
             android:layout_toEndOf="@id/ivMapPin"
             android:text='@{model.roadAddressName ?? ""}'
-            android:textColor="#a9a9a9"
+            android:textColor="@color/greyish"
             android:textSize="12sp"
             android:visibility='@{model.roadAddressName.equals("") ? View.GONE : View.VISIBLE}'
-            app:layout_constraintStart_toEndOf="@+id/ivMapPin"
+            app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/tvMapAddress" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
