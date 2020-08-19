@@ -65,6 +65,7 @@ class SearchLocationFragment :
     }
 
     private fun clickCallback(position: Int) {
+        AppUtils.hideSoftKeyBoard(requireActivity())
         data = searchAddressAdapter.getItem(position)
         goToInput()
     }
