@@ -14,6 +14,7 @@ import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
 import com.mashup.nawainvitation.presentation.selectdatatime.SelectingDateTimeFragment
+import com.mashup.nawainvitation.utils.AppUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
@@ -48,6 +49,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     private fun initTopBar() {
         btnMainBack.setOnClickListener {
+            AppUtils.hideSoftKeyBoard(this)
             onBackPressed()
         }
     }
@@ -90,14 +92,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     override fun goToInvitationInputLocation(documents: Documents?) {
         replaceFragmentWithTitle(
-            getString(R.string.input_address_title),
+            getString(R.string.input_location_title),
             InputLocationFragment.newInstance(documents)
         )
     }
 
     override fun goToInvitationSearchLocation() {
         replaceFragmentWithTitle(
-            getString(R.string.input_address_title),
+            getString(R.string.input_location_title),
             SearchLocationFragment.newInstance()
         )
     }

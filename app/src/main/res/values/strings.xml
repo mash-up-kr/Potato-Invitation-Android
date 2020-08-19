@@ -27,12 +27,13 @@
     <string name="input_date_time_title">언제 초대하고\n싶으신가요?</string>
     <string name="input_date_text">날짜를 입력해주세요</string>
 
-    <string name="input_address_title">장소 입력</string>
-    <string name="input_address_question">어떤 장소에서\n만날까요?</string>
-    <string name="input_address_search_text">주소를 검색해주세요.</string>
-    <string name="input_address_example_text">예시) 서울시 송파구 오금동, 유튜브, 링크</string>
-    <string name="input_address_btn_text">입력 완료하기</string>
-    <string  name="input_address_road_title">도로명</string>
+    <string name="input_location_title">장소 입력</string>
+    <string name="input_location_question">어떤 장소에서\n만날까요?</string>
+    <string name="input_location_search_text">장소를 입력해주세요.</string>
+    <string name="input_location_example_text">예시) 서울시 송파구 오금동, 유튜브, 링크</string>
+    <string name="input_location_btn_text">입력 완료하기</string>
+    <string name="input_location_road_title">도로명</string>
+    <string name="search_location_plz_keyword">검색어를 입력해주세요</string>
 
     <string name="dialog_network_error_title">잠시만요!</string>
     <string name="dialog_network_error_subtitle">404 ERROR</string>
