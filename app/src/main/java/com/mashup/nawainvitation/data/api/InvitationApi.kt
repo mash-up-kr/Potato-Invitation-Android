@@ -24,12 +24,12 @@ interface InvitationApi {
         @Body request: InvitationWordsRequest
     ): Single<Response<Void>>
 
-    @PATCH("invitation/time")
+    @PATCH("invitations/time")
     fun patchInvitationTime(
         @Body request: InvitationTimeRequest
     ): Single<Response<Void>>
 
-    @PATCH("invitation/address")
+    @PATCH("invitations/address")
     fun patchInvitationAddress(
         @Body request: InvitationAddressRequest
     ): Single<Response<Void>>
