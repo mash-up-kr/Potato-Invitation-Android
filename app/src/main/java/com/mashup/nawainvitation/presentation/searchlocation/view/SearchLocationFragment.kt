@@ -3,6 +3,7 @@ package com.mashup.nawainvitation.presentation.searchlocation.view
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -38,6 +39,18 @@ class SearchLocationFragment :
             this,
             SearchLocationViewModelFactory(this)
         ).get(SearchLocationViewModel::class.java)
+    }
+
+    private val dispatcher by lazy { requireActivity().onBackPressedDispatcher }
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            mainViewModel.listener.goToInvitationInputLocation(null)
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        dispatcher.addCallback(this, backPressedCallback)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
