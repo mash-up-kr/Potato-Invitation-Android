@@ -23,8 +23,8 @@ data class InvitationsResponse(
         @SerializedName("invitationRoadAddressName")
         val invitationRoadAddressName: String?,
         @SerializedName("x")
-        val x: Int?,
+        val x: Double?,
         @SerializedName("y")
-        val y: Int?
+        val y: Double?
     )
 }
