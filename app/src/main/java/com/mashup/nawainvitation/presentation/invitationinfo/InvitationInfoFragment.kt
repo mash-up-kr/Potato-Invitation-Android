@@ -23,7 +23,7 @@ class InvitationInfoFragment :
         ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
 
-    private val invitationTitleViewModel by lazy {
+    private val invitationInfoViewModel by lazy {
         ViewModelProvider(
             this, InvitationInfoViewModelFactory(
                 Injection.provideInvitationRepository(),
@@ -34,6 +34,7 @@ class InvitationInfoFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.model = invitationTitleViewModel
+        binding.mainModel = mainViewModel
+        binding.infoModel = invitationInfoViewModel
     }
 }

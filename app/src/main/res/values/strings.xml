@@ -14,7 +14,7 @@
     <string name="input_invitation_title">초대장의 제목을 입력해주세요</string>
 
 
-    <string name="format_invitation_description_count">%d 자</string>
+    <string name="format_invitation_description_count">%d자</string>
     <string name="share">공유하기</string>
     <string name="complete">완료하기</string>
     <string name="make_invitation">초대장 만들기</string>
@@ -57,5 +57,6 @@
     <string name="fedb_title">문의하기</string>
     <string name="fedb_first_title">key9407@naver.com</string>
     <string name="fedb_first_text">문의 및 건의사항 연락주세요!</string>
+    <string name="limit_count_format">/ %d자</string>
 
 </resources>

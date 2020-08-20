@@ -15,11 +15,7 @@ class MainViewModel(
     val templateId: Int
 ) : BaseViewModel() {
 
-    private val _title = MutableLiveData<String>()
-    val title: LiveData<String> get() = _title
-
-    private val _backgroundUrl = MutableLiveData<String>()
-    val backgroundUrl: LiveData<String> get() = _backgroundUrl
+    val invitations = MutableLiveData<InvitationsResponse>()
 
     private val _isTitle = MutableLiveData(false)
     val isTitle: LiveData<Boolean> get() = _isTitle
@@ -38,8 +34,7 @@ class MainViewModel(
         invitationRepository.getInvitations(templateId, object : BaseResponse<InvitationsResponse> {
             override fun onSuccess(data: InvitationsResponse) {
                 Dlog.d("data : $data")
-                _title.postValue(data.invitationTitle)
-                _backgroundUrl.postValue(data.templateBackgroundImageUrl)
+                invitations.postValue(data)
 
                 _isTitle.postValue(data.invitationContents.isNullOrEmpty().not())
                 _isDate.postValue(data.invitationTime.isNullOrEmpty().not())
