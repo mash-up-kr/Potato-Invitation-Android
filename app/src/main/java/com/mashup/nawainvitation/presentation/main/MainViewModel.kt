@@ -1,6 +1,7 @@
 package com.mashup.nawainvitation.presentation.main
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.mashup.nawainvitation.base.BaseViewModel
 import com.mashup.nawainvitation.base.util.Dlog
@@ -15,6 +16,7 @@ class MainViewModel(
     val templateId: Int
 ) : BaseViewModel() {
 
+    val enableBtn = MediatorLiveData<Boolean>()
     val invitations = MutableLiveData<InvitationsResponse>()
 
     private val _isTitle = MutableLiveData(false)
@@ -29,6 +31,21 @@ class MainViewModel(
     //TODO photo next step
     private val _isPhoto = MutableLiveData(false)
     val isPhoto: LiveData<Boolean> get() = _isPhoto
+
+    init {
+        enableBtn.addSource(isTitle) {
+            enableBtn.value = getIsEnableButton()
+        }
+        enableBtn.addSource(isDate) {
+            enableBtn.value = getIsEnableButton()
+        }
+        enableBtn.addSource(isLocation) {
+            enableBtn.value = getIsEnableButton()
+        }
+    }
+
+    private fun getIsEnableButton() =
+        isTitle.value == true && isDate.value == true && isLocation.value == true
 
     fun loadInvitations() {
         invitationRepository.getInvitations(templateId, object : BaseResponse<InvitationsResponse> {
