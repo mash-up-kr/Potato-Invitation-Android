@@ -136,7 +136,6 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:text="@string/input_complete"
-            android:textSize="18sp"
-            android:enabled="true"/>
+            android:textSize="18sp"/>
     </LinearLayout>
 </layout>
