@@ -26,6 +26,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         binding.model = mainViewModel
         binding.documents = null
-        //TODO 서버 통신을 통한 데이터 동기화
+
+        mainViewModel.loadInvitations()
     }
 }

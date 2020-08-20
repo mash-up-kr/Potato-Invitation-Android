@@ -48,9 +48,10 @@
             </FrameLayout>
 
             <ImageView
-                android:layout_width="104dp"
+                android:layout_width="match_parent"
                 android:layout_height="96dp"
                 android:layout_gravity="center|bottom"
+                bind:setImageUrl="@{model.backgroundUrl}"
                 tools:background="@color/white" />
         </FrameLayout>
 
@@ -78,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="16dp"
+                    android:text="@{model.title}"
                     tools:text="난 너가 꼭 와주면 좋겠어💖 와줄꺼지?" />
 
                 <include

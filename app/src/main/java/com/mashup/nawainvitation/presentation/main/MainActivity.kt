@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
+import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.databinding.ActivityMainBinding
 import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
 import com.mashup.nawainvitation.presentation.invitationinfo.InvitationInfoFragment
@@ -35,7 +36,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     private val mainViewModel by lazy {
         ViewModelProvider(
-            this, MainViewModelFactory(this, getTemplateId())
+            this,
+            MainViewModelFactory(Injection.provideInvitationRepository(), this, getTemplateId())
         ).get(MainViewModel::class.java)
     }
 
