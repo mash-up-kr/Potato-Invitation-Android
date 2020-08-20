@@ -35,6 +35,7 @@
 
         <activity android:name=".presentation.typechoice.TypeChoiceActivity" />
         <activity android:name=".presentation.invitationpreview.InvitationPreviewActivity" />
+        <activity android:name=".presentation.typechoice.LandingPageActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

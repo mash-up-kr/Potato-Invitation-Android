@@ -39,4 +39,23 @@
     <string name="dialog_network_error_subtitle">404 ERROR</string>
     <string name="dialog_network_error_description">이전 페이지로 돌아가\n다시 시도해주세요.</string>
     <string name="dialog_network_error_button">이전 페이지로 돌아가기</string>
+
+    <string name="vesion_title">버전 정보</string>
+    <string name="vesion_first_title">Ver. 1.0</string>
+    <string name="vesion_first_text">2020년 08월 17일 업데이트</string>
+
+    <string name="landing_title">개발자 정보</string>
+    <string name="landing_first_title">안드로이드 개발자</string>
+    <string name="landing_first_text">이두한\n이진성\n신초희\n유현선</string>
+    <string name="landing_second_title">웹 개발자</string>
+    <string name="landing_second_text">윤대용\n최진영</string>
+    <string name="landing_third_title">백엔드 개발자</string>
+    <string name="landing_third_text">김재현\n권수연</string>
+    <string name="landing_fourth_title">UX/UI 디자이너</string>
+    <string name="landing_fourth_text">고은이\n전다영</string>
+
+    <string name="fedb_title">문의하기</string>
+    <string name="fedb_first_title">key9407@naver.com</string>
+    <string name="fedb_first_text">문의 및 건의사항 연락주세요!</string>
+
 </resources>
