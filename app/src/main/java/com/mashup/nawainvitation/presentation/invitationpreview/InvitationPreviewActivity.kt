@@ -16,7 +16,7 @@ class InvitationPreviewActivity :
 
     companion object {
 
-        private const val DEFAULT_URL = "https://www.naver.com/"
+        private const val DEFAULT_URL = "http://danivelop.com/preview"
 
         private const val EXTRA_VIEW_TYPE = "view_type"
 
@@ -56,7 +56,7 @@ class InvitationPreviewActivity :
 
         when (getViewType()) {
             ViewType.PREVIEW -> {
-
+                webviewInvitation.loadUrl(DEFAULT_URL)
             }
             ViewType.SHARE_VIEW -> {
                 webviewInvitation.loadUrl(getSharedUrl())
