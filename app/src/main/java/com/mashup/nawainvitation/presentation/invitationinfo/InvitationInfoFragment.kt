@@ -2,6 +2,7 @@ package com.mashup.nawainvitation.presentation.invitationinfo
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
@@ -30,6 +31,18 @@ class InvitationInfoFragment :
                 mainViewModel
             )
         ).get(InvitationInfoViewModel::class.java)
+    }
+
+    private val dispatcher by lazy { requireActivity().onBackPressedDispatcher }
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            mainViewModel.listener.goToInvitationMain()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        dispatcher.addCallback(this, backPressedCallback)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

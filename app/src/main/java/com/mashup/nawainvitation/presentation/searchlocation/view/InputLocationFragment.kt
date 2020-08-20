@@ -2,6 +2,7 @@ package com.mashup.nawainvitation.presentation.searchlocation.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
@@ -47,6 +48,19 @@ class InputLocationFragment :
         ).get(InputLocationViewModel::class.java)
     }
 
+    private val dispatcher by lazy { requireActivity().onBackPressedDispatcher }
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            mainViewModel.listener.goToInvitationMain()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        dispatcher.addCallback(this, backPressedCallback)
+        getData()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.model = inputLocationVM
@@ -54,11 +68,6 @@ class InputLocationFragment :
     }
 
     private fun getDocuments() = arguments?.getParcelable(PLACE_DATA) as Documents?
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        getData()
-    }
 
     override fun goToSearch() {
         mainViewModel.listener.goToInvitationSearchLocation()

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.TimePicker
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
@@ -61,9 +62,16 @@ class SelectingDateTimeFragment : Fragment() {
 
     private var callbackMethod: DatePickerDialog.OnDateSetListener? = null
 
+    private val dispatcher by lazy { requireActivity().onBackPressedDispatcher }
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            mainViewModel.listener.goToInvitationMain()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        dispatcher.addCallback(this, backPressedCallback)
     }
 
     override fun onCreateView(
