@@ -17,6 +17,11 @@ class InputLocationViewModel(val listener: InputListener) : BaseViewModel() {
         _placeName.value = doc.placeName
     }
 
+    fun setInvitationsData(address: String?, roadAddress: String?, place: String?, x: Double?, y: Double?) {
+        val documents = Documents(address, roadAddress, place, x, y)
+        setLocation(documents)
+    }
+
     fun dataExists() {
         _isDataExists.value = true
     }

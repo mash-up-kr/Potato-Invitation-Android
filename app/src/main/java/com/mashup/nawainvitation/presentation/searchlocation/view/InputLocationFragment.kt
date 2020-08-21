@@ -58,6 +58,7 @@ class InputLocationFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dispatcher.addCallback(this, backPressedCallback)
+        loadData()
         getData()
     }
 
@@ -99,6 +100,17 @@ class InputLocationFragment :
             })
         })
         mainViewModel.listener.goToInvitationMain()
+    }
+
+    private fun loadData() {
+        mainViewModel.invitations.observe(requireActivity(), Observer {
+            it?.let {
+                inputLocationVM.dataExists()
+                it.mapInfo?.apply {
+                    inputLocationVM.setInvitationsData(invitationAddressName, invitationRoadAddressName,it.invitationPlaceName, x, y)
+                }
+            }
+        })
     }
 
     private fun getData() {

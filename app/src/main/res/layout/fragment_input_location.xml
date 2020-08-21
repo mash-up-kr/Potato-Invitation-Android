@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.text.TextUtils"/>
         <variable
             name="model"
             type="com.mashup.nawainvitation.presentation.searchlocation.viewmodel.InputLocationViewModel" />
@@ -57,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/ivSearchIcon"
-                    android:text='@{model.placeName != "" ? model.placeName : @string/input_location_search_text}'
+                    android:text='@{TextUtils.isEmpty(model.placeName)? @string/input_location_search_text : model.placeName }'
                     android:textSize="16sp" />
 
                 <View
