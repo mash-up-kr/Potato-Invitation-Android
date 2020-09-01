@@ -38,7 +38,7 @@
                     android:background="@color/lemon" />
 
                 <TextView
-                    android:text="@{model.typeName}"
+                    android:text="@{model.typeData.title}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

@@ -6,6 +6,7 @@ import com.mashup.nawainvitation.data.model.request.InvitationAddressRequest
 import com.mashup.nawainvitation.data.model.request.InvitationTimeRequest
 import com.mashup.nawainvitation.data.model.request.InvitationWordsRequest
 import com.mashup.nawainvitation.data.model.response.InvitationsResponse
+import com.mashup.nawainvitation.data.model.response.mapToItem
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -56,15 +57,7 @@ class InvitationRepositoryImpl(
             }
             //옵서버블을 구독합니다.
             .subscribe({
-                callback.onSuccess(it.invitationTypeItemList.map {
-                    TypeData(
-                        title = it.typeName,
-                        description = it.typeDescription,
-                        imageUrl = it.imageUrl,
-                        isEditing = it.isExistInvitation,
-                        templateId = it.templateId
-                    )
-                })
+                callback.onSuccess(it.invitationTypeItemList.mapToItem())
             }) {
                 // 에러 처리 작업을 구현합니다.
                 if (it is HttpException) {

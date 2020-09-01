@@ -9,6 +9,7 @@ import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
 import com.mashup.nawainvitation.databinding.ActivityInvitationPreviewBinding
 import com.mashup.nawainvitation.presentation.main.MainActivity
+import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import kotlinx.android.synthetic.main.activity_invitation_preview.*
 
 class InvitationPreviewActivity :
@@ -20,18 +21,15 @@ class InvitationPreviewActivity :
 
         private const val EXTRA_VIEW_TYPE = "view_type"
 
-        private const val EXTRA_TEMPLATE_ID = "template_id"
-
-        private const val EXTRA_TYPE_NAME = "type_name"
+        private const val EXTRA_TYPE_DATA = "type_data"
 
         private const val EXTRA_SHARED_URL = "shared_url"
 
-        fun startPreviewActivity(context: Context, templateId: Int, typeName: String) {
+        fun startPreviewActivity(context: Context, typeData: TypeData) {
             context.startActivity(
                 Intent(context, InvitationPreviewActivity::class.java).apply {
                     putExtra(EXTRA_VIEW_TYPE, ViewType.PREVIEW)
-                    putExtra(EXTRA_TEMPLATE_ID, templateId)
-                    putExtra(EXTRA_TYPE_NAME, typeName)
+                    putExtra(EXTRA_TYPE_DATA, typeData)
                 }
             )
         }
@@ -69,9 +67,7 @@ class InvitationPreviewActivity :
 
     private fun getSharedUrl() = intent?.getStringExtra(EXTRA_SHARED_URL) ?: DEFAULT_URL
 
-    private fun getTemplateId() = intent?.getIntExtra(EXTRA_TEMPLATE_ID, -1) ?: -1
-
-    private fun getTypeName() = intent?.getStringExtra(EXTRA_TYPE_NAME) ?: ""
+    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
 
     private fun getViewType() = intent?.getSerializableExtra(EXTRA_VIEW_TYPE) as ViewType
 
@@ -92,7 +88,7 @@ class InvitationPreviewActivity :
         btnInvitationPreview.setOnClickListener {
             when (getViewType()) {
                 ViewType.PREVIEW -> {
-                    MainActivity.startMainActivityWithData(this, getTemplateId(), getTypeName())
+                    MainActivity.startMainActivityWithData(this, getTypeData())
 
                 }
                 ViewType.SHARE_VIEW -> {

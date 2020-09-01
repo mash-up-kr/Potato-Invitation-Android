@@ -143,7 +143,7 @@ class SelectingDateTimeFragment : Fragment() {
 
             invitationRepository.patchInvitationTime(
                 invitationTime,
-                mainViewModel.templateId,
+                mainViewModel.typeData.templateId,
                 object : BaseResponse<Any> {
                     override fun onSuccess(data: Any) {
                         mainViewModel.listener.goToInvitationMain()

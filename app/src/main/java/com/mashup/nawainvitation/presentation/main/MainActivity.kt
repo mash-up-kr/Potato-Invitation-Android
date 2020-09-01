@@ -15,6 +15,7 @@ import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
 import com.mashup.nawainvitation.presentation.selectdatatime.SelectingDateTimeFragment
+import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import com.mashup.nawainvitation.utils.AppUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,14 +24,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     companion object {
 
-        private const val EXTRA_TEMPLATE_ID = "template_id"
-        private const val EXTRA_TYPE_NAME = "type_name"
+        private const val EXTRA_TYPE_DATA = "type_data"
 
-        fun startMainActivityWithData(context: Context, templateId: Int, typeName: String) {
+        fun startMainActivityWithData(context: Context, typeData: TypeData) {
             context.startActivity(
                 Intent(context, MainActivity::class.java).apply {
-                    putExtra(EXTRA_TEMPLATE_ID, templateId)
-                    putExtra(EXTRA_TYPE_NAME, typeName)
+                    putExtra(EXTRA_TYPE_DATA, typeData)
                 }
             )
         }
@@ -40,10 +39,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         ViewModelProvider(
             this,
             MainViewModelFactory(
-                Injection.provideInvitationRepository(),
-                this,
-                getTemplateId(),
-                getTypeName()
+                Injection.provideInvitationRepository(), this, getTypeData()
             )
         ).get(MainViewModel::class.java)
     }
@@ -75,9 +71,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
             .commit()
     }
 
-    private fun getTemplateId() = intent?.getIntExtra(EXTRA_TEMPLATE_ID, -1) ?: -1
-
-    private fun getTypeName() = intent?.getStringExtra(EXTRA_TYPE_NAME) ?: ""
+    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
 
     override fun goToInvitationMain() {
         replaceFragmentWithTitle(
