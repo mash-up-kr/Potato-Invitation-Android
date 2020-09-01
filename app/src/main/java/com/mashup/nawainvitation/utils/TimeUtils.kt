@@ -19,6 +19,6 @@ object TimeUtils {
             hour
         }
 
-        return "$year-$month-${day}T$mHour:${minute}Z"
+        return "$year-$month-${day}T$mHour:${minute}:00.000Z"
     }
 }

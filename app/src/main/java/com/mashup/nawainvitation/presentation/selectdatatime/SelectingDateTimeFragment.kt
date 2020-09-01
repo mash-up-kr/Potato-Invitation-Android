@@ -138,6 +138,7 @@ class SelectingDateTimeFragment : Fragment() {
                 minute = userMin,
                 userAmPm = userAmPm
             )
+
             Dlog.d("invitationTime : $invitationTime")
 
             invitationRepository.patchInvitationTime(
