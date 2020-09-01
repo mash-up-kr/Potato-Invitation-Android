@@ -7,6 +7,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
+import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.databinding.ActivityInvitationPreviewBinding
 import com.mashup.nawainvitation.presentation.main.MainActivity
 import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
@@ -19,7 +20,7 @@ class InvitationPreviewActivity :
 
         private const val DEFAULT_URL = "http://danivelop.com/"
 
-        private const val DEFAULT_PREVIEW_URL = "${DEFAULT_URL}preview"
+        private const val INVITATION_PREVIEW_URL = "${DEFAULT_URL}preview"
 
         private const val EXTRA_VIEW_TYPE = "view_type"
 
@@ -38,7 +39,7 @@ class InvitationPreviewActivity :
 
         fun startPreviewActivityForShare(context: Context, invitationHashCode: String?) {
             val url = if (invitationHashCode.isNullOrEmpty()) {
-                DEFAULT_PREVIEW_URL
+                INVITATION_PREVIEW_URL
             } else {
                 "${DEFAULT_URL}${invitationHashCode}"
             }
@@ -65,9 +66,12 @@ class InvitationPreviewActivity :
 
         when (getViewType()) {
             ViewType.PREVIEW -> {
-                webviewInvitation.loadUrl(DEFAULT_URL)
+                val samplePreviewUrl = "${DEFAULT_URL}${getTypeData().templateId}"
+                Dlog.d("${getViewType()} -> url : $samplePreviewUrl")
+                webviewInvitation.loadUrl(samplePreviewUrl)
             }
             ViewType.SHARE_VIEW -> {
+                Dlog.d("${getViewType()} -> url : ${getSharedUrl()}")
                 webviewInvitation.loadUrl(getSharedUrl())
             }
         }
