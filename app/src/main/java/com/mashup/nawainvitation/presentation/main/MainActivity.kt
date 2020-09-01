@@ -11,6 +11,7 @@ import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.databinding.ActivityMainBinding
 import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
 import com.mashup.nawainvitation.presentation.invitationinfo.InvitationInfoFragment
+import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
@@ -114,7 +115,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     override fun goToPreview() {
-        //TODO preview for share
+        InvitationPreviewActivity.startPreviewActivityForShare(
+            this,
+            mainViewModel.typeData.invitationHashCode
+        )
     }
 
     private val loadingDialog by lazy {

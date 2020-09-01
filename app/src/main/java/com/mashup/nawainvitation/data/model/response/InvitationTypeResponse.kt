@@ -18,7 +18,7 @@ data class InvitationTypeResponse(
         @SerializedName("isExistInvitation")
         val isExistInvitation: Boolean,
         @SerializedName("invitationHashCode")
-        val invitationHashCode: String,
+        val invitationHashCode: String?,
         @SerializedName("templateId")
         val templateId: Int
     )

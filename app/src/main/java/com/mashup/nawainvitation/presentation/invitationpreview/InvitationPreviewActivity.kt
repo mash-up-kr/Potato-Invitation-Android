@@ -17,7 +17,9 @@ class InvitationPreviewActivity :
 
     companion object {
 
-        private const val DEFAULT_URL = "http://danivelop.com/preview"
+        private const val DEFAULT_URL = "http://danivelop.com/"
+
+        private const val DEFAULT_PREVIEW_URL = "${DEFAULT_URL}preview"
 
         private const val EXTRA_VIEW_TYPE = "view_type"
 
@@ -34,7 +36,13 @@ class InvitationPreviewActivity :
             )
         }
 
-        fun startPreviewActivityForShare(context: Context, url: String = DEFAULT_URL) {
+        fun startPreviewActivityForShare(context: Context, invitationHashCode: String?) {
+            val url = if (invitationHashCode.isNullOrEmpty()) {
+                DEFAULT_PREVIEW_URL
+            } else {
+                "${DEFAULT_URL}${invitationHashCode}"
+            }
+
             context.startActivity(
                 Intent(context, InvitationPreviewActivity::class.java).apply {
                     putExtra(EXTRA_VIEW_TYPE, ViewType.SHARE_VIEW)

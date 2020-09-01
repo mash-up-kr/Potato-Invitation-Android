@@ -14,6 +14,6 @@ data class TypeData(
 
     // 템플릿 정보
     val templateId: Int,
-    val invitationHashCode: String
+    val invitationHashCode: String?
 
 ) : Parcelable
