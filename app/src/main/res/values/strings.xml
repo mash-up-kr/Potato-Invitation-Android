@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PotatoInvitation</string>
+    <string name="app_name">나와초대장</string>
     <string name="guide_comment_type_choice">원하는 유형을\n선택해볼까요?</string>
     <string name="start_comment_type_choice">초대장 시작하기</string>
     <string name="modify_comment_type_choice">초대장 수정하기</string>
