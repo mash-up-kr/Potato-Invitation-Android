@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
                 android:layout_gravity="center|bottom"
-                bind:setImageUrl="@{model.invitations.templateBackgroundImageUrl}"
+                bind:setInvitationImageUrl="@{model.invitations.templateBackgroundImageUrl}"
                 tools:background="@color/white" />
         </FrameLayout>
 
