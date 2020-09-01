@@ -24,11 +24,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     companion object {
 
         private const val EXTRA_TEMPLATE_ID = "template_id"
+        private const val EXTRA_TYPE_NAME = "type_name"
 
-        fun startMainActivityWithData(context: Context, templateId: Int) {
+        fun startMainActivityWithData(context: Context, templateId: Int, typeName: String) {
             context.startActivity(
                 Intent(context, MainActivity::class.java).apply {
                     putExtra(EXTRA_TEMPLATE_ID, templateId)
+                    putExtra(EXTRA_TYPE_NAME, typeName)
                 }
             )
         }
@@ -37,7 +39,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     private val mainViewModel by lazy {
         ViewModelProvider(
             this,
-            MainViewModelFactory(Injection.provideInvitationRepository(), this, getTemplateId())
+            MainViewModelFactory(
+                Injection.provideInvitationRepository(),
+                this,
+                getTemplateId(),
+                getTypeName()
+            )
         ).get(MainViewModel::class.java)
     }
 
@@ -69,6 +76,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     private fun getTemplateId() = intent?.getIntExtra(EXTRA_TEMPLATE_ID, -1) ?: -1
+
+    private fun getTypeName() = intent?.getStringExtra(EXTRA_TYPE_NAME) ?: ""
 
     override fun goToInvitationMain() {
         replaceFragmentWithTitle(

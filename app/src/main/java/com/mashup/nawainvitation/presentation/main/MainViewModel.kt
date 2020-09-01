@@ -13,7 +13,8 @@ import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 class MainViewModel(
     private val invitationRepository: InvitationRepository,
     val listener: MainListener,
-    val templateId: Int
+    val templateId: Int,
+    val typeName: String
 ) : BaseViewModel() {
 
     val enableBtn = MediatorLiveData<Boolean>()

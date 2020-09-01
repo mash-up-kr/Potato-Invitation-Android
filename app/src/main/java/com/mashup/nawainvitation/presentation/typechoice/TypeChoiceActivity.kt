@@ -78,9 +78,17 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
         tvStartInvitation.setOnClickListener {
             item?.let { typeData ->
                 if (typeData.isEditing) {
-                    MainActivity.startMainActivityWithData(this, typeData.templateId)
+                    MainActivity.startMainActivityWithData(
+                        this,
+                        typeData.templateId,
+                        typeData.title
+                    )
                 } else {
-                    InvitationPreviewActivity.startPreviewActivity(this, typeData.templateId)
+                    InvitationPreviewActivity.startPreviewActivity(
+                        this,
+                        typeData.templateId,
+                        typeData.title
+                    )
                 }
             }
         }

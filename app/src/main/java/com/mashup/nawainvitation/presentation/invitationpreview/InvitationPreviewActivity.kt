@@ -22,13 +22,16 @@ class InvitationPreviewActivity :
 
         private const val EXTRA_TEMPLATE_ID = "template_id"
 
+        private const val EXTRA_TYPE_NAME = "type_name"
+
         private const val EXTRA_SHARED_URL = "shared_url"
 
-        fun startPreviewActivity(context: Context, templateId: Int) {
+        fun startPreviewActivity(context: Context, templateId: Int, typeName: String) {
             context.startActivity(
                 Intent(context, InvitationPreviewActivity::class.java).apply {
                     putExtra(EXTRA_VIEW_TYPE, ViewType.PREVIEW)
                     putExtra(EXTRA_TEMPLATE_ID, templateId)
+                    putExtra(EXTRA_TYPE_NAME, typeName)
                 }
             )
         }
@@ -68,6 +71,8 @@ class InvitationPreviewActivity :
 
     private fun getTemplateId() = intent?.getIntExtra(EXTRA_TEMPLATE_ID, -1) ?: -1
 
+    private fun getTypeName() = intent?.getStringExtra(EXTRA_TYPE_NAME) ?: ""
+
     private fun getViewType() = intent?.getSerializableExtra(EXTRA_VIEW_TYPE) as ViewType
 
     private fun initWebview() {
@@ -87,7 +92,7 @@ class InvitationPreviewActivity :
         btnInvitationPreview.setOnClickListener {
             when (getViewType()) {
                 ViewType.PREVIEW -> {
-                    MainActivity.startMainActivityWithData(this, getTemplateId())
+                    MainActivity.startMainActivityWithData(this, getTemplateId(), getTypeName())
 
                 }
                 ViewType.SHARE_VIEW -> {
