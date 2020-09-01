@@ -76,17 +76,20 @@ class InputLocationFragment :
 
     override fun submit() {
         inputLocationVM.place.observe(viewLifecycleOwner, Observer { doc ->
-            invitationRepository.patchInvitationAddress(doc, mainViewModel.templateId, object : BaseResponse<Any>{
-                override fun onSuccess(data: Any) {
-                    mainViewModel.listener.goToInvitationMain()
-                    Dlog.d("$data")
-                }
+            invitationRepository.patchInvitationAddress(
+                doc,
+                mainViewModel.typeData.templateId,
+                object : BaseResponse<Any> {
+                    override fun onSuccess(data: Any) {
+                        mainViewModel.listener.goToInvitationMain()
+                        Dlog.d("$data")
+                    }
 
-                override fun onFail(description: String) {
-                    Dlog.e(description)
-                }
+                    override fun onFail(description: String) {
+                        Dlog.e(description)
+                    }
 
-                override fun onError(throwable: Throwable) {
+                    override fun onError(throwable: Throwable) {
                     Dlog.e("$throwable")
                 }
 

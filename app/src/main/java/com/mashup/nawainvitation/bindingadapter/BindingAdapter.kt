@@ -2,15 +2,20 @@ package com.mashup.nawainvitation.bindingadapter
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
+@BindingAdapter("setInvitationImageUrl")
+fun ImageView.setInvitationImageUrl(url: String?) {
+    Glide.with(context)
+        .load(url)
+        .into(this)
+}
+
 @BindingAdapter("setImageUrl")
 fun ImageView.setImageUrl(url: String?) {
-    Log.d("MyTag", "url : $url")
     Glide.with(context)
         .load(url)
         .centerCrop()

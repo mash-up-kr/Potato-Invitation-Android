@@ -9,11 +9,12 @@ import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.model.response.InvitationsResponse
 import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
+import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 
 class MainViewModel(
     private val invitationRepository: InvitationRepository,
     val listener: MainListener,
-    val templateId: Int
+    val typeData: TypeData
 ) : BaseViewModel() {
 
     val enableBtn = MediatorLiveData<Boolean>()
@@ -48,17 +49,19 @@ class MainViewModel(
         isTitle.value == true && isDate.value == true && isLocation.value == true
 
     fun loadInvitations() {
-        invitationRepository.getInvitations(templateId, object : BaseResponse<InvitationsResponse> {
-            override fun onSuccess(data: InvitationsResponse) {
-                Dlog.d("data : $data")
-                invitations.postValue(data)
+        invitationRepository.getInvitations(
+            typeData.templateId,
+            object : BaseResponse<InvitationsResponse> {
+                override fun onSuccess(data: InvitationsResponse) {
+                    Dlog.d("data : $data")
+                    invitations.postValue(data)
 
-                _isTitle.postValue(data.invitationContents.isNullOrEmpty().not())
-                _isDate.postValue(data.invitationTime.isNullOrEmpty().not())
-                _isLocation.postValue(data.invitationPlaceName.isNullOrEmpty().not())
-            }
+                    _isTitle.postValue(data.invitationContents.isNullOrEmpty().not())
+                    _isDate.postValue(data.invitationTime.isNullOrEmpty().not())
+                    _isLocation.postValue(data.invitationPlaceName.isNullOrEmpty().not())
+                }
 
-            override fun onFail(description: String) {
+                override fun onFail(description: String) {
                 Dlog.e("$description")
             }
 

@@ -11,10 +11,12 @@ import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.databinding.ActivityMainBinding
 import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
 import com.mashup.nawainvitation.presentation.invitationinfo.InvitationInfoFragment
+import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
 import com.mashup.nawainvitation.presentation.selectdatatime.SelectingDateTimeFragment
+import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import com.mashup.nawainvitation.utils.AppUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,12 +25,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     companion object {
 
-        private const val EXTRA_TEMPLATE_ID = "template_id"
+        private const val EXTRA_TYPE_DATA = "type_data"
 
-        fun startMainActivityWithData(context: Context, templateId: Int) {
+        fun startMainActivityWithData(context: Context, typeData: TypeData) {
             context.startActivity(
                 Intent(context, MainActivity::class.java).apply {
-                    putExtra(EXTRA_TEMPLATE_ID, templateId)
+                    putExtra(EXTRA_TYPE_DATA, typeData)
                 }
             )
         }
@@ -37,7 +39,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     private val mainViewModel by lazy {
         ViewModelProvider(
             this,
-            MainViewModelFactory(Injection.provideInvitationRepository(), this, getTemplateId())
+            MainViewModelFactory(
+                Injection.provideInvitationRepository(), this, getTypeData()
+            )
         ).get(MainViewModel::class.java)
     }
 
@@ -68,7 +72,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
             .commit()
     }
 
-    private fun getTemplateId() = intent?.getIntExtra(EXTRA_TEMPLATE_ID, -1) ?: -1
+    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
 
     override fun goToInvitationMain() {
         replaceFragmentWithTitle(
@@ -111,7 +115,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     override fun goToPreview() {
-        //TODO preview for share
+        InvitationPreviewActivity.startPreviewActivityForShare(
+            this,
+            mainViewModel.typeData.invitationHashCode
+        )
     }
 
     private val loadingDialog by lazy {

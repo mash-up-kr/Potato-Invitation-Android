@@ -138,11 +138,12 @@ class SelectingDateTimeFragment : Fragment() {
                 minute = userMin,
                 userAmPm = userAmPm
             )
+
             Dlog.d("invitationTime : $invitationTime")
 
             invitationRepository.patchInvitationTime(
                 invitationTime,
-                mainViewModel.templateId,
+                mainViewModel.typeData.templateId,
                 object : BaseResponse<Any> {
                     override fun onSuccess(data: Any) {
                         mainViewModel.listener.goToInvitationMain()

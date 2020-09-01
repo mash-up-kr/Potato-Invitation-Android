@@ -7,8 +7,10 @@ import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
+import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.databinding.ActivityInvitationPreviewBinding
 import com.mashup.nawainvitation.presentation.main.MainActivity
+import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import kotlinx.android.synthetic.main.activity_invitation_preview.*
 
 class InvitationPreviewActivity :
@@ -16,24 +18,32 @@ class InvitationPreviewActivity :
 
     companion object {
 
-        private const val DEFAULT_URL = "http://danivelop.com/preview"
+        private const val DEFAULT_URL = "http://danivelop.com/"
+
+        private const val INVITATION_PREVIEW_URL = "${DEFAULT_URL}preview"
 
         private const val EXTRA_VIEW_TYPE = "view_type"
 
-        private const val EXTRA_TEMPLATE_ID = "template_id"
+        private const val EXTRA_TYPE_DATA = "type_data"
 
         private const val EXTRA_SHARED_URL = "shared_url"
 
-        fun startPreviewActivity(context: Context, templateId: Int) {
+        fun startPreviewActivity(context: Context, typeData: TypeData) {
             context.startActivity(
                 Intent(context, InvitationPreviewActivity::class.java).apply {
                     putExtra(EXTRA_VIEW_TYPE, ViewType.PREVIEW)
-                    putExtra(EXTRA_TEMPLATE_ID, templateId)
+                    putExtra(EXTRA_TYPE_DATA, typeData)
                 }
             )
         }
 
-        fun startPreviewActivityForShare(context: Context, url: String = DEFAULT_URL) {
+        fun startPreviewActivityForShare(context: Context, invitationHashCode: String?) {
+            val url = if (invitationHashCode.isNullOrEmpty()) {
+                INVITATION_PREVIEW_URL
+            } else {
+                "${DEFAULT_URL}${invitationHashCode}"
+            }
+
             context.startActivity(
                 Intent(context, InvitationPreviewActivity::class.java).apply {
                     putExtra(EXTRA_VIEW_TYPE, ViewType.SHARE_VIEW)
@@ -56,9 +66,12 @@ class InvitationPreviewActivity :
 
         when (getViewType()) {
             ViewType.PREVIEW -> {
-                webviewInvitation.loadUrl(DEFAULT_URL)
+                val samplePreviewUrl = "${DEFAULT_URL}${getTypeData().templateId}"
+                Dlog.d("${getViewType()} -> url : $samplePreviewUrl")
+                webviewInvitation.loadUrl(samplePreviewUrl)
             }
             ViewType.SHARE_VIEW -> {
+                Dlog.d("${getViewType()} -> url : ${getSharedUrl()}")
                 webviewInvitation.loadUrl(getSharedUrl())
             }
         }
@@ -66,7 +79,7 @@ class InvitationPreviewActivity :
 
     private fun getSharedUrl() = intent?.getStringExtra(EXTRA_SHARED_URL) ?: DEFAULT_URL
 
-    private fun getTemplateId() = intent?.getIntExtra(EXTRA_TEMPLATE_ID, -1) ?: -1
+    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
 
     private fun getViewType() = intent?.getSerializableExtra(EXTRA_VIEW_TYPE) as ViewType
 
@@ -87,7 +100,7 @@ class InvitationPreviewActivity :
         btnInvitationPreview.setOnClickListener {
             when (getViewType()) {
                 ViewType.PREVIEW -> {
-                    MainActivity.startMainActivityWithData(this, getTemplateId())
+                    MainActivity.startMainActivityWithData(this, getTypeData())
 
                 }
                 ViewType.SHARE_VIEW -> {
