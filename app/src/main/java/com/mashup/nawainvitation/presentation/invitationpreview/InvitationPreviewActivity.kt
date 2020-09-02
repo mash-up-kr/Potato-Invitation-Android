@@ -66,7 +66,7 @@ class InvitationPreviewActivity :
 
         when (getViewType()) {
             ViewType.PREVIEW -> {
-                val samplePreviewUrl = "${DEFAULT_URL}${getTypeData().templateId}"
+                val samplePreviewUrl = "${INVITATION_PREVIEW_URL}/${getTypeData().templateId}"
                 Dlog.d("${getViewType()} -> url : $samplePreviewUrl")
                 webviewInvitation.loadUrl(samplePreviewUrl)
             }
