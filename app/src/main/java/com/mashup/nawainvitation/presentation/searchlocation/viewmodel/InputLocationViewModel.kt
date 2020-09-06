@@ -13,6 +13,7 @@ class InputLocationViewModel(val listener: InputListener) : BaseViewModel() {
     private val _isDataExists = MutableLiveData(false)
 
     fun setLocation(doc: Documents) {
+        dataExists()
         place.value = doc
         _placeName.value = doc.placeName
     }
@@ -22,7 +23,7 @@ class InputLocationViewModel(val listener: InputListener) : BaseViewModel() {
         setLocation(documents)
     }
 
-    fun dataExists() {
+    private fun dataExists() {
         _isDataExists.value = true
     }
 

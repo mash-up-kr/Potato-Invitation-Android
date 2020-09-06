@@ -88,7 +88,7 @@ class MainViewModel(
 
         fun goToInvitationInputLocation(data: Documents?)
 
-        fun goToInvitationSearchLocation()
+        fun goToInvitationSearchLocation(data: Documents?)
 
         fun goToInvitationPhoto()
 
