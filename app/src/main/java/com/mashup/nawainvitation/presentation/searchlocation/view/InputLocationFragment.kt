@@ -21,17 +21,6 @@ class InputLocationFragment :
     BaseFragment<FragmentInputLocationBinding>(R.layout.fragment_input_location),
     InputLocationViewModel.InputListener {
 
-    companion object {
-        const val PLACE_DATA = "place"
-        fun newInstance(data: Documents?): InputLocationFragment {
-            return InputLocationFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(PLACE_DATA, data)
-                }
-            }
-        }
-    }
-
     private val invitationRepository: InvitationRepository by lazy {
         Injection.provideInvitationRepository()
     }
@@ -58,20 +47,18 @@ class InputLocationFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dispatcher.addCallback(this, backPressedCallback)
-        loadData()
         getData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.model = inputLocationVM
-        Dlog.d("${getDocuments()}")
     }
 
-    private fun getDocuments() = arguments?.getParcelable(PLACE_DATA) as Documents?
-
     override fun goToSearch() {
-        mainViewModel.listener.goToInvitationSearchLocation()
+        inputLocationVM.place.observe(viewLifecycleOwner, Observer {
+            mainViewModel.listener.goToInvitationSearchLocation(it)
+        })
     }
 
     override fun submit() {
@@ -105,7 +92,6 @@ class InputLocationFragment :
     private fun loadData() {
         mainViewModel.invitations.observe(requireActivity(), Observer {
             it?.let {
-                inputLocationVM.dataExists()
                 it.mapInfo?.apply {
                     inputLocationVM.setInvitationsData(invitationAddressName, invitationRoadAddressName,it.invitationPlaceName, x, y)
                 }
@@ -114,8 +100,20 @@ class InputLocationFragment :
     }
 
     private fun getData() {
-        inputLocationVM.dataExists()
         val placeData = arguments?.getParcelable(PLACE_DATA) as Documents?
-        placeData?.let { inputLocationVM.setLocation(it) }
+        if (placeData != null) inputLocationVM.setLocation(placeData)
+        else loadData()
+
+    }
+
+    companion object {
+        const val PLACE_DATA = "place"
+        fun newInstance(documents: Documents?): InputLocationFragment {
+            return InputLocationFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(PLACE_DATA, documents)
+                }
+            }
+        }
     }
 }

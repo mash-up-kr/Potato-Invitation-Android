@@ -13,6 +13,7 @@ import com.mashup.nawainvitation.base.BaseFragment
 import com.mashup.nawainvitation.databinding.FragmentSearchLocationBinding
 import com.mashup.nawainvitation.presentation.main.MainViewModel
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
+import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment.Companion.PLACE_DATA
 import com.mashup.nawainvitation.presentation.searchlocation.viewmodel.SearchLocationViewModel
 import com.mashup.nawainvitation.presentation.searchlocation.viewmodel.SearchLocationViewModelFactory
 import com.mashup.nawainvitation.utils.AppUtils
@@ -62,6 +63,7 @@ class SearchLocationFragment :
     private fun init() {
         initKeyboard()
         initRecyclerview()
+        getData()
         searchViewListener()
     }
 
@@ -83,6 +85,24 @@ class SearchLocationFragment :
         goToInput()
     }
 
+    private fun loadData() {
+        mainViewModel.invitations.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                setEditText(it.invitationPlaceName)
+                observableLocationData(it.invitationPlaceName)
+            }
+        })
+    }
+
+    private fun getData() {
+        val placeData = arguments?.getParcelable(PLACE_DATA) as Documents?
+        if (placeData != null) {
+            setEditText(placeData.placeName)
+            observableLocationData(placeData.placeName)
+        }
+        else loadData()
+    }
+
     private fun observableLocationData(keyword: String?) {
         keyword?.let {
             searchLocationVM.getLocationList(it)
@@ -101,12 +121,22 @@ class SearchLocationFragment :
         }
     }
 
+    private fun setEditText(keyword: String?) {
+        etSearchLocation.setText(keyword)
+        etSearchLocation.setSelection(etSearchLocation.length())
+    }
+
     override fun goToInput() {
         mainViewModel.listener.goToInvitationInputLocation(data)
     }
 
     companion object {
-        fun newInstance() =
-            SearchLocationFragment()
+        fun newInstance(documents: Documents?) : SearchLocationFragment {
+            return SearchLocationFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(PLACE_DATA, documents)
+                }
+            }
+        }
     }
 }

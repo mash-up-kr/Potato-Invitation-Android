@@ -99,10 +99,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         )
     }
 
-    override fun goToInvitationSearchLocation() {
+    override fun goToInvitationSearchLocation(documents: Documents?) {
         replaceFragmentWithTitle(
             getString(R.string.input_location_title),
-            SearchLocationFragment.newInstance()
+            SearchLocationFragment.newInstance(documents)
         )
     }
 
