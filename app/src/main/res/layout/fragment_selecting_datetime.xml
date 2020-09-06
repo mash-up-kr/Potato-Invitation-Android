@@ -69,7 +69,7 @@
 
                         <TextView
                             android:id="@+id/tvInputDate"
-                            android:layout_width="wrap_content"
+                            android:layout_width="140dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="@string/input_date_text"
@@ -82,7 +82,7 @@
                             android:layout_height="2dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="11dp"
-                            android:background="@color/blue_blue" />
+                            android:background="@color/dark_mint" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
