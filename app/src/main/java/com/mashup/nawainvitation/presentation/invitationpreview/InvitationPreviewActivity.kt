@@ -101,6 +101,7 @@ class InvitationPreviewActivity :
             when (getViewType()) {
                 ViewType.PREVIEW -> {
                     MainActivity.startMainActivityWithData(this, getTypeData())
+                    finish()
 
                 }
                 ViewType.SHARE_VIEW -> {
