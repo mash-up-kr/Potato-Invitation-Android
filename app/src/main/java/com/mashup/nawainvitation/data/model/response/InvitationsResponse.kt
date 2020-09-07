@@ -15,7 +15,9 @@ data class InvitationsResponse(
     @SerializedName("mapInfo")
     val mapInfo: MapInfo?,
     @SerializedName("templateBackgroundImageUrl")
-    val templateBackgroundImageUrl: String?
+    val templateBackgroundImageUrl: String?,
+    @SerializedName("templateTypeDescription")
+    val templateTypeDescription: String?
 ) {
     data class MapInfo(
         @SerializedName("invitationAddressName")

@@ -79,6 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
+                    android:text="@{model.invitations.templateTypeDescription}"
                     android:textSize="16dp"
                     tools:text="난 너가 꼭 와주면 좋겠어💖 와줄꺼지?" />
 
