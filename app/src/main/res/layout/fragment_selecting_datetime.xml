@@ -69,7 +69,8 @@
 
                         <TextView
                             android:id="@+id/tvInputDate"
-                            android:layout_width="140dp"
+                            android:layout_width="wrap_content"
+                            android:singleLine="true"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="@string/input_date_text"

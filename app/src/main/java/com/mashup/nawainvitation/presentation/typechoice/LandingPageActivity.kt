@@ -3,6 +3,7 @@ package com.mashup.nawainvitation.presentation.typechoice
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.mashup.nawainvitation.BuildConfig
 import com.mashup.nawainvitation.R
 
 class LandingPageActivity : AppCompatActivity() {
@@ -29,10 +30,10 @@ class LandingPageActivity : AppCompatActivity() {
             val tvLandingFourthTitle = findViewById<TextView>(R.id.tvLandingFourthTitle)
             val tvLandingFourthText = findViewById<TextView>(R.id.tvLandingFourthText)
 
-            if (id==0){
+            if (id == 0) {
                 tvLandingTitle.setText(getText(R.string.vesion_title))
-                tvLandingFirstTitle.setText(getText(R.string.vesion_first_title))
-                tvLandingFirstText.setText(getText(R.string.vesion_first_text))
+                tvLandingFirstTitle.setText("Ver . ${BuildConfig.VERSION_NAME}")
+                //tvLandingFirstText.setText(getText(R.string.vesion_first_text))
             }
 
             if (id==1){

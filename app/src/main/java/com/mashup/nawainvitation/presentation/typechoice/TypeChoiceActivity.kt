@@ -1,10 +1,12 @@
 package com.mashup.nawainvitation.presentation.typechoice
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.viewpager.widget.ViewPager
+import com.mashup.nawainvitation.BuildConfig
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
 import com.mashup.nawainvitation.base.ext.toast
@@ -49,24 +51,40 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_version -> {
-                val intent = Intent(this,  LandingPageActivity::class.java)
-                intent.putExtra("landingPageId",0)
-                startActivity(intent)
-                //finish 안하는 게 더 좋은 판단 맞을까요?
-                return true
-            }R.id.action_landing -> {
-                val intent = Intent(this,  LandingPageActivity::class.java)
-                intent.putExtra("landingPageId",1)
+                val intent = Intent(this, LandingPageActivity::class.java)
+                intent.putExtra("landingPageId", 0)
                 startActivity(intent)
                 return true
-            }  R.id.action_feedback -> {
-            val intent = Intent(this,  LandingPageActivity::class.java)
-            intent.putExtra("landingPageId",2)
-            startActivity(intent)
-            return true
-        }
+            }
+            R.id.action_landing -> {
+                val intent = Intent(this, LandingPageActivity::class.java)
+                intent.putExtra("landingPageId", 1)
+                startActivity(intent)
+                return true
+            }
+            R.id.action_feedback -> {
+                sendEmail()
+                /*val intent = Intent(this,  LandingPageActivity::class.java)
+                intent.putExtra("landingPageId",2)
+                startActivity(intent)*/
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun sendEmail() {
+        val email = Intent(Intent.ACTION_SEND).apply {
+            type = "plain/Text"
+            val address = arrayOf("dlwls5201@gmail.com")
+            putExtra(Intent.EXTRA_EMAIL, address)
+            putExtra(Intent.EXTRA_SUBJECT, "<" + getString(R.string.app_name) + ">")
+            putExtra(
+                Intent.EXTRA_TEXT,
+                "AppVersion :${BuildConfig.VERSION_NAME}\nDevice : ${Build.MODEL}\nAndroid OS : ${Build.VERSION.SDK_INT}\n\n Content :\n"
+            )
+        }
+        startActivity(email)
     }
 
     private fun initComponent() {
