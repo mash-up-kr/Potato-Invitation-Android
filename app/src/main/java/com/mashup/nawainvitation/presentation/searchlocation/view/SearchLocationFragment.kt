@@ -1,8 +1,8 @@
 package com.mashup.nawainvitation.presentation.searchlocation.view
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
+import com.mashup.nawainvitation.base.ext.toast
 import com.mashup.nawainvitation.databinding.FragmentSearchLocationBinding
 import com.mashup.nawainvitation.presentation.main.MainViewModel
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
@@ -117,8 +118,14 @@ class SearchLocationFragment :
         etSearchLocation.doAfterTextChanged {
             if(it.toString().isBlank()) {
                 searchLocationVM.clearLocationList(searchAddressAdapter.resetData())
-                Toast.makeText(context, getString(R.string.search_location_plz_keyword), Toast.LENGTH_SHORT).show()
             } else observableLocationData(it.toString())
+        }
+
+        etSearchLocation.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && etSearchLocation.text.isBlank()) {
+                requireActivity().toast(getString(R.string.search_location_plz_keyword))
+            }
+            false
         }
     }
 
