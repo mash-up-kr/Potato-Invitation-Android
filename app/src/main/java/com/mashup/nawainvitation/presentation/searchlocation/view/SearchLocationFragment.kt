@@ -45,7 +45,7 @@ class SearchLocationFragment :
     private val dispatcher by lazy { requireActivity().onBackPressedDispatcher }
     private val backPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            mainViewModel.listener.goToInvitationInputLocation(null)
+            mainViewModel.listener.goToInvitationInputLocation(data)
         }
     }
 
@@ -97,6 +97,7 @@ class SearchLocationFragment :
     private fun getData() {
         val placeData = arguments?.getParcelable(PLACE_DATA) as Documents?
         if (placeData != null) {
+            data = placeData
             setEditText(placeData.placeName)
             observableLocationData(placeData.placeName)
         }
