@@ -56,9 +56,12 @@ class InputLocationFragment :
     }
 
     override fun goToSearch() {
-        inputLocationVM.place.observe(viewLifecycleOwner, Observer {
-            mainViewModel.listener.goToInvitationSearchLocation(it)
-        })
+        if (inputLocationVM.isDataExists()) {
+            inputLocationVM.place.observe(viewLifecycleOwner, Observer {
+                mainViewModel.listener.goToInvitationSearchLocation(it)
+            })
+        } else mainViewModel.listener.goToInvitationSearchLocation(null)
+
     }
 
     override fun submit() {
@@ -96,6 +99,7 @@ class InputLocationFragment :
         mainViewModel.invitations.observe(requireActivity(), Observer {
             it?.let {
                 it.mapInfo?.apply {
+                    inputLocationVM.dataExists()
                     inputLocationVM.setInvitationsData(invitationAddressName, invitationRoadAddressName,it.invitationPlaceName, x, y)
                 }
             }
@@ -104,7 +108,10 @@ class InputLocationFragment :
 
     private fun getData() {
         val placeData = arguments?.getParcelable(PLACE_DATA) as Documents?
-        if (placeData != null) inputLocationVM.setLocation(placeData)
+        if (placeData != null) {
+            inputLocationVM.dataExists()
+            inputLocationVM.setLocation(placeData)
+        }
         else loadData()
 
     }
