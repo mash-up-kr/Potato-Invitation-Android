@@ -19,6 +19,6 @@ class NawaInvitationApplication : Application() {
         super.onCreate()
         INSTANCE = this
 
-        Dlog.d("deviceIdentifier : ${NawaInvitationApplication.INSTANCE.deviceIdentifier}")
+        Dlog.d("deviceIdentifier : ${INSTANCE.deviceIdentifier}")
     }
 }
