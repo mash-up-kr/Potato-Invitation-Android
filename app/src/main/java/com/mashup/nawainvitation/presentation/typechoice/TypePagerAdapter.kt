@@ -9,7 +9,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.databinding.ItemTypeChoiceBinding
-import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
+import com.mashup.nawainvitation.presentation.typechoice.model.TypeData
 
 
 class TypePagerAdapter(val context: Context, val inflater: LayoutInflater) : PagerAdapter() {
