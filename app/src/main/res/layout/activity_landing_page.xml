@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context=".presentation.main.LandingPageActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnBackLanding"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/icon_cancel"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"></Button>
+
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:paddingBottom="30dp">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="60dp">
+
+                        <View
+                            android:layout_width="174dp"
+                            android:layout_height="11dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/lemon" />
+
+                        <TextView
+                            android:id="@+id/tvLandingTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textColor="@color/black"
+                            android:textSize="24dp"
+                            android:textStyle="bold"/>
+                    </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/ivLandingImage"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/img_landing"/>
+
+                    <TextView
+                        android:id="@+id/tvLandingFirstTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="24dp"/>
+
+                    <TextView
+                        android:id="@+id/tvLandingFirstText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:layout_marginTop="3dp"
+                        android:lineSpacingExtra ="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tvLandingSecondTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="24dp"/>
+
+                    <TextView
+                        android:id="@+id/tvLandingSecondText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:layout_marginTop="3dp"
+                        android:lineSpacingExtra ="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tvLandingThirdTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="24dp"/>
+
+                    <TextView
+                        android:id="@+id/tvLandingThirdText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:layout_marginTop="3dp"
+                        android:lineSpacingExtra ="10dp"/>
+
+
+                    <TextView
+                        android:id="@+id/tvLandingFourthTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="24dp"/>
+
+                    <TextView
+                        android:id="@+id/tvLandingFourthText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:layout_marginTop="3dp"
+                        android:lineSpacingExtra ="10dp"/>
+
+                </LinearLayout>
+            </ScrollView>
+    </LinearLayout>
+</layout>

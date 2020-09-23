@@ -1,3 +1,62 @@
 <resources>
-    <string name="app_name">PotatoInvitation</string>
+    <string name="app_name">나와초대장</string>
+    <string name="guide_comment_type_choice">원하는 유형을\n선택해볼까요?</string>
+    <string name="start_comment_type_choice">초대장 시작하기</string>
+    <string name="modify_comment_type_choice">초대장 수정하기</string>
+    <string name="make_suggest_type_default">새로운 초대장을 만들어 볼까요?</string>
+    <string name="make_suggest_type_editing">만들었던 초대장을 수정해볼까요?</string>
+    <string name="description_type_default">난 너가 와줬으면 좋겠어\n와줄꺼지?</string>
+
+    <string name="input_invitation">초대말 입력</string>
+    <string name="input_date">날짜/시간 입력</string>
+    <string name="input_location">장소 입력</string>
+    <string name="input_photo">사진 등록</string>
+    <string name="input_invitation_title">초대장의 제목을 입력해주세요</string>
+
+
+    <string name="format_invitation_description_count">%d자</string>
+    <string name="share">공유하기</string>
+    <string name="complete">완료하기</string>
+    <string name="make_invitation">초대장 만들기</string>
+
+    <string name="invitation_title">전달하고 싶은\n말을 적어볼까요?</string>
+    <string name="input_complete">입력 완료하기</string>
+    <string name="invitation_preview">초대장 미리보기</string>
+    <string name="please_input_invitation_title">초대말을 입력해주세요</string>
+
+    <string name="input_date_time_title">언제 초대하고\n싶으신가요?</string>
+    <string name="input_date_text">날짜를 입력해주세요</string>
+
+    <string name="input_location_title">장소 입력</string>
+    <string name="input_location_question">어떤 장소에서\n만날까요?</string>
+    <string name="input_location_search_text">장소를 입력해주세요.</string>
+    <string name="input_location_example_text">예시) 서울시 송파구 오금동, 유튜브, 링크</string>
+    <string name="input_location_btn_text">입력 완료하기</string>
+    <string name="input_location_road_title">도로명</string>
+    <string name="search_location_plz_keyword">검색어를 입력해주세요</string>
+
+    <string name="dialog_network_error_title">잠시만요!</string>
+    <string name="dialog_network_error_subtitle">404 ERROR</string>
+    <string name="dialog_network_error_description">이전 페이지로 돌아가\n다시 시도해주세요.</string>
+    <string name="dialog_network_error_button">이전 페이지로 돌아가기</string>
+
+    <string name="vesion_title">버전 정보</string>
+    <string name="vesion_first_title">Ver. 1.0</string>
+    <string name="vesion_first_text">2020년 08월 17일 업데이트</string>
+
+    <string name="landing_title">개발자 정보</string>
+    <string name="landing_first_title">안드로이드 개발자</string>
+    <string name="landing_first_text">이두한\n이진성\n신초희\n유현선</string>
+    <string name="landing_second_title">웹 개발자</string>
+    <string name="landing_second_text">윤대용\n최진영</string>
+    <string name="landing_third_title">백엔드 개발자</string>
+    <string name="landing_third_text">김재현\n권수연</string>
+    <string name="landing_fourth_title">UX/UI 디자이너</string>
+    <string name="landing_fourth_text">고은이\n전다영</string>
+
+    <string name="fedb_title">문의하기</string>
+    <string name="fedb_first_title">key9407@naver.com</string>
+    <string name="fedb_first_text">문의 및 건의사항 연락주세요!</string>
+    <string name="limit_count_format">/ %d자</string>
+
 </resources>
