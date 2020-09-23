@@ -17,7 +17,7 @@ import com.mashup.nawainvitation.databinding.ActivityTypeChoiceBinding
 import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
 import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.nawainvitation.presentation.main.MainActivity
-import com.mashup.nawainvitation.presentation.model.TypeData
+import com.mashup.nawainvitation.presentation.typechoice.model.TypeData
 import com.mashup.nawainvitation.utils.AppUtils
 import kotlinx.android.synthetic.main.activity_type_choice.*
 

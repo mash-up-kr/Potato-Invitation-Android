@@ -1,9 +1,9 @@
 package com.mashup.nawainvitation.data.repository
 
 import com.mashup.nawainvitation.data.base.BaseResponse
-import com.mashup.nawainvitation.presentation.model.InvitationsData
-import com.mashup.nawainvitation.presentation.model.TypeData
+import com.mashup.nawainvitation.presentation.main.model.InvitationsData
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
+import com.mashup.nawainvitation.presentation.typechoice.model.TypeData
 import io.reactivex.disposables.Disposable
 
 interface InvitationRepository {

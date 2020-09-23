@@ -1,4 +1,4 @@
-package com.mashup.nawainvitation.presentation.model
+package com.mashup.nawainvitation.presentation.typechoice.model
 
 import android.os.Parcelable
 import com.mashup.nawainvitation.data.model.response.InvitationTypeResponse
@@ -16,7 +16,6 @@ data class TypeData(
     // 템플릿 정보
     val templateId: Int,
     val invitationHashCode: String?
-
 ) : Parcelable
 
 fun List<InvitationTypeResponse.InvitationTypeItem>.mapToPresentation() = map {

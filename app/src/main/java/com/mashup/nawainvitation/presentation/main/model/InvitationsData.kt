@@ -1,4 +1,4 @@
-package com.mashup.nawainvitation.presentation.model
+package com.mashup.nawainvitation.presentation.main.model
 
 import com.mashup.nawainvitation.data.model.response.InvitationsResponse
 

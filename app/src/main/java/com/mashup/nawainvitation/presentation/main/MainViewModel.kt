@@ -7,9 +7,9 @@ import com.mashup.nawainvitation.base.BaseViewModel
 import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.repository.InvitationRepository
-import com.mashup.nawainvitation.presentation.model.InvitationsData
-import com.mashup.nawainvitation.presentation.model.TypeData
+import com.mashup.nawainvitation.presentation.main.model.InvitationsData
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
+import com.mashup.nawainvitation.presentation.typechoice.model.TypeData
 
 class MainViewModel(
         private val invitationRepository: InvitationRepository,
@@ -80,6 +80,7 @@ class MainViewModel(
     }
 
     interface MainListener {
+
         fun goToInvitationMain()
 
         fun goToInvitationInfo()

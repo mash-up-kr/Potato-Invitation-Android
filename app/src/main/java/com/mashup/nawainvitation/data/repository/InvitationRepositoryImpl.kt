@@ -5,10 +5,11 @@ import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.model.request.InvitationAddressRequest
 import com.mashup.nawainvitation.data.model.request.InvitationTimeRequest
 import com.mashup.nawainvitation.data.model.request.InvitationWordsRequest
-import com.mashup.nawainvitation.presentation.model.InvitationsData
-import com.mashup.nawainvitation.presentation.model.TypeData
-import com.mashup.nawainvitation.presentation.model.mapToPresentation
+import com.mashup.nawainvitation.presentation.main.model.InvitationsData
+import com.mashup.nawainvitation.presentation.main.model.mapToPresentation
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
+import com.mashup.nawainvitation.presentation.typechoice.model.TypeData
+import com.mashup.nawainvitation.presentation.typechoice.model.mapToPresentation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import retrofit2.HttpException
