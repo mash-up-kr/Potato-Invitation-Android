@@ -12,11 +12,11 @@ import com.mashup.nawainvitation.databinding.ActivityMainBinding
 import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
 import com.mashup.nawainvitation.presentation.invitationinfo.InvitationInfoFragment
 import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
+import com.mashup.nawainvitation.presentation.model.TypeData
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
 import com.mashup.nawainvitation.presentation.selectdatatime.SelectingDateTimeFragment
-import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import com.mashup.nawainvitation.utils.AppUtils
 import kotlinx.android.synthetic.main.activity_main.*
 

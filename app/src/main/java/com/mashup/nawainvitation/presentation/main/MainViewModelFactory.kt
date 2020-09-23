@@ -3,7 +3,7 @@ package com.mashup.nawainvitation.presentation.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.data.repository.InvitationRepository
-import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
+import com.mashup.nawainvitation.presentation.model.TypeData
 
 class MainViewModelFactory(
     private val invitationRepository: InvitationRepository,

@@ -6,19 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import com.mashup.nawainvitation.base.BaseViewModel
 import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.data.base.BaseResponse
-import com.mashup.nawainvitation.data.model.response.InvitationsResponse
 import com.mashup.nawainvitation.data.repository.InvitationRepository
+import com.mashup.nawainvitation.presentation.model.InvitationsData
+import com.mashup.nawainvitation.presentation.model.TypeData
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
-import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 
 class MainViewModel(
-    private val invitationRepository: InvitationRepository,
-    val listener: MainListener,
-    val typeData: TypeData
+        private val invitationRepository: InvitationRepository,
+        val listener: MainListener,
+        val typeData: TypeData
 ) : BaseViewModel() {
 
     val enableBtn = MediatorLiveData<Boolean>()
-    val invitations = MutableLiveData<InvitationsResponse>()
+    val invitations = MutableLiveData<InvitationsData>()
 
     private val _isTitle = MutableLiveData(false)
     val isTitle: LiveData<Boolean> get() = _isTitle
@@ -46,37 +46,37 @@ class MainViewModel(
     }
 
     private fun getIsEnableButton() =
-        isTitle.value == true && isDate.value == true && isLocation.value == true
+            isTitle.value == true && isDate.value == true && isLocation.value == true
 
     fun loadInvitations() {
         invitationRepository.getInvitations(
-            typeData.templateId,
-            object : BaseResponse<InvitationsResponse> {
-                override fun onSuccess(data: InvitationsResponse) {
-                    Dlog.d("data : $data")
-                    invitations.postValue(data)
+                typeData.templateId,
+                object : BaseResponse<InvitationsData> {
+                    override fun onSuccess(data: InvitationsData) {
+                        Dlog.d("data : $data")
+                        invitations.postValue(data)
 
-                    _isTitle.postValue(data.invitationContents.isNullOrEmpty().not())
-                    _isDate.postValue(data.invitationTime.isNullOrEmpty().not())
-                    _isLocation.postValue(data.invitationPlaceName.isNullOrEmpty().not())
-                }
+                        _isTitle.postValue(data.invitationContents.isNullOrEmpty().not())
+                        _isDate.postValue(data.invitationTime.isNullOrEmpty().not())
+                        _isLocation.postValue(data.invitationPlaceName.isNullOrEmpty().not())
+                    }
 
-                override fun onFail(description: String) {
-                Dlog.e("$description")
-            }
+                    override fun onFail(description: String) {
+                        Dlog.e("$description")
+                    }
 
-            override fun onError(throwable: Throwable) {
-                Dlog.e("${throwable.message}")
-            }
+                    override fun onError(throwable: Throwable) {
+                        Dlog.e("${throwable.message}")
+                    }
 
-            override fun onLoading() {
-                listener.showLoading()
-            }
+                    override fun onLoading() {
+                        listener.showLoading()
+                    }
 
-            override fun onLoaded() {
-                listener.hideLoading()
-            }
-        })
+                    override fun onLoaded() {
+                        listener.hideLoading()
+                    }
+                })
     }
 
     interface MainListener {

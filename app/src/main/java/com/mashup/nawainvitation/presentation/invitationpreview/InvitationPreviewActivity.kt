@@ -10,7 +10,7 @@ import com.mashup.nawainvitation.base.BaseActivity
 import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.databinding.ActivityInvitationPreviewBinding
 import com.mashup.nawainvitation.presentation.main.MainActivity
-import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
+import com.mashup.nawainvitation.presentation.model.TypeData
 import kotlinx.android.synthetic.main.activity_invitation_preview.*
 
 class InvitationPreviewActivity :

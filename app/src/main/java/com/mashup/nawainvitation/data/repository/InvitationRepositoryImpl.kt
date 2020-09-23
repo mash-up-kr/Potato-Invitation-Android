@@ -5,10 +5,10 @@ import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.model.request.InvitationAddressRequest
 import com.mashup.nawainvitation.data.model.request.InvitationTimeRequest
 import com.mashup.nawainvitation.data.model.request.InvitationWordsRequest
-import com.mashup.nawainvitation.data.model.response.InvitationsResponse
-import com.mashup.nawainvitation.data.model.response.mapToItem
+import com.mashup.nawainvitation.presentation.model.InvitationsData
+import com.mashup.nawainvitation.presentation.model.TypeData
+import com.mashup.nawainvitation.presentation.model.mapToPresentation
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
-import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import retrofit2.HttpException
@@ -16,29 +16,6 @@ import retrofit2.HttpException
 class InvitationRepositoryImpl(
     private val invitationApi: InvitationApi
 ) : InvitationRepository {
-
-    override fun getInvitations(
-        templateId: Int,
-        callback: BaseResponse<InvitationsResponse>
-    ): Disposable {
-        return invitationApi.getInvitations(templateId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                callback.onLoading()
-            }
-            .doOnTerminate {
-                callback.onLoaded()
-            }
-            .subscribe({
-                callback.onSuccess(it)
-            }) {
-                if (it is HttpException) {
-                    callback.onFail(it.message())
-                } else {
-                    callback.onError(it)
-                }
-            }
-    }
 
     override fun getInvitationTypes(
         callback: BaseResponse<List<TypeData>>
@@ -52,7 +29,30 @@ class InvitationRepositoryImpl(
                 callback.onLoaded()
             }
             .subscribe({
-                callback.onSuccess(it.invitationTypeItemList.mapToItem())
+                callback.onSuccess(it.invitationTypeItemList.mapToPresentation())
+            }) {
+                if (it is HttpException) {
+                    callback.onFail(it.message())
+                } else {
+                    callback.onError(it)
+                }
+            }
+    }
+
+    override fun getInvitations(
+        templateId: Int,
+        callback: BaseResponse<InvitationsData>
+    ): Disposable {
+        return invitationApi.getInvitations(templateId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                callback.onLoading()
+            }
+            .doOnTerminate {
+                callback.onLoaded()
+            }
+            .subscribe({
+                callback.onSuccess(it.mapToPresentation())
             }) {
                 if (it is HttpException) {
                     callback.onFail(it.message())
