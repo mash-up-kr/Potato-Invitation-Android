@@ -23,20 +23,20 @@ interface InvitationDao {
     fun insertInvitation(invitationEntity: InvitationEntity): Void
 
     @Transaction
-    fun insert(request: InvitationEntity): Void {
+    private fun insertWord(request: InvitationEntity): Void {
         val data = getInvitation(request.templateId)
         val invitation = data.copy(invitationTitle= request.invitationTitle, invitationContents = request.invitationContents)
         return insertInvitation(invitation)
     }
 
-    fun insertWord(request: InvitationEntity) : Single<Void> {
+    fun insertWordSync(request: InvitationEntity) : Single<Void> {
         return Single.create {
-            it.onSuccess(insert(request))
+            it.onSuccess(insertWord(request))
         }
     }
 
     @Transaction
-    fun insertLocationSync(request: InvitationEntity): Void {
+    private fun insertLocationSync(request: InvitationEntity): Void {
         val data = getInvitation(request.templateId)
         val invitation = data.copy(locationEntity = request.locationEntity)
         return insertInvitation(invitation)
@@ -49,7 +49,7 @@ interface InvitationDao {
     }
 
     @Transaction
-    fun insertTimeSync(request: InvitationEntity): Void {
+    private fun insertTimeSync(request: InvitationEntity): Void {
         val data = getInvitation(request.templateId)
         val invitation = data.copy(invitationTime = request.invitationTime)
         return insertInvitation(invitation)
@@ -62,7 +62,7 @@ interface InvitationDao {
     }
 
     @Transaction
-    fun insertImageSync(request: InvitationEntity): Void {
+    private fun insertImageSync(request: InvitationEntity): Void {
         val data = getInvitation(request.templateId)
         val invitation = data.copy(images = request.images)
         return insertInvitation(invitation)
