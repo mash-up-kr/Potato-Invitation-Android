@@ -60,4 +60,17 @@ interface InvitationDao {
             it.onSuccess(insertTimeSync(request))
         }
     }
+
+    @Transaction
+    fun insertImageSync(request: Invitation): Void {
+        val data = getInvitation(request.templateId)
+        val invitation = data.copy(images = request.images)
+        return insertInvitation(invitation)
+    }
+
+    fun insertImage(request: Invitation) : Single<Void> {
+        return Single.create {
+            it.onSuccess(insertImageSync(request))
+        }
+    }
 }
