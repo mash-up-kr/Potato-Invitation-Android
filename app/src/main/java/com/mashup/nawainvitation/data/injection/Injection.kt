@@ -1,5 +1,6 @@
 package com.mashup.nawainvitation.data.injection
 
+import com.mashup.nawainvitation.NawaInvitationApplication
 import com.mashup.nawainvitation.data.api.ApiProvider
 import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.data.repository.InvitationRepositoryImpl
@@ -10,7 +11,8 @@ object Injection {
 
     fun provideInvitationRepository(): InvitationRepository {
         return InvitationRepositoryImpl(
-            ApiProvider.provideInvitationApi()
+            ApiProvider.provideInvitationApi(),
+            NawaInvitationApplication.nawaDatabase.invitationDao()
         )
     }
 

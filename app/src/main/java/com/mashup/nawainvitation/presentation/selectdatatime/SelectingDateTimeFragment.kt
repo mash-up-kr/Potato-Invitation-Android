@@ -14,9 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.util.Dlog
-import com.mashup.nawainvitation.data.api.ApiProvider
 import com.mashup.nawainvitation.data.base.BaseResponse
-import com.mashup.nawainvitation.data.repository.InvitationRepositoryImpl
+import com.mashup.nawainvitation.data.injection.Injection
+import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.presentation.main.MainViewModel
 import com.mashup.nawainvitation.utils.TimeUtils
 import kotlinx.android.synthetic.main.fragment_selecting_datetime.*
@@ -39,10 +39,8 @@ class SelectingDateTimeFragment : Fragment() {
             .get(MainViewModel::class.java)
     }
 
-    private val invitationRepository by lazy {
-        InvitationRepositoryImpl(
-            ApiProvider.provideInvitationApi()
-        )
+    private val invitationRepository: InvitationRepository by lazy {
+        Injection.provideInvitationRepository()
     }
 
     var now = System.currentTimeMillis()

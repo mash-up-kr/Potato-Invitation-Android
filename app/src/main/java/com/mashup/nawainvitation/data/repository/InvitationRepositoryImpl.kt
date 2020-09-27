@@ -2,9 +2,9 @@ package com.mashup.nawainvitation.data.repository
 
 import com.mashup.nawainvitation.data.api.InvitationApi
 import com.mashup.nawainvitation.data.base.BaseResponse
-import com.mashup.nawainvitation.data.model.request.InvitationAddressRequest
-import com.mashup.nawainvitation.data.model.request.InvitationTimeRequest
-import com.mashup.nawainvitation.data.model.request.InvitationWordsRequest
+import com.mashup.nawainvitation.data.room.dao.InvitationDao
+import com.mashup.nawainvitation.data.room.entity.Invitation
+import com.mashup.nawainvitation.data.room.entity.Location
 import com.mashup.nawainvitation.presentation.main.model.InvitationsData
 import com.mashup.nawainvitation.presentation.main.model.mapToPresentation
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
@@ -12,10 +12,12 @@ import com.mashup.nawainvitation.presentation.typechoice.model.TypeData
 import com.mashup.nawainvitation.presentation.typechoice.model.mapToPresentation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 
 class InvitationRepositoryImpl(
-    private val invitationApi: InvitationApi
+    private val invitationApi: InvitationApi,
+    private val invitationDao: InvitationDao
 ) : InvitationRepository {
 
     override fun getInvitationTypes(
@@ -44,7 +46,8 @@ class InvitationRepositoryImpl(
         templateId: Int,
         callback: BaseResponse<InvitationsData>
     ): Disposable {
-        return invitationApi.getInvitations(templateId)
+        return invitationDao.getInvitationById(templateId)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 callback.onLoading()
@@ -69,13 +72,13 @@ class InvitationRepositoryImpl(
         templatesId: Int,
         callback: BaseResponse<Any>
     ): Disposable {
-        val request = InvitationWordsRequest(
+        val request = Invitation(
             invitationTitle = invitationTitle,
             invitationContents = invitationContents,
-            templatesId = templatesId
+            templateId = templatesId
         )
-
-        return invitationApi.patchInvitationWords(request)
+        return invitationDao.insertWord(request)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 callback.onLoading()
@@ -99,16 +102,19 @@ class InvitationRepositoryImpl(
         templatesId: Int,
         callback: BaseResponse<Any>
     ): Disposable {
-        val request = InvitationAddressRequest(
-            invitationAddressName = documents.addressName,
-            invitationPlaceName = documents.placeName,
-            invitationRoadAddressName = documents.roadAddressName,
-            x = documents.x,
-            y = documents.y,
-            templatesId = templatesId
+        val request = Invitation(
+            templateId = templatesId,
+            location = Location(
+                invitationAddressName = documents.addressName,
+                invitationPlaceName = documents.placeName,
+                invitationRoadAddressName = documents.roadAddressName,
+                longitude = documents.x,
+                latitude = documents.y
+            )
         )
 
-        return invitationApi.patchInvitationAddress(request)
+        return invitationDao.insertLocation(request)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 callback.onLoading()
@@ -132,11 +138,12 @@ class InvitationRepositoryImpl(
         templatesId: Int,
         callback: BaseResponse<Any>
     ): Disposable {
-        val request = InvitationTimeRequest(
+        val request = Invitation(
             invitationTime = invitationTime,
-            templatesId = templatesId
+            templateId = templatesId
         )
-        return invitationApi.patchInvitationTime(request)
+        return invitationDao.insertTime(request)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 callback.onLoading()
@@ -154,4 +161,5 @@ class InvitationRepositoryImpl(
                 }
             }
     }
+
 }
