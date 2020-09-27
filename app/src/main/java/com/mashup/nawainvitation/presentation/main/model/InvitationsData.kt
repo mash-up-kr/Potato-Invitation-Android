@@ -1,6 +1,6 @@
 package com.mashup.nawainvitation.presentation.main.model
 
-import com.mashup.nawainvitation.data.room.entity.Invitation
+import com.mashup.nawainvitation.data.room.entity.InvitationEntity
 
 data class InvitationsData(
     val invitationContents: String?,
@@ -20,16 +20,16 @@ data class InvitationsData(
     )
 }
 
-fun Invitation.mapToPresentation() = InvitationsData(
+fun InvitationEntity.mapToPresentation() = InvitationsData(
     invitationContents = invitationContents,
-    invitationPlaceName = location?.invitationPlaceName,
+    invitationPlaceName = locationEntity?.invitationPlaceName,
     invitationTime = invitationTime,
     invitationTitle = invitationTitle,
     mapInfo = InvitationsData.MapInfoData(
-        invitationAddressName = location?.invitationAddressName,
-        invitationRoadAddressName = location?.invitationRoadAddressName,
-        x = location?.longitude,
-        y = location?.latitude
+        invitationAddressName = locationEntity?.invitationAddressName,
+        invitationRoadAddressName = locationEntity?.invitationRoadAddressName,
+        x = locationEntity?.longitude,
+        y = locationEntity?.latitude
     ),
     templateBackgroundImageUrl = images?.templateBackgroundImageUrl,
     templateTypeDescription = images?.templateTypeDescription

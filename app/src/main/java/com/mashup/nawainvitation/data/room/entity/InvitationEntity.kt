@@ -5,11 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "invitation")
-data class Invitation(
+data class InvitationEntity(
     @PrimaryKey val templateId: Int? = null,
     val invitationTitle: String? = null,
     val invitationContents: String? = null,
     val invitationTime: String? = null,
-    @Embedded val location: Location? = null,
-    @Embedded val images: Images? = null
+    @Embedded val locationEntity: LocationEntity? = null,
+    @Embedded val images: ImagesEntity? = null
 )

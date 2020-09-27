@@ -3,8 +3,8 @@ package com.mashup.nawainvitation.data.repository
 import com.mashup.nawainvitation.data.api.InvitationApi
 import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.room.dao.InvitationDao
-import com.mashup.nawainvitation.data.room.entity.Invitation
-import com.mashup.nawainvitation.data.room.entity.Location
+import com.mashup.nawainvitation.data.room.entity.InvitationEntity
+import com.mashup.nawainvitation.data.room.entity.LocationEntity
 import com.mashup.nawainvitation.presentation.main.model.InvitationsData
 import com.mashup.nawainvitation.presentation.main.model.mapToPresentation
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
@@ -72,7 +72,7 @@ class InvitationRepositoryImpl(
         templatesId: Int,
         callback: BaseResponse<Any>
     ): Disposable {
-        val request = Invitation(
+        val request = InvitationEntity(
             invitationTitle = invitationTitle,
             invitationContents = invitationContents,
             templateId = templatesId
@@ -102,9 +102,9 @@ class InvitationRepositoryImpl(
         templatesId: Int,
         callback: BaseResponse<Any>
     ): Disposable {
-        val request = Invitation(
+        val request = InvitationEntity(
             templateId = templatesId,
-            location = Location(
+            locationEntity = LocationEntity(
                 invitationAddressName = documents.addressName,
                 invitationPlaceName = documents.placeName,
                 invitationRoadAddressName = documents.roadAddressName,
@@ -138,7 +138,7 @@ class InvitationRepositoryImpl(
         templatesId: Int,
         callback: BaseResponse<Any>
     ): Disposable {
-        val request = Invitation(
+        val request = InvitationEntity(
             invitationTime = invitationTime,
             templateId = templatesId
         )

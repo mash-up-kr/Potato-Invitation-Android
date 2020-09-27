@@ -1,6 +1,6 @@
 package com.mashup.nawainvitation.data.room.entity
 
-data class Location(
+data class LocationEntity(
     val invitationAddressName: String?,
     val invitationPlaceName: String?,
     val invitationRoadAddressName: String?,
