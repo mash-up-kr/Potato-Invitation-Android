@@ -50,6 +50,7 @@ ext{
     ted_image_picker_version = '1.0.8'
     lifecycle_version = '2.2.0'
     lottie_version = '3.4.1'
+    room_version = '2.2.5'
 }
 
 dependencies {
@@ -95,6 +96,11 @@ dependencies {
 
     // lottie
     implementation "com.airbnb.android:lottie:$lottie_version"
+
+    // room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // add the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
