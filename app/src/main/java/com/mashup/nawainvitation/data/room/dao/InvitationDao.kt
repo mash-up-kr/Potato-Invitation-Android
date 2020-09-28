@@ -24,53 +24,76 @@ interface InvitationDao {
 
     @Transaction
     fun insertWordSync(request: InvitationEntity): Void {
-        val data = getInvitation(request.templateId)
-        val invitation = data.copy(invitationTitle= request.invitationTitle, invitationContents = request.invitationContents)
-        return insertInvitation(invitation)
-    }
-
-    fun insertWord(request: InvitationEntity) : Single<Void> {
-        return Single.create {
-            it.onSuccess(insertWordSync(request))
+        val data : InvitationEntity? = getInvitation(request.templateId)
+        return when (data == null) {
+            true -> { insertInvitation(request) }
+            else -> {
+                val invitation = data.copy(
+                    invitationTitle = request.invitationTitle,
+                    invitationContents = request.invitationContents
+                )
+                insertInvitation(invitation)
+            }
         }
     }
 
-    @Transaction
-    fun insertLocationSync(request: InvitationEntity): Void {
-        val data = getInvitation(request.templateId)
-        val invitation = data.copy(locationEntity = request.locationEntity)
-        return insertInvitation(invitation)
-    }
+        fun insertWord(request: InvitationEntity): Single<Void> {
+            return Single.create {
+                it.onSuccess(insertWordSync(request))
+            }
+        }
 
-    fun insertLocation(request: InvitationEntity) : Single<Void> {
-        return Single.create {
-            it.onSuccess(insertLocationSync(request))
+        @Transaction
+        fun insertLocationSync(request: InvitationEntity): Void {
+            val data : InvitationEntity? = getInvitation(request.templateId)
+            return when (data == null) {
+                true -> { insertInvitation(request) }
+                else -> {
+                    val invitation = data.copy(locationEntity = request.locationEntity)
+                    insertInvitation(invitation)
+                }
+            }
+        }
+
+        fun insertLocation(request: InvitationEntity): Single<Void> {
+            return Single.create {
+                it.onSuccess(insertLocationSync(request))
+            }
+        }
+
+        @Transaction
+        fun insertTimeSync(request: InvitationEntity): Void {
+            val data : InvitationEntity? = getInvitation(request.templateId)
+            return when (data == null) {
+                true -> { insertInvitation(request) }
+                else -> {
+                    val invitation = data.copy(invitationTime = request.invitationTime)
+                    insertInvitation(invitation)
+                }
+            }
+        }
+
+        fun insertTime(request: InvitationEntity): Single<Void> {
+            return Single.create {
+                it.onSuccess(insertTimeSync(request))
+            }
+        }
+
+        @Transaction
+        fun insertImageSync(request: InvitationEntity): Void {
+            val data : InvitationEntity? = getInvitation(request.templateId)
+            return when (data == null) {
+                true -> { insertInvitation(request) }
+                else -> {
+                    val invitation = data.copy(images = request.images)
+                    insertInvitation(invitation)
+                }
+            }
+        }
+
+        fun insertImage(request: InvitationEntity): Single<Void> {
+            return Single.create {
+                it.onSuccess(insertImageSync(request))
+            }
         }
     }
-
-    @Transaction
-    fun insertTimeSync(request: InvitationEntity): Void {
-        val data = getInvitation(request.templateId)
-        val invitation = data.copy(invitationTime = request.invitationTime)
-        return insertInvitation(invitation)
-    }
-
-    fun insertTime(request: InvitationEntity) : Single<Void> {
-        return Single.create {
-            it.onSuccess(insertTimeSync(request))
-        }
-    }
-
-    @Transaction
-    fun insertImageSync(request: InvitationEntity): Void {
-        val data = getInvitation(request.templateId)
-        val invitation = data.copy(images = request.images)
-        return insertInvitation(invitation)
-    }
-
-    fun insertImage(request: InvitationEntity) : Single<Void> {
-        return Single.create {
-            it.onSuccess(insertImageSync(request))
-        }
-    }
-}

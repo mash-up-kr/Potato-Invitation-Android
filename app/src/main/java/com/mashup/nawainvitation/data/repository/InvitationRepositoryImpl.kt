@@ -162,4 +162,24 @@ class InvitationRepositoryImpl(
             }
     }
 
+    override fun deleteInvitationById(templatesId: Int, callback: BaseResponse<Any>): Disposable {
+        return invitationDao.deleteInvitationById(templatesId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                callback.onLoading()
+            }
+            .doOnTerminate {
+                callback.onLoaded()
+            }
+            .subscribe({
+                callback.onSuccess(it)
+            }) {
+                if (it is HttpException) {
+                    callback.onFail(it.message())
+                } else {
+                    callback.onError(it)
+                }
+            }
+    }
 }
