@@ -10,33 +10,33 @@ interface InvitationDao {
     @Query("SELECT * from invitation WHERE templateId = :templateId")
     fun getInvitationById(templateId: Int?): Single<InvitationEntity>
 
-    @Query("SELECT templateId from invitation WHERE templateId = :templateId")
-    fun getInvitationId(templateId: Int?): Int?
-
     @Query("SELECT * from invitation WHERE templateId = :templateId")
     fun getInvitation(templateId: Int?): InvitationEntity
 
     @Query("DELETE from invitation WHERE templateId = :templateId")
     fun deleteInvitationById(templateId: Int): Single<Void>
 
+    @Query("DELETE FROM invitation")
+    fun deleteAll()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertInvitation(invitationEntity: InvitationEntity): Void
+    fun insertInvitation(invitationEntity: InvitationEntity?): Void
 
     @Transaction
-    private fun insertWord(request: InvitationEntity): Void {
+    fun insertWordSync(request: InvitationEntity): Void {
         val data = getInvitation(request.templateId)
         val invitation = data.copy(invitationTitle= request.invitationTitle, invitationContents = request.invitationContents)
         return insertInvitation(invitation)
     }
 
-    fun insertWordSync(request: InvitationEntity) : Single<Void> {
+    fun insertWord(request: InvitationEntity) : Single<Void> {
         return Single.create {
-            it.onSuccess(insertWord(request))
+            it.onSuccess(insertWordSync(request))
         }
     }
 
     @Transaction
-    private fun insertLocationSync(request: InvitationEntity): Void {
+    fun insertLocationSync(request: InvitationEntity): Void {
         val data = getInvitation(request.templateId)
         val invitation = data.copy(locationEntity = request.locationEntity)
         return insertInvitation(invitation)
@@ -49,7 +49,7 @@ interface InvitationDao {
     }
 
     @Transaction
-    private fun insertTimeSync(request: InvitationEntity): Void {
+    fun insertTimeSync(request: InvitationEntity): Void {
         val data = getInvitation(request.templateId)
         val invitation = data.copy(invitationTime = request.invitationTime)
         return insertInvitation(invitation)
@@ -62,7 +62,7 @@ interface InvitationDao {
     }
 
     @Transaction
-    private fun insertImageSync(request: InvitationEntity): Void {
+    fun insertImageSync(request: InvitationEntity): Void {
         val data = getInvitation(request.templateId)
         val invitation = data.copy(images = request.images)
         return insertInvitation(invitation)

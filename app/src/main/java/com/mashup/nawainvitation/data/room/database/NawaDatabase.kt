@@ -1,4 +1,4 @@
-package com.mashup.nawainvitation.data.room
+package com.mashup.nawainvitation.data.room.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
