@@ -35,4 +35,9 @@ interface InvitationRepository {
         templatesId: Int,
         callback: BaseResponse<Any>
     ): Disposable
+
+    fun deleteInvitationById(
+        templatesId: Int,
+        callback: BaseResponse<Any>
+    ) : Disposable
 }
