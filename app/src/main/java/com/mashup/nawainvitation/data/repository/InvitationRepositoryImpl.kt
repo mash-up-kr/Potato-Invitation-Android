@@ -77,7 +77,7 @@ class InvitationRepositoryImpl(
             invitationContents = invitationContents,
             templateId = templatesId
         )
-        return invitationDao.insertWordSync(request)
+        return invitationDao.insertWord(request)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
