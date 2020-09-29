@@ -80,17 +80,17 @@ class InputLocationFragment :
                     }
 
                     override fun onError(throwable: Throwable) {
-                    Dlog.e("$throwable")
-                }
+                        Dlog.e("$throwable")
+                    }
 
-                override fun onLoading() {
-                    mainViewModel.listener.showLoading()
-                }
+                    override fun onLoading() {
+                        mainViewModel.listener.showLoading()
+                    }
 
-                override fun onLoaded() {
-                    mainViewModel.listener.hideLoading()
-                }
-            })
+                    override fun onLoaded() {
+                        mainViewModel.listener.hideLoading()
+                    }
+                })
         })
         mainViewModel.listener.goToInvitationMain()
     }
@@ -100,7 +100,13 @@ class InputLocationFragment :
             it?.let {
                 it.mapInfo?.apply {
                     inputLocationVM.dataExists()
-                    inputLocationVM.setInvitationsData(invitationAddressName, invitationRoadAddressName,it.invitationPlaceName, x, y)
+                    inputLocationVM.setInvitationsData(
+                        invitationAddressName,
+                        invitationRoadAddressName,
+                        it.invitationPlaceName,
+                        longitude,
+                        latitude
+                    )
                 }
             }
         })
@@ -111,8 +117,7 @@ class InputLocationFragment :
         if (placeData != null) {
             inputLocationVM.dataExists()
             inputLocationVM.setLocation(placeData)
-        }
-        else loadData()
+        } else loadData()
 
     }
 

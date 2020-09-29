@@ -114,10 +114,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         //TODO next step
     }
 
-    override fun goToPreview() {
+    override fun goToPreview(hashCode: String) {
         InvitationPreviewActivity.startPreviewActivityForShare(
             this,
-            mainViewModel.typeData.invitationHashCode
+            hashCode
         )
     }
 

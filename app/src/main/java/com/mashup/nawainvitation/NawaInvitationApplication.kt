@@ -5,6 +5,7 @@ import android.provider.Settings
 import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.data.room.database.DatabaseProvider
 
+
 class NawaInvitationApplication : Application() {
 
     companion object {

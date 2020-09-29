@@ -9,7 +9,7 @@ import androidx.viewpager.widget.ViewPager
 import com.mashup.nawainvitation.BuildConfig
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
-import com.mashup.nawainvitation.base.ext.toast
+import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.data.repository.InvitationRepository
@@ -30,7 +30,6 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
     }
 
     lateinit var typePagerAdapter: TypePagerAdapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,9 +63,6 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
             }
             R.id.action_feedback -> {
                 sendEmail()
-                /*val intent = Intent(this,  LandingPageActivity::class.java)
-                intent.putExtra("landingPageId",2)
-                startActivity(intent)*/
                 return true
             }
         }
@@ -95,9 +91,12 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
         tvStartInvitation.setOnClickListener {
             item?.let { typeData ->
                 if (typeData.isEditing) {
-                    MainActivity.startMainActivityWithData(this, typeData)
+                    MainActivity.startMainActivityWithData(this@TypeChoiceActivity, typeData)
                 } else {
-                    InvitationPreviewActivity.startPreviewActivity(this, typeData)
+                    InvitationPreviewActivity.startPreviewActivity(
+                        this@TypeChoiceActivity,
+                        typeData
+                    )
                 }
             }
         }
@@ -156,13 +155,11 @@ class TypeChoiceActivity : BaseActivity<ActivityTypeChoiceBinding>(R.layout.acti
             }
 
             override fun onFail(description: String) {
-                toast(description)
+                Dlog.d(description)
             }
 
             override fun onError(throwable: Throwable) {
-                throwable.message?.let {
-                    toast(it)
-                }
+                Dlog.d(throwable.message)
             }
 
             override fun onLoading() {

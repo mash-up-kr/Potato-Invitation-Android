@@ -12,7 +12,7 @@ interface InvitationRepository {
         callback: BaseResponse<List<TypeData>>
     ): Disposable
 
-    fun getInvitations(
+    fun getInvitation(
         templateId: Int,
         callback: BaseResponse<InvitationsData>
     ): Disposable
@@ -36,8 +36,13 @@ interface InvitationRepository {
         callback: BaseResponse<Any>
     ): Disposable
 
+    fun pathInvitation(
+        templatesId: Int,
+        callback: BaseResponse<String>
+    ): Disposable
+
     fun deleteInvitationById(
         templatesId: Int,
         callback: BaseResponse<Any>
-    ) : Disposable
+    ): Disposable
 }

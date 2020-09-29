@@ -130,7 +130,7 @@
         <com.mashup.nawainvitation.custom.LemonButton
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:onClick="@{() -> model.listener.goToPreview()}"
+            android:onClick="@{() -> model.completeInvitation()}"
             android:enabled="@{model.enableBtn}"
             android:text="@string/complete"
             android:textSize="24dp" />
