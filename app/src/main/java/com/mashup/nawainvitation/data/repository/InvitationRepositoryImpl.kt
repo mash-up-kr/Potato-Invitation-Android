@@ -2,7 +2,6 @@ package com.mashup.nawainvitation.data.repository
 
 import com.mashup.nawainvitation.data.api.InvitationApi
 import com.mashup.nawainvitation.data.base.BaseResponse
-import com.mashup.nawainvitation.data.model.request.InvitationsRequest
 import com.mashup.nawainvitation.data.room.dao.InvitationDao
 import com.mashup.nawainvitation.data.room.entity.InvitationEntity
 import com.mashup.nawainvitation.data.room.entity.LocationEntity
@@ -16,6 +15,8 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
 import retrofit2.HttpException
 
 class InvitationRepositoryImpl(
@@ -175,6 +176,9 @@ class InvitationRepositoryImpl(
                 callback.onError(it)
             }
 
+
+    private val MEDIA_TYPE_TEXT = "text/plain".toMediaTypeOrNull()
+
     override fun pathInvitation(
         templatesId: Int,
         callback: BaseResponse<String>
@@ -183,19 +187,45 @@ class InvitationRepositoryImpl(
             .subscribeOn(Schedulers.io())
             .flatMap { data ->
 
-                val request = InvitationsRequest(
-                    templateId = templatesId.toLong(),
-                    invitationTitle = data.invitationTitle,
-                    invitationContents = data.invitationContents,
-                    invitationTime = data.invitationTime,
-                    invitationAddressName = data.locationEntity?.invitationAddressName,
-                    invitationRoadAddressName = data.locationEntity?.invitationRoadAddressName,
-                    invitationPlaceName = data.locationEntity?.invitationPlaceName,
-                    latitude = data.locationEntity?.latitude,
-                    longitude = data.locationEntity?.longitude
+                val bodyTemplatesId = RequestBody.create(MEDIA_TYPE_TEXT, templatesId.toString())
+                val bodyInvitationTitle =
+                    RequestBody.create(MEDIA_TYPE_TEXT, data.invitationTitle ?: "")
+                val bodyInvitationContents =
+                    RequestBody.create(MEDIA_TYPE_TEXT, data.invitationContents ?: "")
+                val bodyInvitationTime =
+                    RequestBody.create(MEDIA_TYPE_TEXT, data.invitationTime ?: "")
+                val bodyInvitationAddressName = RequestBody.create(
+                    MEDIA_TYPE_TEXT,
+                    data.locationEntity?.invitationAddressName ?: ""
+                )
+                val bodyInvitationRoadAddressName = RequestBody.create(
+                    MEDIA_TYPE_TEXT,
+                    data.locationEntity?.invitationRoadAddressName ?: ""
+                )
+                val bodyInvitationPlaceName = RequestBody.create(
+                    MEDIA_TYPE_TEXT,
+                    data.locationEntity?.invitationPlaceName ?: ""
+                )
+                val bodyLatitude = RequestBody.create(
+                    MEDIA_TYPE_TEXT,
+                    data.locationEntity?.latitude.toString() ?: ""
+                )
+                val bodyLongitude = RequestBody.create(
+                    MEDIA_TYPE_TEXT,
+                    data.locationEntity?.longitude.toString() ?: ""
                 )
 
-                invitationApi.postInvitations(request)
+                invitationApi.postInvitations(
+                    templateId = bodyTemplatesId,
+                    invitationTitle = bodyInvitationTitle,
+                    invitationContents = bodyInvitationContents,
+                    invitationTime = bodyInvitationTime,
+                    invitationAddressName = bodyInvitationAddressName,
+                    invitationRoadAddressName = bodyInvitationRoadAddressName,
+                    invitationPlaceName = bodyInvitationPlaceName,
+                    latitude = bodyLatitude,
+                    longitude = bodyLongitude
+                )
             }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
