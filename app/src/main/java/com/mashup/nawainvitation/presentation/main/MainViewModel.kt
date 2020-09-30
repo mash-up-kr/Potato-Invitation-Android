@@ -49,34 +49,59 @@ class MainViewModel(
             isTitle.value == true && isDate.value == true && isLocation.value == true
 
     fun loadInvitations() {
-        invitationRepository.getInvitations(
-                typeData.templateId,
-                object : BaseResponse<InvitationsData> {
-                    override fun onSuccess(data: InvitationsData) {
-                        Dlog.d("data : $data")
-                        invitations.postValue(data)
+        invitationRepository.getInvitation(
+            typeData.templateId,
+            object : BaseResponse<InvitationsData> {
+                override fun onSuccess(data: InvitationsData) {
+                    invitations.postValue(data)
+                    _isTitle.postValue(data.invitationContents.isNullOrEmpty().not())
+                    _isDate.postValue(data.invitationTime.isNullOrEmpty().not())
+                    _isLocation.postValue(data.invitationPlaceName.isNullOrEmpty().not())
+                }
 
-                        _isTitle.postValue(data.invitationContents.isNullOrEmpty().not())
-                        _isDate.postValue(data.invitationTime.isNullOrEmpty().not())
-                        _isLocation.postValue(data.invitationPlaceName.isNullOrEmpty().not())
-                    }
+                override fun onFail(description: String) {
+                    Dlog.e("onFail $description")
+                }
 
-                    override fun onFail(description: String) {
-                        Dlog.e("$description")
-                    }
+                override fun onError(throwable: Throwable) {
+                    Dlog.e("onError ${throwable.message}")
+                }
 
-                    override fun onError(throwable: Throwable) {
-                        Dlog.e("${throwable.message}")
-                    }
+                override fun onLoading() {
+                    listener.showLoading()
+                }
 
-                    override fun onLoading() {
-                        listener.showLoading()
-                    }
+                override fun onLoaded() {
+                    listener.hideLoading()
+                }
+            })
+    }
 
-                    override fun onLoaded() {
-                        listener.hideLoading()
-                    }
-                })
+    fun completeInvitation() {
+        invitationRepository.pathInvitation(
+            typeData.templateId,
+            object : BaseResponse<String> {
+                override fun onSuccess(data: String) {
+                    listener.goToPreview(data)
+                }
+
+                override fun onFail(description: String) {
+                    Dlog.e("onFail $description")
+                }
+
+                override fun onError(throwable: Throwable) {
+                    Dlog.e("onError ${throwable.message}")
+                }
+
+                override fun onLoading() {
+                    listener.showLoading()
+                }
+
+                override fun onLoaded() {
+                    listener.hideLoading()
+                }
+            }
+        )
     }
 
     interface MainListener {
@@ -93,7 +118,7 @@ class MainViewModel(
 
         fun goToInvitationPhoto()
 
-        fun goToPreview()
+        fun goToPreview(hashCode: String)
 
         fun showLoading()
 

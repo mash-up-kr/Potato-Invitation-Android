@@ -1,6 +1,9 @@
 package com.mashup.nawainvitation.data.room.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.mashup.nawainvitation.data.room.entity.InvitationEntity
 import io.reactivex.Single
 
@@ -8,10 +11,10 @@ import io.reactivex.Single
 interface InvitationDao {
 
     @Query("SELECT * from invitation WHERE templateId = :templateId")
-    fun getInvitationById(templateId: Int?): Single<InvitationEntity>
+    fun getInvitationById(templateId: Int): Single<InvitationEntity>
 
     @Query("SELECT * from invitation WHERE templateId = :templateId")
-    fun getInvitation(templateId: Int?): InvitationEntity
+    fun getInvitation(templateId: Int): InvitationEntity?
 
     @Query("DELETE from invitation WHERE templateId = :templateId")
     fun deleteInvitationById(templateId: Int): Single<Void>
@@ -20,13 +23,14 @@ interface InvitationDao {
     fun deleteAll()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertInvitation(invitationEntity: InvitationEntity?): Void
+    fun insertInvitation(invitationEntity: InvitationEntity): Void
 
-    @Transaction
-    fun insertWordSync(request: InvitationEntity): Void {
-        val data : InvitationEntity? = getInvitation(request.templateId)
+    private fun insertWordSync(request: InvitationEntity): Void {
+        val data: InvitationEntity? = getInvitation(request.templateId)
         return when (data == null) {
-            true -> { insertInvitation(request) }
+            true -> {
+                insertInvitation(request)
+            }
             else -> {
                 val invitation = data.copy(
                     invitationTitle = request.invitationTitle,
@@ -37,63 +41,66 @@ interface InvitationDao {
         }
     }
 
-        fun insertWord(request: InvitationEntity): Single<Void> {
-            return Single.create {
-                it.onSuccess(insertWordSync(request))
-            }
+    fun insertWord(request: InvitationEntity): Single<Void> {
+        return Single.create {
+            it.onSuccess(insertWordSync(request))
         }
+    }
 
-        @Transaction
-        fun insertLocationSync(request: InvitationEntity): Void {
-            val data : InvitationEntity? = getInvitation(request.templateId)
-            return when (data == null) {
-                true -> { insertInvitation(request) }
-                else -> {
-                    val invitation = data.copy(locationEntity = request.locationEntity)
-                    insertInvitation(invitation)
-                }
+    private fun insertLocationSync(request: InvitationEntity): Void {
+        val data: InvitationEntity? = getInvitation(request.templateId)
+        return when (data == null) {
+            true -> {
+                insertInvitation(request)
             }
-        }
-
-        fun insertLocation(request: InvitationEntity): Single<Void> {
-            return Single.create {
-                it.onSuccess(insertLocationSync(request))
-            }
-        }
-
-        @Transaction
-        fun insertTimeSync(request: InvitationEntity): Void {
-            val data : InvitationEntity? = getInvitation(request.templateId)
-            return when (data == null) {
-                true -> { insertInvitation(request) }
-                else -> {
-                    val invitation = data.copy(invitationTime = request.invitationTime)
-                    insertInvitation(invitation)
-                }
-            }
-        }
-
-        fun insertTime(request: InvitationEntity): Single<Void> {
-            return Single.create {
-                it.onSuccess(insertTimeSync(request))
-            }
-        }
-
-        @Transaction
-        fun insertImageSync(request: InvitationEntity): Void {
-            val data : InvitationEntity? = getInvitation(request.templateId)
-            return when (data == null) {
-                true -> { insertInvitation(request) }
-                else -> {
-                    val invitation = data.copy(images = request.images)
-                    insertInvitation(invitation)
-                }
-            }
-        }
-
-        fun insertImage(request: InvitationEntity): Single<Void> {
-            return Single.create {
-                it.onSuccess(insertImageSync(request))
+            else -> {
+                val invitation = data.copy(locationEntity = request.locationEntity)
+                insertInvitation(invitation)
             }
         }
     }
+
+    fun insertLocation(request: InvitationEntity): Single<Void> {
+        return Single.create {
+            it.onSuccess(insertLocationSync(request))
+        }
+    }
+
+    private fun insertTimeSync(request: InvitationEntity): Void {
+        val data: InvitationEntity? = getInvitation(request.templateId)
+        return when (data == null) {
+            true -> {
+                insertInvitation(request)
+            }
+            else -> {
+                val invitation = data.copy(invitationTime = request.invitationTime)
+                insertInvitation(invitation)
+            }
+        }
+    }
+
+    fun insertTime(request: InvitationEntity): Single<Void> {
+        return Single.create {
+            it.onSuccess(insertTimeSync(request))
+        }
+    }
+
+    private fun insertImageSync(request: InvitationEntity): Void {
+        val data: InvitationEntity? = getInvitation(request.templateId)
+        return when (data == null) {
+            true -> {
+                insertInvitation(request)
+            }
+            else -> {
+                val invitation = data.copy(images = request.images)
+                insertInvitation(invitation)
+            }
+        }
+    }
+
+    fun insertImage(request: InvitationEntity): Single<Void> {
+        return Single.create {
+            it.onSuccess(insertImageSync(request))
+        }
+    }
+}

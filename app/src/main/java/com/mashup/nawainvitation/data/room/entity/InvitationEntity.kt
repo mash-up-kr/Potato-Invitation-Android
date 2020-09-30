@@ -6,7 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "invitation")
 data class InvitationEntity(
-    @PrimaryKey val templateId: Int? = null,
+    @PrimaryKey val templateId: Int,
+    val templateBackgroundImageUrl: String? = null,
+    val templateTypeDescription: String? = null,
     val invitationTitle: String? = null,
     val invitationContents: String? = null,
     val invitationTime: String? = null,

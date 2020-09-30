@@ -14,17 +14,14 @@ data class TypeData(
     val isEditing: Boolean,
 
     // 템플릿 정보
-    val templateId: Int,
-    val invitationHashCode: String?
+    val templateId: Int
 ) : Parcelable
 
-fun List<InvitationTypeResponse.InvitationTypeItem>.mapToPresentation() = map {
+fun InvitationTypeResponse.InvitationTypeItem.mapToPresentation(isEditing: Boolean) =
     TypeData(
-        title = it.typeName,
-        description = it.typeDescription,
-        imageUrl = it.imageUrl,
-        isEditing = it.isExistInvitation,
-        templateId = it.templateId,
-        invitationHashCode = it.invitationHashCode
+        title = typeName,
+        description = typeDescription,
+        imageUrl = imageUrl,
+        isEditing = isEditing,
+        templateId = templateId
     )
-}

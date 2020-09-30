@@ -3,34 +3,37 @@ package com.mashup.nawainvitation.presentation.main.model
 import com.mashup.nawainvitation.data.room.entity.InvitationEntity
 
 data class InvitationsData(
-    val invitationContents: String?,
-    val invitationPlaceName: String?,
-    val invitationTime: String?,
-    val invitationTitle: String?,
-    val mapInfo: MapInfoData?,
     val templateBackgroundImageUrl: String?,
-    val templateTypeDescription: String?
-)
-{
+    val templateTypeDescription: String?,
+
+    val invitationTitle: String?,
+    val invitationContents: String?,
+    val invitationTime: String?,
+    val invitationPlaceName: String?,
+
+    val mapInfo: MapInfoData?
+) {
     data class MapInfoData(
         val invitationAddressName: String?,
         val invitationRoadAddressName: String?,
-        val x: Double?,
-        val y: Double?
+        val longitude: Double?,
+        val latitude: Double?
     )
 }
 
 fun InvitationEntity.mapToPresentation() = InvitationsData(
-    invitationContents = invitationContents,
-    invitationPlaceName = locationEntity?.invitationPlaceName,
-    invitationTime = invitationTime,
+    templateBackgroundImageUrl = templateBackgroundImageUrl,
+    templateTypeDescription = templateTypeDescription,
+
     invitationTitle = invitationTitle,
+    invitationContents = invitationContents,
+    invitationTime = invitationTime,
+    invitationPlaceName = locationEntity?.invitationPlaceName,
+
     mapInfo = InvitationsData.MapInfoData(
         invitationAddressName = locationEntity?.invitationAddressName,
         invitationRoadAddressName = locationEntity?.invitationRoadAddressName,
-        x = locationEntity?.longitude,
-        y = locationEntity?.latitude
-    ),
-    templateBackgroundImageUrl = images?.templateBackgroundImageUrl,
-    templateTypeDescription = images?.templateTypeDescription
+        longitude = locationEntity?.longitude,
+        latitude = locationEntity?.latitude
+    )
 )
