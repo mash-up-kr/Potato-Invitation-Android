@@ -10,6 +10,7 @@ import com.mashup.nawainvitation.base.BaseActivity
 import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.databinding.ActivityMainBinding
 import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
+import com.mashup.nawainvitation.presentation.imagepicker.ImagePickerFragment
 import com.mashup.nawainvitation.presentation.invitationinfo.InvitationInfoFragment
 import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
@@ -111,7 +112,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     override fun goToInvitationPhoto() {
-        //TODO next step
+        replaceFragmentWithTitle(
+            getString(R.string.input_photo),
+            ImagePickerFragment.newInstance()
+        )
     }
 
     override fun goToPreview(hashCode: String) {

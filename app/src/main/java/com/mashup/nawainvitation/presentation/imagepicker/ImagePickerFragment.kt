@@ -23,6 +23,12 @@ class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fr
 
     private val compositeDisposable = CompositeDisposable()
 
+    companion object {
+        fun newInstance() =
+            ImagePickerFragment()
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initComponent()
