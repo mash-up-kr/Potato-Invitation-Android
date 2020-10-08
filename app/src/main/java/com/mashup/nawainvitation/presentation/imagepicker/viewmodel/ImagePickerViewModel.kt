@@ -28,9 +28,16 @@ class ImagePickerViewModel(
 
     init {
         _imageUriList.value = arrayListOf()
+        loadImageFromDB()
 
         _enableBtn.addSource(_imageUriList){
             _enableBtn.postValue(getImageUriCount() > 0)
+        }
+    }
+
+    fun loadImageFromDB(){
+        mainViewModel.invitations.value?.invitationImages?.let {
+            addImageUriList(it.toUriList())
         }
     }
 
@@ -126,4 +133,11 @@ class ImagePickerViewModel(
         return imageInfoDataList
     }
 
+    fun List<InvitationsData.ImageInfoData>.toUriList() : List<Uri>{
+        val uriList = mutableListOf<Uri>()
+        this.forEach { data ->
+            uriList.add(Uri.parse(data.imageUrl))
+        }
+        return uriList
+    }
 }
