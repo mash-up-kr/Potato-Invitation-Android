@@ -42,7 +42,7 @@ class ImagePickerFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dispatcher.addCallback(backPressedCallback)
+        dispatcher.addCallback(this, backPressedCallback)
     }
 
 
