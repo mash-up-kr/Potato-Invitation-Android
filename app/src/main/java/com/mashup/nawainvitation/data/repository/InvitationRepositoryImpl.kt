@@ -171,7 +171,7 @@ class InvitationRepositoryImpl(
                 invitation?.let {
                     invitationDao.insertImage(
                         it.copy(
-                            images = ImageListTypeAdapter.imageListToString(imageList)
+                            images = ImageListTypeAdapter.imageListToJsonString(imageList)
                         )
                     )
                 }

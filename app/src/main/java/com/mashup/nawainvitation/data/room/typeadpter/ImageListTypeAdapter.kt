@@ -10,7 +10,7 @@ class ImageListTypeAdapter {
         val gson: Gson = Gson()
 
         @TypeConverter
-        fun stringToImageList(data: String?) : List<InvitationsData.ImageInfoData>?{
+        fun jsonStringToImageList(data: String?) : List<InvitationsData.ImageInfoData>?{
             if(data.isNullOrEmpty()){
                 return emptyList()
             }
@@ -20,7 +20,7 @@ class ImageListTypeAdapter {
         }
 
         @TypeConverter
-        fun imageListToString(list: List<InvitationsData.ImageInfoData>) : String?{
+        fun imageListToJsonString(list: List<InvitationsData.ImageInfoData>) : String?{
             return gson.toJson(list)
         }
     }

@@ -1,6 +1,5 @@
 package com.mashup.nawainvitation.presentation.main.model
 
-import android.media.Image
 import com.mashup.nawainvitation.data.room.entity.InvitationEntity
 import com.mashup.nawainvitation.data.room.typeadpter.ImageListTypeAdapter
 
@@ -46,7 +45,7 @@ fun InvitationEntity.mapToPresentation() = InvitationsData(
         latitude = locationEntity?.latitude
     ),
 
-    invitationImages = ImageListTypeAdapter.stringToImageList(images)
+    invitationImages = ImageListTypeAdapter.jsonStringToImageList(images)
 )
 
 

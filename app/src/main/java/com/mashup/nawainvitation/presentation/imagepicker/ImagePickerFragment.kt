@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
+import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.databinding.FragmentImagePickerBinding
 import com.mashup.nawainvitation.presentation.imagepicker.data.ImageClickData
 import com.mashup.nawainvitation.presentation.imagepicker.viewmodel.ImagePickerViewModel
+import com.mashup.nawainvitation.presentation.imagepicker.viewmodel.ImagePickerViewModelFactory
 import com.mashup.nawainvitation.presentation.main.MainViewModel
 import com.mashup.nawainvitation.utils.AppUtils
 import io.reactivex.disposables.CompositeDisposable
@@ -21,16 +23,22 @@ import io.reactivex.disposables.Disposable
 
 class ImagePickerFragment :
     BaseFragment<FragmentImagePickerBinding>(R.layout.fragment_image_picker) {
-    private lateinit var viewModel: ImagePickerViewModel
+    companion object {
+        fun newInstance() = ImagePickerFragment()
+    }
+
     private lateinit var imagePickAdapter: ImagePickerAdapter
 
     private val compositeDisposable = CompositeDisposable()
 
-    companion object {
-        fun newInstance() =
-            ImagePickerFragment()
+    private val imagePickerViewModel by lazy {
+        ViewModelProvider(
+            this, ImagePickerViewModelFactory(
+                Injection.provideInvitationRepository(),
+                mainViewModel
+            )
+        ).get(ImagePickerViewModel::class.java)
     }
-
     private val mainViewModel by lazy {
         ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
@@ -52,11 +60,11 @@ class ImagePickerFragment :
         initComponent()
         initView()
         observeLiveData()
-        binding.mainModel = mainViewModel
+        binding.imageModel = imagePickerViewModel
     }
 
     private fun observeLiveData() {
-        viewModel.imageUriList.observe(viewLifecycleOwner, Observer<List<Uri>> { list ->
+        imagePickerViewModel.imageUriList.observe(viewLifecycleOwner, Observer<List<Uri>> { list ->
             imagePickAdapter.setData(list)
         })
     }
@@ -69,7 +77,6 @@ class ImagePickerFragment :
             imagePickAdapter.itemLongClickSubject.subscribe(this::onLongClicked)
                 .addTo(compositeDisposable)
         }
-        viewModel = ViewModelProvider(this).get(ImagePickerViewModel::class.java)
     }
 
     private fun initView() {
@@ -92,10 +99,6 @@ class ImagePickerFragment :
                 }
             })
         }
-
-//        tvInput.setOnClickListener { view ->
-//            // TODO: 입력 완료 후 로직
-//        }
     }
 
     override fun onDestroy() {
@@ -107,18 +110,18 @@ class ImagePickerFragment :
         when (data.view.id) {
             R.id.clRootImagePicker -> {
                 // 이미지 수정
-                viewModel.requestUpdateImage(data.view.context, data.position)
+                imagePickerViewModel.requestUpdateImage(data.view.context, data.position)
             }
             R.id.clRootImagePickerPlus -> {
                 // 이미지 추가
-                viewModel.requestAddImage(data.view.context)
+                imagePickerViewModel.requestAddImage(data.view.context)
             }
         }
     }
 
     fun onLongClicked(data: ImageClickData) {
         // 이미지 삭제
-        viewModel.deleteImage(data.position)
+        imagePickerViewModel.deleteImage(data.position)
     }
 
     private fun Disposable.addTo(compositeDisposable: CompositeDisposable) =

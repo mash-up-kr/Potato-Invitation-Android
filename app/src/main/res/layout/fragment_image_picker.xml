@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="mainModel"
-            type="com.mashup.nawainvitation.presentation.main.MainViewModel" />
+            name="imageModel"
+            type="com.mashup.nawainvitation.presentation.imagepicker.viewmodel.ImagePickerViewModel" />
     </data>
   
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,7 +56,8 @@
             android:layout_height="60dp"
             android:text="@string/input_complete"
             android:textSize="24dp"
-            android:enabled="true"
+            android:enabled="@{imageModel.enableBtn}"
+            android:onClick="@{() -> imageModel.saveImage()}"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
