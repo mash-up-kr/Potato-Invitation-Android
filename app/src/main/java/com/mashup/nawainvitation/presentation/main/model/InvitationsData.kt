@@ -25,7 +25,7 @@ data class InvitationsData(
 
     data class ImageInfoData(
         val id: Long?,
-        val imageUrl: String?
+        val imageUri: String?
     )
 }
 

@@ -136,7 +136,7 @@ class ImagePickerViewModel(
     fun List<InvitationsData.ImageInfoData>.toUriList() : List<Uri>{
         val uriList = mutableListOf<Uri>()
         this.forEach { data ->
-            uriList.add(Uri.parse(data.imageUrl))
+            uriList.add(Uri.parse(data.imageUri))
         }
         return uriList
     }

@@ -17,8 +17,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
+import java.io.File
+
 
 class InvitationRepositoryImpl(
     private val invitationApi: InvitationApi,
@@ -199,6 +203,7 @@ class InvitationRepositoryImpl(
 
 
     private val MEDIA_TYPE_TEXT = "text/plain".toMediaTypeOrNull()
+    private val MEDIA_TYPE_MULTIPART = "multipart/form-data".toMediaTypeOrNull()
 
     override fun pathInvitation(
         templatesId: Int,
@@ -236,6 +241,12 @@ class InvitationRepositoryImpl(
                     data.locationEntity?.longitude.toString() ?: ""
                 )
 
+                var bodyImages: Array<MultipartBody.Part>? = null
+                val imageList = ImageListTypeAdapter.jsonStringToImageList(data.images)
+                if(!imageList.isNullOrEmpty()){
+                    bodyImages = getImagesMultiPartBody(imageList)
+                }
+
                 invitationApi.postInvitations(
                     templateId = bodyTemplatesId,
                     invitationTitle = bodyInvitationTitle,
@@ -245,7 +256,8 @@ class InvitationRepositoryImpl(
                     invitationRoadAddressName = bodyInvitationRoadAddressName,
                     invitationPlaceName = bodyInvitationPlaceName,
                     latitude = bodyLatitude,
-                    longitude = bodyLongitude
+                    longitude = bodyLongitude,
+                    images = bodyImages
                 )
             }
             .observeOn(AndroidSchedulers.mainThread())
@@ -265,6 +277,18 @@ class InvitationRepositoryImpl(
             }) {
                 callback.onError(it)
             }
+    }
+
+    fun getImagesMultiPartBody(imageList: List<InvitationsData.ImageInfoData>) : Array<MultipartBody.Part>{
+        val bodyImages = mutableListOf<MultipartBody.Part>()
+
+        for(i in imageList.indices){
+            val imageUri = imageList[i].imageUri!!
+            val file = File(imageUri.replace("file://", ""))
+            val requestBody = file.asRequestBody(MEDIA_TYPE_MULTIPART)
+            bodyImages.add(MultipartBody.Part.createFormData("files", file.name, requestBody))
+        }
+        return bodyImages.toTypedArray()
     }
 
     override fun deleteInvitationById(
