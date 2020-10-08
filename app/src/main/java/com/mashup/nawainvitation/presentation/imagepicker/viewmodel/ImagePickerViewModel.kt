@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.mashup.nawainvitation.base.BaseViewModel
 import com.mashup.nawainvitation.base.ext.toast
+import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.presentation.imagepicker.Constant
@@ -89,29 +90,28 @@ class ImagePickerViewModel(
         if(uriList.isNullOrEmpty()){
             return
         }
-
         repository.pathInvitationImages(
             uriList.toImageInfoDataList(),
             mainViewModel.typeData.templateId,
             object : BaseResponse<Any>{
                 override fun onSuccess(data: Any) {
-                    TODO("Not yet implemented")
+                    mainViewModel.listener.goToInvitationMain()
                 }
 
                 override fun onFail(description: String) {
-                    TODO("Not yet implemented")
+                    Dlog.e("onFail : $description")
                 }
 
                 override fun onError(throwable: Throwable) {
-                    TODO("Not yet implemented")
+                    Dlog.e("onError : ${throwable.message}")
                 }
 
                 override fun onLoading() {
-                    TODO("Not yet implemented")
+                    mainViewModel.listener.showLoading()
                 }
 
                 override fun onLoaded() {
-                    TODO("Not yet implemented")
+                    mainViewModel.listener.hideLoading()
                 }
             }
         )

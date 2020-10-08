@@ -169,7 +169,7 @@ class InvitationRepositoryImpl(
             call = {
                 val invitation = invitationDao.getInvitation(templatesId)
                 invitation?.let {
-                    invitationDao.insertImage(
+                    invitationDao.insertImageSync(
                         it.copy(
                             images = ImageListTypeAdapter.imageListToJsonString(imageList)
                         )
