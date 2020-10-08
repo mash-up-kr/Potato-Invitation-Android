@@ -13,6 +13,7 @@ import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
 import com.mashup.nawainvitation.databinding.FragmentImagePickerBinding
 import com.mashup.nawainvitation.presentation.imagepicker.data.ImageClickData
+import com.mashup.nawainvitation.presentation.imagepicker.viewmodel.ImagePickerViewModel
 import com.mashup.nawainvitation.presentation.main.MainViewModel
 import com.mashup.nawainvitation.utils.AppUtils
 import io.reactivex.disposables.CompositeDisposable
