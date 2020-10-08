@@ -3,6 +3,9 @@ package com.mashup.nawainvitation.data.room.entity
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.mashup.nawainvitation.data.room.typeadpter.ImageListTypeAdapter
+import com.mashup.nawainvitation.presentation.main.model.InvitationsData
 
 @Entity(tableName = "invitation")
 data class InvitationEntity(
@@ -13,5 +16,5 @@ data class InvitationEntity(
     val invitationContents: String? = null,
     val invitationTime: String? = null,
     @Embedded val locationEntity: LocationEntity? = null,
-    @Embedded val images: ImagesEntity? = null
+    val images: String? = null
 )

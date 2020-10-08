@@ -5,6 +5,7 @@ import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.room.dao.InvitationDao
 import com.mashup.nawainvitation.data.room.entity.InvitationEntity
 import com.mashup.nawainvitation.data.room.entity.LocationEntity
+import com.mashup.nawainvitation.data.room.typeadpter.ImageListTypeAdapter
 import com.mashup.nawainvitation.presentation.main.model.InvitationsData
 import com.mashup.nawainvitation.presentation.main.model.mapToPresentation
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
@@ -151,6 +152,26 @@ class InvitationRepositoryImpl(
                         it.copy(
                             invitationTime = invitationTime,
                             templateId = templatesId
+                        )
+                    )
+                }
+            },
+            callback = callback
+        )
+    }
+
+    override fun pathInvitationImages(
+        imageList: List<InvitationsData.ImageInfoData>,
+        templatesId: Int,
+        callback: BaseResponse<Any>
+    ): Disposable {
+        return makeCompletable(
+            call = {
+                val invitation = invitationDao.getInvitation(templatesId)
+                invitation?.let {
+                    invitationDao.insertImage(
+                        it.copy(
+                            images = ImageListTypeAdapter.imageListToString(imageList)
                         )
                     )
                 }
