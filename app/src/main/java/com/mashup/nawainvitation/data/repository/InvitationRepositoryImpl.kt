@@ -43,7 +43,11 @@ class InvitationRepositoryImpl(
                             )
                         }
                         val isEditing =
-                                invitation != null && invitation.invitationTitle.isNullOrEmpty().not()
+                                invitation != null
+                                        && invitation.invitationTitle.isNullOrEmpty().not()
+                                        && invitation.invitationContents.isNullOrEmpty().not()
+                                        && invitation.invitationTime.isNullOrEmpty().not()
+
                         typeDatas.add(typeItem.mapToPresentation(isEditing))
                     }
                     Single.just(typeDatas)
@@ -206,13 +210,15 @@ class InvitationRepositoryImpl(
                             MEDIA_TYPE_TEXT,
                             data.locationEntity?.invitationPlaceName ?: ""
                     )
+                    val mLatitude = data.locationEntity?.latitude
                     val bodyLatitude = RequestBody.create(
                             MEDIA_TYPE_TEXT,
-                            data.locationEntity?.latitude.toString() ?: ""
+                            if (mLatitude == null) "" else data.locationEntity.latitude.toString()
                     )
+                    val mLongitude = data.locationEntity?.longitude
                     val bodyLongitude = RequestBody.create(
                             MEDIA_TYPE_TEXT,
-                            data.locationEntity?.longitude.toString() ?: ""
+                            if (mLongitude == null) "" else data.locationEntity.longitude.toString()
                     )
 
                     invitationApi.postInvitations(
