@@ -1,10 +1,11 @@
-package com.mashup.nawainvitation.presentation.imagepicker
+package com.mashup.nawainvitation.presentation.imagepicker.viewmodel
 
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.mashup.nawainvitation.base.BaseViewModel
 import com.mashup.nawainvitation.base.ext.toast
+import com.mashup.nawainvitation.presentation.imagepicker.Constant
 import gun0912.tedimagepicker.builder.TedRxImagePicker
 
 class ImagePickerViewModel : BaseViewModel() {
