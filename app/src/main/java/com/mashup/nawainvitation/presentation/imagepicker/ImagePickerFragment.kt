@@ -121,7 +121,7 @@ class ImagePickerFragment :
 
     fun onLongClicked(data: ImageClickData) {
         // 이미지 삭제
-        imagePickerViewModel.deleteImage(data.position)
+//        imagePickerViewModel.deleteImage(data.position)
     }
 
     private fun Disposable.addTo(compositeDisposable: CompositeDisposable) =
