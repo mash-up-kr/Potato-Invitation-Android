@@ -5,6 +5,7 @@ import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.room.dao.InvitationDao
 import com.mashup.nawainvitation.data.room.entity.InvitationEntity
 import com.mashup.nawainvitation.data.room.entity.LocationEntity
+import com.mashup.nawainvitation.data.room.typeadpter.ImageListTypeAdapter
 import com.mashup.nawainvitation.presentation.main.model.InvitationsData
 import com.mashup.nawainvitation.presentation.main.model.mapToPresentation
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
@@ -16,8 +17,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
+import java.io.File
+
 
 class InvitationRepositoryImpl(
         private val invitationApi: InvitationApi,
@@ -163,6 +168,26 @@ class InvitationRepositoryImpl(
         )
     }
 
+    override fun pathInvitationImages(
+        imageList: List<InvitationsData.ImageInfoData>,
+        templatesId: Int,
+        callback: BaseResponse<Any>
+    ): Disposable {
+        return makeCompletable(
+            call = {
+                val invitation = invitationDao.getInvitation(templatesId)
+                invitation?.let {
+                    invitationDao.insertImageSync(
+                        it.copy(
+                            images = ImageListTypeAdapter.imageListToJsonString(imageList)
+                        )
+                    )
+                }
+            },
+            callback = callback
+        )
+    }
+
     private fun makeCompletable(call: () -> Unit, callback: BaseResponse<Any>) =
             Completable.fromCallable {
                 call.invoke()
@@ -182,6 +207,7 @@ class InvitationRepositoryImpl(
 
 
     private val MEDIA_TYPE_TEXT = "text/plain".toMediaTypeOrNull()
+    private val MEDIA_TYPE_MULTIPART = "multipart/form-data".toMediaTypeOrNull()
 
     override fun pathInvitation(
             templatesId: Int,
@@ -220,6 +246,11 @@ class InvitationRepositoryImpl(
                             MEDIA_TYPE_TEXT,
                             if (mLongitude == null) "" else data.locationEntity.longitude.toString()
                     )
+                    var bodyImages: Array<MultipartBody.Part>? = null
+                    val imageList = ImageListTypeAdapter.jsonStringToImageList(data.images)
+                    if(!imageList.isNullOrEmpty()){
+                        bodyImages = getImagesMultiPartBody(imageList)
+                    }
 
                     invitationApi.postInvitations(
                             templateId = bodyTemplatesId,
@@ -230,7 +261,8 @@ class InvitationRepositoryImpl(
                             invitationRoadAddressName = bodyInvitationRoadAddressName,
                             invitationPlaceName = bodyInvitationPlaceName,
                             latitude = bodyLatitude,
-                            longitude = bodyLongitude
+                            longitude = bodyLongitude,
+                            images = bodyImages
                     )
                 }
                 .observeOn(AndroidSchedulers.mainThread())
@@ -250,6 +282,18 @@ class InvitationRepositoryImpl(
                 }) {
                     callback.onError(it)
                 }
+    }
+
+    private fun getImagesMultiPartBody(imageList: List<InvitationsData.ImageInfoData>) : Array<MultipartBody.Part>{
+        val bodyImages = mutableListOf<MultipartBody.Part>()
+
+        for(i in imageList.indices){
+            val imageUri = imageList[i].imageUri!!
+            val file = File(imageUri.replace("file://", ""))
+            val requestBody = file.asRequestBody(MEDIA_TYPE_MULTIPART)
+            bodyImages.add(MultipartBody.Part.createFormData("files", file.name, requestBody))
+        }
+        return bodyImages.toTypedArray()
     }
 
     override fun deleteInvitationById(

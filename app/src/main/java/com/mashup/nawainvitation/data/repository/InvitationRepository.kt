@@ -36,6 +36,12 @@ interface InvitationRepository {
         callback: BaseResponse<Any>
     ): Disposable
 
+    fun pathInvitationImages(
+        imageList: List<InvitationsData.ImageInfoData>,
+        templatesId: Int,
+        callback: BaseResponse<Any>
+    ): Disposable
+
     fun pathInvitation(
         templatesId: Int,
         callback: BaseResponse<String>

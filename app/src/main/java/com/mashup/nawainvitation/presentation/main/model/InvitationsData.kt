@@ -1,6 +1,7 @@
 package com.mashup.nawainvitation.presentation.main.model
 
 import com.mashup.nawainvitation.data.room.entity.InvitationEntity
+import com.mashup.nawainvitation.data.room.typeadpter.ImageListTypeAdapter
 
 data class InvitationsData(
     val templateBackgroundImageUrl: String?,
@@ -11,13 +12,20 @@ data class InvitationsData(
     val invitationTime: String?,
     val invitationPlaceName: String?,
 
-    val mapInfo: MapInfoData?
+    val mapInfo: MapInfoData?,
+
+    val invitationImages: List<ImageInfoData>?
 ) {
     data class MapInfoData(
         val invitationAddressName: String?,
         val invitationRoadAddressName: String?,
         val longitude: Double?,
         val latitude: Double?
+    )
+
+    data class ImageInfoData(
+        val id: Long?,
+        val imageUri: String?
     )
 }
 
@@ -35,5 +43,9 @@ fun InvitationEntity.mapToPresentation() = InvitationsData(
         invitationRoadAddressName = locationEntity?.invitationRoadAddressName,
         longitude = locationEntity?.longitude,
         latitude = locationEntity?.latitude
-    )
+    ),
+
+    invitationImages = ImageListTypeAdapter.jsonStringToImageList(images)
 )
+
+

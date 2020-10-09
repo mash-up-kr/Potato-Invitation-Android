@@ -4,34 +4,67 @@ import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
+import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.databinding.FragmentImagePickerBinding
 import com.mashup.nawainvitation.presentation.imagepicker.data.ImageClickData
+import com.mashup.nawainvitation.presentation.imagepicker.viewmodel.ImagePickerViewModel
+import com.mashup.nawainvitation.presentation.imagepicker.viewmodel.ImagePickerViewModelFactory
+import com.mashup.nawainvitation.presentation.main.MainViewModel
 import com.mashup.nawainvitation.utils.AppUtils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.fragment_image_picker.*
 
-class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fragment_image_picker) {
-    private lateinit var viewModel: ImagePickerViewModel
+class ImagePickerFragment :
+    BaseFragment<FragmentImagePickerBinding>(R.layout.fragment_image_picker) {
+    companion object {
+        fun newInstance() = ImagePickerFragment()
+    }
+
     private lateinit var imagePickAdapter: ImagePickerAdapter
 
     private val compositeDisposable = CompositeDisposable()
+
+    private val imagePickerViewModel by lazy {
+        ViewModelProvider(
+            this, ImagePickerViewModelFactory(
+                Injection.provideInvitationRepository(),
+                mainViewModel
+            )
+        ).get(ImagePickerViewModel::class.java)
+    }
+    private val mainViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+    }
+    private val dispatcher by lazy { requireActivity().onBackPressedDispatcher }
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            mainViewModel.listener.goToInvitationMain()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        dispatcher.addCallback(this, backPressedCallback)
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initComponent()
         initView()
         observeLiveData()
+        binding.imageModel = imagePickerViewModel
     }
 
     private fun observeLiveData() {
-        viewModel.imageUriList.observe(viewLifecycleOwner, Observer<List<Uri>> { list ->
+        imagePickerViewModel.imageUriList.observe(viewLifecycleOwner, Observer<List<Uri>> { list ->
             imagePickAdapter.setData(list)
         })
     }
@@ -44,14 +77,13 @@ class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fr
             imagePickAdapter.itemLongClickSubject.subscribe(this::onLongClicked)
                 .addTo(compositeDisposable)
         }
-        viewModel = ViewModelProvider(this).get(ImagePickerViewModel::class.java)
     }
 
     private fun initView() {
-        rvImagePicker.apply {
+        binding.rvImagePicker.apply {
             adapter = imagePickAdapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(object : RecyclerView.ItemDecoration(){
+            addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun getItemOffsets(
                     outRect: Rect,
                     view: View,
@@ -62,14 +94,10 @@ class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fr
 
                     // 마지막 아이템을 제외하고 바텀 마진값을 줘서 이미지 간격 설
                     val position = parent.getChildAdapterPosition(view)
-                    if(position != imagePickAdapter.itemCount)
-                    outRect.bottom = AppUtils.dpToPx(context, 10)
+                    if (position != imagePickAdapter.itemCount)
+                        outRect.bottom = AppUtils.dpToPx(context, 10)
                 }
             })
-        }
-
-        tvInput.setOnClickListener { view ->
-            // TODO: 입력 완료 후 로직
         }
     }
 
@@ -82,18 +110,18 @@ class ImagePickerFragment : BaseFragment<FragmentImagePickerBinding>(R.layout.fr
         when (data.view.id) {
             R.id.clRootImagePicker -> {
                 // 이미지 수정
-                viewModel.requestUpdateImage(data.view.context, data.position)
+                imagePickerViewModel.requestUpdateImage(data.view.context, data.position)
             }
             R.id.clRootImagePickerPlus -> {
                 // 이미지 추가
-                viewModel.requestAddImage(data.view.context)
+                imagePickerViewModel.requestAddImage(data.view.context)
             }
         }
     }
 
-    fun onLongClicked(data: ImageClickData){
+    fun onLongClicked(data: ImageClickData) {
         // 이미지 삭제
-        viewModel.deleteImage(data.position)
+//        imagePickerViewModel.deleteImage(data.position)
     }
 
     private fun Disposable.addTo(compositeDisposable: CompositeDisposable) =

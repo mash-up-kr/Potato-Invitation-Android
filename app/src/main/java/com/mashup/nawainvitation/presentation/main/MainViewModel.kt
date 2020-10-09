@@ -29,7 +29,6 @@ class MainViewModel(
     private val _isLocation = MutableLiveData(false)
     val isLocation: LiveData<Boolean> get() = _isLocation
 
-    //TODO photo next step
     private val _isPhoto = MutableLiveData(false)
     val isPhoto: LiveData<Boolean> get() = _isPhoto
 
@@ -57,6 +56,7 @@ class MainViewModel(
                     _isTitle.postValue(data.invitationContents.isNullOrEmpty().not())
                     _isDate.postValue(data.invitationTime.isNullOrEmpty().not())
                     _isLocation.postValue(data.invitationPlaceName.isNullOrEmpty().not())
+                    _isPhoto.postValue(data.invitationImages.isNullOrEmpty().not())
                 }
 
                 override fun onFail(description: String) {

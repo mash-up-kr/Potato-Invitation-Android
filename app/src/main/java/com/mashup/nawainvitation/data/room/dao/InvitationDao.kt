@@ -85,7 +85,7 @@ interface InvitationDao {
         }
     }
 
-    private fun insertImageSync(request: InvitationEntity): Void {
+    fun insertImageSync(request: InvitationEntity): Void {
         val data: InvitationEntity? = getInvitation(request.templateId)
         return when (data == null) {
             true -> {

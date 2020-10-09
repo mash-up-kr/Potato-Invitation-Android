@@ -3,11 +3,13 @@ package com.mashup.nawainvitation.data.api
 import com.mashup.nawainvitation.data.model.response.InvitationTypeResponse
 import com.mashup.nawainvitation.data.model.response.InvitationsResponse
 import io.reactivex.Single
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+
 
 interface InvitationApi {
 
@@ -28,6 +30,7 @@ interface InvitationApi {
         @Part("invitationRoadAddressName") invitationRoadAddressName: RequestBody,
         @Part("invitationPlaceName") invitationPlaceName: RequestBody,
         @Part("latitude") latitude: RequestBody,
-        @Part("longitude") longitude: RequestBody
+        @Part("longitude") longitude: RequestBody,
+        @Part images: Array<MultipartBody.Part>?
     ): Single<InvitationsResponse>
 }

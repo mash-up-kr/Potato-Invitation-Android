@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="imageModel"
+            type="com.mashup.nawainvitation.presentation.imagepicker.viewmodel.ImagePickerViewModel" />
+    </data>
   
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -49,7 +56,8 @@
             android:layout_height="60dp"
             android:text="@string/input_complete"
             android:textSize="24dp"
-            android:enabled="true"
+            android:enabled="@{imageModel.enableBtn}"
+            android:onClick="@{() -> imageModel.saveImage()}"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

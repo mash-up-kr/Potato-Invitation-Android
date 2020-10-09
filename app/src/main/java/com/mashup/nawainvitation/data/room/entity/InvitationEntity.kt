@@ -13,5 +13,5 @@ data class InvitationEntity(
     val invitationContents: String? = null,
     val invitationTime: String? = null,
     @Embedded val locationEntity: LocationEntity? = null,
-    @Embedded val images: ImagesEntity? = null
+    val images: String? = null
 )
