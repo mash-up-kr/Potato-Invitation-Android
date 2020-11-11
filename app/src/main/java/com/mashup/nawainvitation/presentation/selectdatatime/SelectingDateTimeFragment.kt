@@ -46,15 +46,12 @@ class SelectingDateTimeFragment : Fragment() {
     var now = System.currentTimeMillis()
     var mDate = Date(now)
 
-    var hourNow: SimpleDateFormat = SimpleDateFormat("hh")
+    var hourNow: SimpleDateFormat = SimpleDateFormat("HH")
     var hourNowInt = hourNow.format(mDate).toInt()
-    var hourNow12 = if (hourNowInt < 12) hourNowInt else hourNowInt - 12
     var minNow: SimpleDateFormat = SimpleDateFormat("mm")
-    var ampmNow: SimpleDateFormat = SimpleDateFormat("aa")
 
-    var userHour = if (hourNow12 < 10) "0" + hourNow12 else "" + hourNow12
+    var userHour = "$hourNowInt"
     var userMin = "" + minNow.format(mDate)
-    var userAmPm = "" + ampmNow.format(mDate)
 
     val today = Calendar.getInstance()
     val minDate = Calendar.getInstance()
@@ -102,17 +99,14 @@ class SelectingDateTimeFragment : Fragment() {
                 val minuteF = SimpleDateFormat("mm")
 
                 try {
-                    val str_source = mTime //입력포멧 문자열
-                    val date_parsed = inputFormat.parse(str_source) // 문자열을 파싱해 Date형으로 저장한다
-                    val saveHourInt = hourF.format(date_parsed).toInt()
-                    val saveHour12 = if (saveHourInt < 12) saveHourInt else saveHourInt - 12
-                    userAmPm = if (saveHourInt < 12) "오전" else "오후"
-                    userHour = if (saveHour12 < 10) "0" + saveHour12 else "" + saveHour12
-                    userMin = minuteF.format(date_parsed)
+                    val dateParsed = inputFormat.parse(mTime) // 문자열을 파싱해 Date형으로 저장한다
+                    val saveHourInt = hourF.format(dateParsed).toInt()
+                    userHour = saveHourInt.toString()
+                    userMin = minuteF.format(dateParsed)
 
-                    userDay = dayF.format(date_parsed)
-                    userMonth = monthF.format(date_parsed)
-                    userYear = yearF.format(date_parsed)
+                    userDay = dayF.format(dateParsed)
+                    userMonth = monthF.format(dateParsed)
+                    userYear = yearF.format(dateParsed)
 
                     val dateMsg = userYear + "년 " + userMonth + "월 " + userDay + "일"
                     tvInputDate.text = dateMsg
@@ -128,7 +122,7 @@ class SelectingDateTimeFragment : Fragment() {
 
         //date
         cvInputDate.setOnClickListener {
-            this.InitializeListener()
+            this.initializeListener()
 
             //선택된 초기 날짜 설정
             val dialog =
@@ -155,7 +149,7 @@ class SelectingDateTimeFragment : Fragment() {
         }
 
         //time
-        OnClickTime()
+        onClickTime()
 
         //finish
         btnDateTimeFinish.setOnClickListener {
@@ -177,8 +171,7 @@ class SelectingDateTimeFragment : Fragment() {
                 month = userMonth,
                 day = userDay,
                 hour = userHour,
-                minute = userMin,
-                userAmPm = userAmPm
+                minute = userMin
             )
 
             Dlog.d("invitationTime : $invitationTime")
@@ -210,7 +203,7 @@ class SelectingDateTimeFragment : Fragment() {
         }
     }
 
-    fun InitializeListener() {
+    private fun initializeListener() {
         val tvInputDate = view?.findViewById<View>(R.id.tvInputDate) as TextView
 
         callbackMethod =
@@ -230,40 +223,22 @@ class SelectingDateTimeFragment : Fragment() {
             }
     }
 
-    private fun OnClickTime() {
+    private fun onClickTime() {
         val timePicker = view?.findViewById<View>(R.id.timePicker) as TimePicker
 
         //선택된 초기 시간 설정
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (userAmPm == "오후") { timePicker.setHour(userHour.toInt()+12)}
-            else
-                timePicker.setHour(userHour.toInt())
 
-            timePicker.setMinute(userMin.toInt())
+            timePicker.hour = userHour.toInt()
+            timePicker.minute = userMin.toInt()
         }
 
         //listner
         timePicker.setOnTimeChangedListener { _, hour, minute ->
             var hour = hour
-            var am_pm = ""
-
-            // AM_PM decider logic
-            when {
-                hour == 0 -> {
-                    hour += 12
-                    am_pm = "오전"
-                }
-                hour == 12 -> am_pm = "오후"
-                hour > 12 -> {
-                    hour -= 12
-                    am_pm = "오후"
-                }
-                else -> am_pm = "오전"
-            }
 
             userHour = if (hour < 10) "0" + hour else "" + hour
             userMin = if (minute < 10) "0" + minute else "" + minute
-            userAmPm = am_pm
         }
     }
 }

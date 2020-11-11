@@ -8,17 +8,8 @@ object TimeUtils {
         month: String,
         day: String,
         hour: String,
-        minute: String,
-        userAmPm: String
+        minute: String
     ): String {
-        val intHour = hour.toInt()
-
-        val mHour = if (userAmPm == "오후") {
-            (intHour + 12).toString()
-        } else {
-            hour
-        }
-
-        return "$year-$month-${day}T$mHour:${minute}:00.000Z"
+        return "$year-$month-${day}T$hour:${minute}:00.000Z"
     }
 }
