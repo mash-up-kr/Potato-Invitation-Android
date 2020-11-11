@@ -3,7 +3,6 @@
     package="com.mashup.nawainvitation">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -33,9 +32,7 @@
             android:name=".presentation.main.MainActivity"
             android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name=".presentation.typechoice.TypeChoiceActivity" />
         <activity android:name=".presentation.invitationpreview.InvitationPreviewActivity" />
-        <activity android:name=".presentation.typechoice.LandingPageActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
