@@ -1,5 +1,6 @@
 package com.mashup.nawainvitation.presentation.searchlocation.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -8,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
 import com.mashup.nawainvitation.base.util.Dlog
-import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.databinding.FragmentInputLocationBinding
@@ -66,50 +66,28 @@ class InputLocationFragment :
 
     override fun submit() {
         inputLocationVM.place.observe(viewLifecycleOwner, Observer { doc ->
-            invitationRepository.patchInvitationAddress(
-                doc,
-                mainViewModel.typeData.templateId,
-                object : BaseResponse<Any> {
-                    override fun onSuccess(data: Any) {
-                        mainViewModel.listener.goToInvitationMain()
-                        Dlog.d("$data")
-                    }
-
-                    override fun onFail(description: String) {
-                        Dlog.e(description)
-                    }
-
-                    override fun onError(throwable: Throwable) {
-                        Dlog.e("$throwable")
-                    }
-
-                    override fun onLoading() {
-                        mainViewModel.listener.showLoading()
-                    }
-
-                    override fun onLoaded() {
-                        mainViewModel.listener.hideLoading()
-                    }
-                })
+            invitationRepository.updateInvitationAddress(doc)
+            mainViewModel.listener.goToInvitationMain()
         })
         mainViewModel.listener.goToInvitationMain()
     }
 
+    @SuppressLint("CheckResult")
     private fun loadData() {
-        mainViewModel.invitations.observe(requireActivity(), Observer {
-            it?.let {
-                it.mapInfo?.apply {
-                    inputLocationVM.dataExists()
-                    inputLocationVM.setInvitationsData(
-                        invitationAddressName,
-                        invitationRoadAddressName,
-                        it.invitationPlaceName,
-                        longitude,
-                        latitude
-                    )
-                }
+        invitationRepository.getLatestInvitation().subscribe({
+            it?.mapInfo?.run {
+                inputLocationVM.dataExists()
+                inputLocationVM.setInvitationsData(
+                    invitationAddressName,
+                    invitationRoadAddressName,
+                    it.invitationPlaceName,
+                    longitude,
+                    latitude
+                )
             }
-        })
+        }) {
+            Dlog.e(it.message)
+        }
     }
 
     private fun getData() {

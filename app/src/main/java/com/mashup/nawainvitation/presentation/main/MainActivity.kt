@@ -17,7 +17,6 @@ import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
 import com.mashup.nawainvitation.presentation.selectdatatime.SelectingDateTimeFragment
-import com.mashup.nawainvitation.presentation.typechoice.model.TypeData
 import com.mashup.nawainvitation.utils.AppUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,13 +25,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     companion object {
 
-        private const val EXTRA_TYPE_DATA = "type_data"
-
-        fun startMainActivityWithData(context: Context, typeData: TypeData) {
+        fun startMainActivity(context: Context) {
             context.startActivity(
-                Intent(context, MainActivity::class.java).apply {
-                    putExtra(EXTRA_TYPE_DATA, typeData)
-                }
+                Intent(context, MainActivity::class.java)
             )
         }
     }
@@ -41,7 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         ViewModelProvider(
             this,
             MainViewModelFactory(
-                Injection.provideInvitationRepository(), this, getTypeData()
+                Injection.provideInvitationRepository(), this
             )
         ).get(MainViewModel::class.java)
     }
@@ -72,8 +67,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
             .replace(R.id.flMainContainer, fragment, tag)
             .commit()
     }
-
-    private fun getTypeData() = intent?.getParcelableExtra<TypeData>(EXTRA_TYPE_DATA)!!
 
     override fun goToInvitationMain() {
         replaceFragmentWithTitle(
