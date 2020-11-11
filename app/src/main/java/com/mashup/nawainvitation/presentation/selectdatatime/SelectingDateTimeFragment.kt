@@ -99,15 +99,14 @@ class SelectingDateTimeFragment : Fragment() {
                 val minuteF = SimpleDateFormat("mm")
 
                 try {
-                    val str_source = mTime //입력포멧 문자열
-                    val date_parsed = inputFormat.parse(str_source) // 문자열을 파싱해 Date형으로 저장한다
-                    val saveHourInt = hourF.format(date_parsed).toInt()
+                    val dateParsed = inputFormat.parse(mTime) // 문자열을 파싱해 Date형으로 저장한다
+                    val saveHourInt = hourF.format(dateParsed).toInt()
                     userHour = saveHourInt.toString()
-                    userMin = minuteF.format(date_parsed)
+                    userMin = minuteF.format(dateParsed)
 
-                    userDay = dayF.format(date_parsed)
-                    userMonth = monthF.format(date_parsed)
-                    userYear = yearF.format(date_parsed)
+                    userDay = dayF.format(dateParsed)
+                    userMonth = monthF.format(dateParsed)
+                    userYear = yearF.format(dateParsed)
 
                     val dateMsg = userYear + "년 " + userMonth + "월 " + userDay + "일"
                     tvInputDate.text = dateMsg
@@ -123,7 +122,7 @@ class SelectingDateTimeFragment : Fragment() {
 
         //date
         cvInputDate.setOnClickListener {
-            this.InitializeListener()
+            this.initializeListener()
 
             //선택된 초기 날짜 설정
             val dialog =
@@ -150,7 +149,7 @@ class SelectingDateTimeFragment : Fragment() {
         }
 
         //time
-        OnClickTime()
+        onClickTime()
 
         //finish
         btnDateTimeFinish.setOnClickListener {
@@ -204,7 +203,7 @@ class SelectingDateTimeFragment : Fragment() {
         }
     }
 
-    fun InitializeListener() {
+    private fun initializeListener() {
         val tvInputDate = view?.findViewById<View>(R.id.tvInputDate) as TextView
 
         callbackMethod =
@@ -224,7 +223,7 @@ class SelectingDateTimeFragment : Fragment() {
             }
     }
 
-    private fun OnClickTime() {
+    private fun onClickTime() {
         val timePicker = view?.findViewById<View>(R.id.timePicker) as TimePicker
 
         //선택된 초기 시간 설정
