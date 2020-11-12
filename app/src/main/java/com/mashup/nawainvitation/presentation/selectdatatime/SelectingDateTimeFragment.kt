@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.TimePicker
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -102,8 +101,16 @@ class SelectingDateTimeFragment : Fragment() {
                 try {
                     val dateParsed = inputFormat.parse(mTime) // 문자열을 파싱해 Date형으로 저장한다
                     val saveHourInt = hourF.format(dateParsed).toInt()
-                    userHour = saveHourInt.toString()
-                    userMin = minuteF.format(dateParsed)
+                    val mUserHour = saveHourInt.toString()
+                    val mUserMin = minuteF.format(dateParsed)
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        timePicker.hour = mUserHour.toInt()
+                        timePicker.minute = mUserMin.toInt()
+                    }
+
+                    userHour = mUserHour
+                    userMin = mUserMin
 
                     userDay = dayF.format(dateParsed)
                     userMonth = monthF.format(dateParsed)
@@ -205,7 +212,6 @@ class SelectingDateTimeFragment : Fragment() {
     }
 
     private fun onClickTime() {
-        val timePicker = view?.findViewById<View>(R.id.timePicker) as TimePicker
 
         //선택된 초기 시간 설정
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
