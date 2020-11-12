@@ -21,40 +21,11 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <FrameLayout
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_main"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:background="@color/white_two">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
-
-                <View
-                    android:layout_width="174dp"
-                    android:layout_height="11dp"
-                    android:layout_gravity="bottom"
-                    android:background="@color/lemon" />
-
-                <TextView
-                    android:text="@{model.typeData.title}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@color/black"
-                    android:textSize="24dp"
-                    android:textStyle="bold"
-                    tools:text="title" />
-            </FrameLayout>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:layout_gravity="center|bottom"
-                bind:setInvitationImageUrl="@{model.invitations.templateBackgroundImageUrl}"
-                tools:background="@color/white" />
-        </FrameLayout>
+            android:background="@color/white_two" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -80,8 +51,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:text="@{model.invitations.templateTypeDescription}"
                     android:textSize="16dp"
+                    android:text="@{model.currentTypeItem.description}"
                     tools:text="난 너가 꼭 와주면 좋겠어💖 와줄꺼지?" />
 
                 <include
@@ -130,8 +101,8 @@
         <com.mashup.nawainvitation.custom.LemonButton
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:onClick="@{() -> model.completeInvitation()}"
             android:enabled="@{model.enableBtn}"
+            android:onClick="@{() -> model.completeInvitation()}"
             android:text="@string/complete"
             android:textSize="24dp" />
     </LinearLayout>

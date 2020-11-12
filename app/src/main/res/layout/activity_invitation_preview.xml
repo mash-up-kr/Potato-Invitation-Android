@@ -41,18 +41,24 @@
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
-        <WebView
-            android:id="@+id/webviewInvitation"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1">
 
-        <com.mashup.nawainvitation.custom.LemonButton
-            android:id="@+id/btnInvitationPreview"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:enabled="true"
-            android:text="@string/input_complete"
-            android:textSize="24dp" />
+            <WebView
+                android:id="@+id/webviewInvitation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.mashup.nawainvitation.custom.LemonButton
+                android:id="@+id/btnInvitationPreview"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                android:enabled="true"
+                android:text="@string/input_complete"
+                android:textSize="24dp" />
+        </FrameLayout>
     </LinearLayout>
 </layout>

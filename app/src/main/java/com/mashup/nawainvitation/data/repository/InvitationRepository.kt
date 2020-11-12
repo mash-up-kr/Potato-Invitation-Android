@@ -1,54 +1,52 @@
 package com.mashup.nawainvitation.data.repository
 
 import com.mashup.nawainvitation.data.base.BaseResponse
-import com.mashup.nawainvitation.presentation.main.model.InvitationsData
+import com.mashup.nawainvitation.presentation.main.model.ImageInfoItem
+import com.mashup.nawainvitation.presentation.main.model.InvitationsItem
+import com.mashup.nawainvitation.presentation.main.model.TypeItem
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
-import com.mashup.nawainvitation.presentation.typechoice.model.TypeData
+import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 
 interface InvitationRepository {
 
-    fun getInvitationTypes(
-        callback: BaseResponse<List<TypeData>>
+    fun getAllTypes(
+        callback: BaseResponse<List<TypeItem>>
     ): Disposable
 
-    fun getInvitation(
-        templateId: Int,
-        callback: BaseResponse<InvitationsData>
+    fun insertTempInvitation()
+
+    fun getInvitations(): Flowable<List<InvitationsItem>>
+
+    fun getLatestInvitation(): Flowable<InvitationsItem>
+
+    fun updateInvitationTemplateId(
+        templateId: Int
     ): Disposable
 
-    fun patchInvitationWords(
+    fun updateInvitationWords(
         invitationTitle: String,
-        invitationContents: String,
-        templatesId: Int,
-        callback: BaseResponse<Any>
+        invitationContents: String
     ): Disposable
 
-    fun patchInvitationTime(
-        invitationTime: String,
-        templatesId: Int,
-        callback: BaseResponse<Any>
+    fun updateInvitationTime(
+        invitationTime: String
     ): Disposable
 
-    fun patchInvitationAddress(
-        documents: Documents,
-        templatesId: Int,
-        callback: BaseResponse<Any>
+    fun updateInvitationAddress(
+        documents: Documents
     ): Disposable
 
-    fun pathInvitationImages(
-        imageList: List<InvitationsData.ImageInfoData>,
-        templatesId: Int,
-        callback: BaseResponse<Any>
+    fun updateInvitationImages(
+        imageList: List<ImageInfoItem>
+    ): Disposable
+
+    fun updateInvitationHashcode(
+        hashCode: String?
     ): Disposable
 
     fun pathInvitation(
         templatesId: Int,
         callback: BaseResponse<String>
-    ): Disposable
-
-    fun deleteInvitationById(
-        templatesId: Int,
-        callback: BaseResponse<Any>
     ): Disposable
 }

@@ -12,7 +12,7 @@ object Injection {
     fun provideInvitationRepository(): InvitationRepository {
         return InvitationRepositoryImpl(
             ApiProvider.provideInvitationApi(),
-            DatabaseProvider.getDatabase().invitationDao()
+            DatabaseProvider.getDatabase().invitationDaoV2()
         )
     }
 

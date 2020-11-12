@@ -1,5 +1,6 @@
 package com.mashup.nawainvitation.presentation.selectdatatime
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Build
@@ -14,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.util.Dlog
-import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.presentation.main.MainViewModel
@@ -83,13 +83,14 @@ class SelectingDateTimeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_selecting_datetime, container, false)
     }
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel.invitations.value?.let {
-            val mTime = it.invitationTime
-            if (mTime.isNullOrEmpty().not()){
-                val tvInputDate = getView()?.findViewById<TextView>(R.id.tvInputDate) as TextView
+        invitationRepository.getLatestInvitation().subscribe({
+            val mTime = it?.invitationTime
+            if (mTime.isNullOrEmpty().not()) {
+                val tvInputDate = getView()?.findViewById(R.id.tvInputDate) as TextView
 
                 val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 val yearF = SimpleDateFormat("yyyy")
@@ -118,6 +119,8 @@ class SelectingDateTimeFragment : Fragment() {
                     e.printStackTrace()
                 }
             }
+        }) {
+            Dlog.e(it.message)
         }
 
         //date
@@ -176,30 +179,8 @@ class SelectingDateTimeFragment : Fragment() {
 
             Dlog.d("invitationTime : $invitationTime")
 
-            invitationRepository.patchInvitationTime(
-                invitationTime,
-                mainViewModel.typeData.templateId,
-                object : BaseResponse<Any> {
-                    override fun onSuccess(data: Any) {
-                        mainViewModel.listener.goToInvitationMain()
-                    }
-
-                    override fun onFail(description: String) {
-                        Dlog.e("onFail : $description")
-                    }
-
-                    override fun onError(throwable: Throwable) {
-                        Dlog.e("onError : ${throwable.message}")
-                    }
-
-                    override fun onLoading() {
-                        mainViewModel.listener.showLoading()
-                    }
-
-                    override fun onLoaded() {
-                        mainViewModel.listener.hideLoading()
-                    }
-                })
+            invitationRepository.updateInvitationTime(invitationTime)
+            mainViewModel.listener.goToInvitationMain()
         }
     }
 

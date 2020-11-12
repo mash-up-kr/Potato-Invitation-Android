@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.mashup.nawainvitation.base.BaseViewModel
 import com.mashup.nawainvitation.base.util.Dlog
-import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.presentation.main.MainViewModel
 
@@ -33,13 +32,15 @@ class InvitationInfoViewModel(
             enableBtn.value = (title.value.isNullOrEmpty() || contents.value.isNullOrEmpty()).not()
         }
 
-        mainViewModel.invitations.value?.let {
-            val mTitle = it.invitationTitle
+        repository.getLatestInvitation().subscribe({
+            val mTitle = it?.invitationTitle
             if (mTitle.isNullOrEmpty().not()) title.postValue(mTitle)
 
-            val mContents = it.invitationContents
+            val mContents = it?.invitationContents
             if (mContents.isNullOrEmpty().not()) contents.postValue(mContents)
-        }
+        }) {
+            Dlog.e(it.message)
+        }.addTo(compositeDisposable)
     }
 
     fun saveData() {
@@ -50,30 +51,7 @@ class InvitationInfoViewModel(
 
         if (mContents.isNullOrEmpty()) return
 
-        repository.patchInvitationWords(
-            mTitle,
-            mContents,
-            mainViewModel.typeData.templateId,
-            object : BaseResponse<Any> {
-                override fun onSuccess(data: Any) {
-                    mainViewModel.listener.goToInvitationMain()
-                }
-
-                override fun onFail(description: String) {
-                    Dlog.e("$description")
-                }
-
-                override fun onError(throwable: Throwable) {
-                    Dlog.e("${throwable.message}")
-                }
-
-                override fun onLoading() {
-                    mainViewModel.listener.showLoading()
-                }
-
-                override fun onLoaded() {
-                    mainViewModel.listener.hideLoading()
-                }
-            })
+        repository.updateInvitationWords(mTitle, mContents)
+        mainViewModel.listener.goToInvitationMain()
     }
 }
