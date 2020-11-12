@@ -20,7 +20,6 @@ class MainViewModel(
     private val currentTypeIndex = MutableLiveData(0)
 
     fun setCurrentTypeIndex(pos: Int) {
-        Dlog.d("setCurrentTypeIndex pos : $pos")
         currentTypeIndex.postValue(pos)
     }
 
@@ -65,7 +64,6 @@ class MainViewModel(
             .subscribe({ invitation ->
                 Dlog.d("loadInvitations -> invitation : $invitation")
                 if (invitation.hashcode != null && invitation.hashcode.isNotEmpty()) {
-                    currentTypeIndex.postValue(0)
                     invitationRepository.insertTempInvitation()
 
                     _isTitle.postValue(false)
