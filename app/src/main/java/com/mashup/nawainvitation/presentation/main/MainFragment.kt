@@ -2,10 +2,12 @@ package com.mashup.nawainvitation.presentation.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
+import com.mashup.nawainvitation.base.ext.toast
 import com.mashup.nawainvitation.databinding.FragmentMainBinding
 import com.mashup.nawainvitation.presentation.main.adapter.TypePagerAdapter
 
@@ -34,6 +36,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         binding.documents = null
 
         initViewPager()
+        initObserver()
 
         mainViewModel.loadInvitations()
     }
@@ -57,5 +60,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 }
             })
         }
+    }
+
+    private fun initObserver() {
+        mainViewModel.showToast.observe(viewLifecycleOwner, Observer {
+            requireContext().toast(it)
+        })
     }
 }

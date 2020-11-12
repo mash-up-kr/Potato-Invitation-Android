@@ -1,10 +1,10 @@
 package com.mashup.nawainvitation.base.ext
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.mashup.nawainvitation.base.ext.dialog.AlertBuilder
@@ -31,7 +31,19 @@ fun Context.toast(message: CharSequence): Toast = Toast
         show()
     }
 
-fun Context.longToast(message: Int): Toast = Toast
+fun Context.toast(@StringRes message: Int): Toast = Toast
+    .makeText(this, message, Toast.LENGTH_SHORT)
+    .apply {
+        show()
+    }
+
+fun Context.longToast(message: CharSequence): Toast = Toast
+    .makeText(this, message, Toast.LENGTH_LONG)
+    .apply {
+        show()
+    }
+
+fun Context.longToast(@StringRes message: Int): Toast = Toast
     .makeText(this, message, Toast.LENGTH_LONG)
     .apply {
         show()
@@ -53,11 +65,11 @@ fun Context.alert(
     }
 }
 
-fun Fragment.showNetworkErrorDialog(){
+fun Fragment.showNetworkErrorDialog() {
     NetworkErrorDialog().show(parentFragmentManager, TAG_DIALOG_ERROR)
 }
 
-fun AppCompatActivity.showNetworkErrorDialog(){
+fun AppCompatActivity.showNetworkErrorDialog() {
     NetworkErrorDialog().show(supportFragmentManager, TAG_DIALOG_ERROR)
 }
 

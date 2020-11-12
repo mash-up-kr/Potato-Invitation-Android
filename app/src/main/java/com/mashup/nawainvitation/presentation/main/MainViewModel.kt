@@ -38,6 +38,9 @@ class MainViewModel(
     private val _isPhoto = MutableLiveData(false)
     val isPhoto: LiveData<Boolean> get() = _isPhoto
 
+    private val _showToast = MutableLiveData<String>()
+    val showToast: LiveData<String> get() = _showToast
+
     init {
         currentTypeItem.addSource(currentTypeIndex) { index ->
             currentTypeItem.value = typeItems[index]
@@ -62,6 +65,7 @@ class MainViewModel(
             .subscribe({ invitation ->
                 Dlog.d("loadInvitations -> invitation : $invitation")
                 if (invitation.hashcode != null && invitation.hashcode.isNotEmpty()) {
+                    currentTypeIndex.postValue(0)
                     invitationRepository.insertTempInvitation()
 
                     _isTitle.postValue(false)
@@ -93,11 +97,12 @@ class MainViewModel(
 
                 override fun onFail(description: String) {
                     Dlog.e("onFail $description")
+                    _showToast.postValue(description)
                 }
 
                 override fun onError(throwable: Throwable) {
-                    //TODO [두한] 사진이 삭제되어 있는 경우 -> No such file or directory 발생
                     Dlog.e("onError ${throwable.message}")
+                    _showToast.postValue("error")
                 }
 
                 override fun onLoading() {
