@@ -15,23 +15,16 @@ class MainViewModel(
     val listener: MainListener
 ) : BaseViewModel() {
 
-    /**
-     * @templateId : 1 ~ 5
-     */
-    private var templateId = -1
+    val typeItems: MutableList<TypeItem> = mutableListOf()
+    val currentTypeItem = MediatorLiveData<TypeItem>()
     private val currentTypeIndex = MutableLiveData(0)
 
-    fun setTemplateIdFromPos(pos: Int) {
-        templateId = pos + 1
-        invitationRepository.updateInvitationTemplateId(templateId)
+    fun setCurrentTypeIndex(pos: Int) {
+        Dlog.d("setCurrentTypeIndex pos : $pos")
         currentTypeIndex.postValue(pos)
     }
 
-    val currentType = MediatorLiveData<TypeItem?>()
     val enableBtn = MediatorLiveData<Boolean>()
-
-    private val _allTypes = MutableLiveData<List<TypeItem>>(emptyList())
-    val allTypes: LiveData<List<TypeItem>> get() = _allTypes
 
     private val _isTitle = MutableLiveData(false)
     val isTitle: LiveData<Boolean> get() = _isTitle
@@ -46,8 +39,8 @@ class MainViewModel(
     val isPhoto: LiveData<Boolean> get() = _isPhoto
 
     init {
-        currentType.addSource(currentTypeIndex) { index ->
-            currentType.value = _allTypes.value?.getOrNull(index)
+        currentTypeItem.addSource(currentTypeIndex) { index ->
+            currentTypeItem.value = typeItems[index]
         }
 
         enableBtn.addSource(isTitle) {
@@ -64,41 +57,10 @@ class MainViewModel(
     private fun getIsEnableButton() =
         isTitle.value == true && isDate.value == true && isLocation.value == true
 
-    fun loadAllTypes() {
-        if (templateId > -1) {
-            //TODO [LeeJinSeong] templateId 초기화를 어떻게 하면 좋을까?
-
-            return
-        }
-
-        invitationRepository.getAllTypes(object : BaseResponse<List<TypeItem>> {
-            override fun onSuccess(data: List<TypeItem>) {
-                _allTypes.postValue(data)
-                templateId = data.first().templateId
-            }
-
-            override fun onFail(description: String) {
-                Dlog.e("onFail $description")
-            }
-
-            override fun onError(throwable: Throwable) {
-                Dlog.e("onError ${throwable.message}")
-            }
-
-            override fun onLoading() {
-                listener.showLoading()
-            }
-
-            override fun onLoaded() {
-                listener.hideLoading()
-            }
-        })
-    }
-
     fun loadInvitations() {
-        Dlog.d("loadInvitations templateId : $templateId")
         invitationRepository.getLatestInvitation()
             .subscribe({ invitation ->
+                Dlog.d("loadInvitations -> invitation : $invitation")
                 if (invitation.hashcode != null && invitation.hashcode.isNotEmpty()) {
                     invitationRepository.insertTempInvitation()
 
@@ -120,9 +82,8 @@ class MainViewModel(
     }
 
     fun completeInvitation() {
-        if (templateId < 1) {
-            return
-        }
+        val templateId = currentTypeItem.value?.templateId ?: return
+        Dlog.d("completeInvitation templateId : $templateId")
 
         invitationRepository.pathInvitation(
             templateId, object : BaseResponse<String> {
@@ -135,6 +96,7 @@ class MainViewModel(
                 }
 
                 override fun onError(throwable: Throwable) {
+                    //TODO [두한] 사진이 삭제되어 있는 경우 -> No such file or directory 발생
                     Dlog.e("onError ${throwable.message}")
                 }
 

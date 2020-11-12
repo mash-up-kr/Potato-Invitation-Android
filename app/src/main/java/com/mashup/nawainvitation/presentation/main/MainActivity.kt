@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
+import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.databinding.ActivityMainBinding
 import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
 import com.mashup.nawainvitation.presentation.imagepicker.ImagePickerFragment
 import com.mashup.nawainvitation.presentation.invitationinfo.InvitationInfoFragment
 import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
+import com.mashup.nawainvitation.presentation.main.model.TypeItem
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
@@ -25,9 +27,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     companion object {
 
-        fun startMainActivity(context: Context) {
+        private const val PARAM_TYPE_ITEMS = "type_items"
+
+        fun startMainActivity(context: Context, typeItems: List<TypeItem>) {
             context.startActivity(
-                Intent(context, MainActivity::class.java)
+                Intent(context, MainActivity::class.java).apply {
+                    Dlog.d("startMainActivity typeItems : ${typeItems.toTypedArray()}")
+                    putExtra(PARAM_TYPE_ITEMS, typeItems.toTypedArray())
+                }
             )
         }
     }
@@ -47,6 +54,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
         initTopBar()
         initFragment()
+        setTypeItems()
     }
 
     private fun initTopBar() {
@@ -66,6 +74,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         supportFragmentManager.beginTransaction()
             .replace(R.id.flMainContainer, fragment, tag)
             .commit()
+    }
+
+    private fun setTypeItems() {
+        val typeItems = intent?.getParcelableArrayExtra(PARAM_TYPE_ITEMS)
+
+        if (typeItems != null && typeItems.isNotEmpty()) {
+            mainViewModel.typeItems.clear()
+            mainViewModel.typeItems.addAll((typeItems.toList() as List<TypeItem>))
+        } else {
+            error("typeItems is null or empty")
+        }
     }
 
     override fun goToInvitationMain() {

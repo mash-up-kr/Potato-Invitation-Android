@@ -2,12 +2,10 @@ package com.mashup.nawainvitation.presentation.main
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
-import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.databinding.FragmentMainBinding
 import com.mashup.nawainvitation.presentation.main.adapter.TypePagerAdapter
 
@@ -36,9 +34,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         binding.documents = null
 
         initViewPager()
-        initObserver()
 
-        mainViewModel.loadAllTypes()
         mainViewModel.loadInvitations()
     }
 
@@ -46,19 +42,20 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         with(binding.vpMain) {
             adapter = typePagerAdapter
 
+            typePagerAdapter.replaceAll(mainViewModel.typeItems)
+
+            val currentIndex = typePagerAdapter.getIndexFromTemplateId(
+                mainViewModel.currentTypeItem.value?.templateId ?: 0
+            )
+
+            setCurrentItem(currentIndex, false)
+
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
-                    Dlog.d("position : $position")
                     super.onPageSelected(position)
-                    mainViewModel.setTemplateIdFromPos(position)
+                    mainViewModel.setCurrentTypeIndex(position)
                 }
             })
         }
-    }
-
-    private fun initObserver() {
-        mainViewModel.allTypes.observe(viewLifecycleOwner, Observer { items ->
-            typePagerAdapter.replaceAll(items)
-        })
     }
 }
