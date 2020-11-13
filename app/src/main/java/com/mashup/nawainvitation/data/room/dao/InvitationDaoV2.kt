@@ -3,6 +3,7 @@ package com.mashup.nawainvitation.data.room.dao
 import androidx.room.*
 import com.mashup.nawainvitation.data.room.entity.InvitationEntityV2
 import com.mashup.nawainvitation.data.room.entity.LocationEntity
+import com.mashup.nawainvitation.presentation.main.model.TypeItem
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import io.reactivex.Flowable
 
@@ -20,18 +21,6 @@ interface InvitationDaoV2 {
 
     @Update
     fun updateInvitation(entity: InvitationEntityV2)
-
-    @Transaction
-    fun updateTemplateId(templateId: Int) {
-        val items = getInvitations().lastOrNull()
-        if (items != null) {
-            updateInvitation(
-                items.copy(
-                    templateId = templateId
-                )
-            )
-        }
-    }
 
     @Transaction
     fun updateWord(title: String, content: String) {
@@ -89,12 +78,29 @@ interface InvitationDaoV2 {
     }
 
     @Transaction
-    fun updateHashCode(hashCode: String?) {
+    fun updateHashCodeAndCreatedTime(hashCode: String, createdTime: Long) {
         val items = getInvitations().lastOrNull()
         if (items != null) {
             updateInvitation(
                 items.copy(
-                    hashCode = hashCode
+                    hashCode = hashCode,
+                    createdTime = createdTime
+                )
+            )
+        }
+    }
+
+    @Transaction
+    fun updateTemplateInfo(templateInfo: TypeItem) {
+        val items = getInvitations().lastOrNull()
+        if (items != null) {
+            updateInvitation(
+                items.copy(
+                    templateId = templateInfo.templateId,
+                    templateImageUrl = templateInfo.imageUrl,
+                    templateBackgroundImageUrl = templateInfo.backgroundImageUrl,
+                    templateTypeName = templateInfo.title,
+                    templateTypeDescription = templateInfo.description
                 )
             )
         }

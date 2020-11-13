@@ -76,7 +76,7 @@ class MainViewModel(
 
                 _isTitle.postValue(invitation.invitationContents.isNullOrEmpty().not())
                 _isDate.postValue(invitation.invitationTime.isNullOrEmpty().not())
-                _isLocation.postValue(invitation.invitationPlaceName.isNullOrEmpty().not())
+                _isLocation.postValue(invitation.mapInfo?.invitationPlaceName.isNullOrEmpty().not())
                 _isPhoto.postValue(invitation.invitationImages.isNullOrEmpty().not())
             }) {
                 Dlog.e(it.message)
@@ -84,11 +84,11 @@ class MainViewModel(
     }
 
     fun completeInvitation() {
-        val templateId = currentTypeItem.value?.templateId ?: return
-        Dlog.d("completeInvitation templateId : $templateId")
+        val typeItem = currentTypeItem.value ?: return
+        Dlog.d("completeInvitation typeItem : $typeItem")
 
         invitationRepository.pathInvitation(
-            templateId, object : BaseResponse<String> {
+            typeItem, object : BaseResponse<String> {
                 override fun onSuccess(data: String) {
                     listener.goToPreview(data)
                 }

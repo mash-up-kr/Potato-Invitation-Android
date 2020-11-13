@@ -97,8 +97,8 @@ class SearchLocationFragment :
     @SuppressLint("CheckResult")
     private fun loadData() {
         invitationRepository.getLatestInvitation().subscribe({
-            setEditText(it?.invitationPlaceName)
-            observableLocationData(it?.invitationPlaceName)
+            setEditText(it?.mapInfo?.invitationPlaceName)
+            observableLocationData(it?.mapInfo?.invitationPlaceName)
         }) {
             Dlog.e(it.message)
         }
