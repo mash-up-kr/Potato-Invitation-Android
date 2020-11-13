@@ -20,10 +20,6 @@ interface InvitationRepository {
 
     fun getLatestInvitation(): Flowable<InvitationsItem>
 
-    fun updateInvitationTemplateId(
-        templateId: Int
-    ): Disposable
-
     fun updateInvitationWords(
         invitationTitle: String,
         invitationContents: String
@@ -41,12 +37,13 @@ interface InvitationRepository {
         imageList: List<ImageInfoItem>
     ): Disposable
 
-    fun updateInvitationHashcode(
-        hashCode: String?
+    fun updateInvitationHashcodeAndCreatedTime(
+        hashCode: String,
+        createdTime: Long
     ): Disposable
 
     fun pathInvitation(
-        templatesId: Int,
+        templateInfo: TypeItem,
         callback: BaseResponse<String>
     ): Disposable
 }

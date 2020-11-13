@@ -80,7 +80,7 @@ class InputLocationFragment :
                 inputLocationVM.setInvitationsData(
                     invitationAddressName,
                     invitationRoadAddressName,
-                    it.invitationPlaceName,
+                    invitationPlaceName,
                     longitude,
                     latitude
                 )

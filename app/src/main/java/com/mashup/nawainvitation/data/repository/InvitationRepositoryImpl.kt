@@ -80,16 +80,6 @@ class InvitationRepositoryImpl(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun updateInvitationTemplateId(
-        templateId: Int
-    ): Disposable {
-        return makeCompletable(
-            call = {
-                invitationDao.updateTemplateId(templateId)
-            }
-        )
-    }
-
     override fun updateInvitationWords(
         invitationTitle: String,
         invitationContents: String
@@ -136,12 +126,13 @@ class InvitationRepositoryImpl(
         )
     }
 
-    override fun updateInvitationHashcode(
-        hashCode: String?
+    override fun updateInvitationHashcodeAndCreatedTime(
+        hashCode: String,
+        createdTime: Long
     ): Disposable {
         return makeCompletable(
             call = {
-                invitationDao.updateHashCode(hashCode)
+                invitationDao.updateHashCodeAndCreatedTime(hashCode, createdTime)
             }
         )
     }
@@ -150,15 +141,15 @@ class InvitationRepositoryImpl(
     private val MEDIA_TYPE_MULTIPART = "multipart/form-data".toMediaTypeOrNull()
 
     override fun pathInvitation(
-        templatesId: Int,
+        templateInfo: TypeItem,
         callback: BaseResponse<String>
     ): Disposable {
-        //TODO [JinSeong] RX 조합법 확인하기
         return Single.fromCallable { }.flatMap {
             val invitations = invitationDao.getInvitations()
             val data = invitations.last()
 
-            val bodyTemplatesId = RequestBody.create(MEDIA_TYPE_TEXT, templatesId.toString())
+            val bodyTemplatesId =
+                RequestBody.create(MEDIA_TYPE_TEXT, templateInfo.templateId.toString())
             val bodyInvitationTitle =
                 RequestBody.create(MEDIA_TYPE_TEXT, data.invitationTitle ?: "")
             val bodyInvitationContents =
@@ -192,6 +183,7 @@ class InvitationRepositoryImpl(
             if (!imageList.isNullOrEmpty()) {
                 bodyImages = getImagesMultiPartBody(imageList)
             }
+            invitationDao.updateTemplateInfo(templateInfo)
             invitationApi.postInvitations(
                 templateId = bodyTemplatesId,
                 invitationTitle = bodyInvitationTitle,

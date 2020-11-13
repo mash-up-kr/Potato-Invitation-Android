@@ -106,14 +106,20 @@ class InvitationPreviewActivity :
         btnInvitationPreview.setOnClickListener {
             when (getViewType()) {
                 ViewType.PREVIEW -> {
+                    //TODO 샘플 보기 화면
                     //MainActivity.startMainActivityWithData(this, getTypeData())
                     //finish()
 
                 }
                 ViewType.SHARE_VIEW -> {
 
-                    val invitationHashCode = intent?.getStringExtra(EXTRA_HASH_CODE)
-                    invitationRepository.updateInvitationHashcode(invitationHashCode)
+                    val invitationHashCode =
+                        intent?.getStringExtra(EXTRA_HASH_CODE) ?: return@setOnClickListener
+
+                    invitationRepository.updateInvitationHashcodeAndCreatedTime(
+                        hashCode = invitationHashCode,
+                        createdTime = System.currentTimeMillis()
+                    )
 
                     val intent = Intent(Intent.ACTION_SEND)
                     intent.type = "text/plain"

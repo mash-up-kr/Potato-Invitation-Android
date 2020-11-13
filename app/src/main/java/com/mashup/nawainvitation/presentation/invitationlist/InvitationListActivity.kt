@@ -53,7 +53,7 @@ class InvitationListActivity :
         /**
          * Room에 저장되어 있는 모든 초대장을 가져옵니다.
          * Flowable 형식으로 받아오게 해놨지만 필요에 따라 변경해서 사용해 주세요.
-         * 초대장 중에서 공유했던 초대장은 hashCode 값을 가지고 있으므로 filter를 통해 내가 생성했던 초대장을 가져올 수 있습니다.
+         * 초대장 중에서 공유했던 초대장은 hashCode 값을 가지고 있으므로 filter 혹은 쿼리문을 통해 내가 생성했던 초대장을 가져올 수 있습니다.
          */
         repository.getInvitations().subscribe({ items ->
             val sharedItems = items.filter { it.hashcode.isNullOrEmpty().not() }
