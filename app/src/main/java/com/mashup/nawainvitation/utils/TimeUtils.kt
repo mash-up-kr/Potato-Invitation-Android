@@ -10,6 +10,13 @@ object TimeUtils {
         hour: String,
         minute: String
     ): String {
-        return "$year-$month-${day}T$hour:${minute}:00.000Z"
+
+        val mHour = if (hour == "0") {
+            "0$hour"
+        } else {
+            hour
+        }
+
+        return "$year-$month-${day}T$mHour:${minute}:00.000Z"
     }
 }
