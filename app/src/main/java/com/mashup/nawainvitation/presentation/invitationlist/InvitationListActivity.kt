@@ -1,70 +1,84 @@
 package com.mashup.nawainvitation.presentation.invitationlist
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
-import com.mashup.nawainvitation.base.util.Dlog
-import com.mashup.nawainvitation.data.base.BaseResponse
+import com.mashup.nawainvitation.base.ext.toast
 import com.mashup.nawainvitation.data.injection.Injection
-import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.databinding.ActivityInvitationListBinding
+import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
+import com.mashup.nawainvitation.presentation.invitationlist.adapter.InvitationListAdapter
+import com.mashup.nawainvitation.presentation.invitationlist.viewmodel.InvitationListViewModel
+import com.mashup.nawainvitation.presentation.invitationlist.viewmodel.InvitationListViewModelFactory
+import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.nawainvitation.presentation.main.MainActivity
 import com.mashup.nawainvitation.presentation.main.model.TypeItem
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import kotlinx.android.synthetic.main.activity_invitation_list.*
 
 class InvitationListActivity :
-    BaseActivity<ActivityInvitationListBinding>(R.layout.activity_invitation_list) {
+    BaseActivity<ActivityInvitationListBinding>(R.layout.activity_invitation_list),
+    InvitationListViewModel.InvitationListListener {
 
-    private val repository: InvitationRepository by lazy {
-        Injection.provideInvitationRepository()
+    private val invitationListVM by lazy {
+        ViewModelProvider(
+            this,
+            InvitationListViewModelFactory(
+                Injection.provideInvitationRepository(), this
+            )
+        ).get(InvitationListViewModel::class.java)
     }
 
-    private val compositeDisposable = CompositeDisposable()
+    private lateinit var adapter: InvitationListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.model = invitationListVM
+        initObserver()
+    }
 
-        repository.getAllTypes(object : BaseResponse<List<TypeItem>> {
-            override fun onSuccess(data: List<TypeItem>) {
-                //TODO [godjoy] MainActivity 넘어갈 때 typeItem을 같이 넘겨주세요
-                MainActivity.startMainActivity(this@InvitationListActivity, data)
-            }
-
-            override fun onFail(description: String) {
-                //..
-            }
-
-            override fun onError(throwable: Throwable) {
-                //..
-            }
-
-            override fun onLoading() {
-                //..
-            }
-
-            override fun onLoaded() {
-                //..
+    private fun initObserver() {
+        invitationListVM.invitations.observe(this, Observer { items ->
+            rvInvitationList.also {
+                it.layoutManager = StaggeredGridLayoutManager(
+                    InvitationListAdapter.SPAN_SIZE,
+                    StaggeredGridLayoutManager.VERTICAL
+                )
+                adapter = InvitationListAdapter(items, this::clickCallback)
+                it.adapter = adapter
             }
         })
 
+        invitationListVM.showToast.observe(this, Observer {
+            this.toast(it)
+        })
 
-        //TODO [godjoy] 공유했던 초대장 가져오기 API
-        /**
-         * Room에 저장되어 있는 모든 초대장을 가져옵니다.
-         * Flowable 형식으로 받아오게 해놨지만 필요에 따라 변경해서 사용해 주세요.
-         * 초대장 중에서 공유했던 초대장은 hashCode 값을 가지고 있으므로 filter 혹은 쿼리문을 통해 내가 생성했던 초대장을 가져올 수 있습니다.
-         */
-        repository.getInvitations().subscribe({ items ->
-            val sharedItems = items.filter { it.hashcode.isNullOrEmpty().not() }
-            Dlog.d("sharedItems : $sharedItems")
-        }) {
-            Dlog.e(it.message)
-        }.addTo(compositeDisposable)
     }
 
-    override fun onDestroy() {
-        compositeDisposable.dispose()
-        super.onDestroy()
+    private fun clickCallback(position: Int) {
+        val data = adapter.getItemWithPosition(position)
+        InvitationPreviewActivity.startPreviewActivityForShare(this, data.hashcode)
     }
+
+    private val loadingDialog by lazy {
+        LoadingDialog(this)
+    }
+
+    override fun goMainActivity(data: List<TypeItem>) {
+        MainActivity.startMainActivity(this@InvitationListActivity, data)
+    }
+
+    override fun showLoading() {
+        if (loadingDialog.isShowing) return
+        loadingDialog.show()
+    }
+
+    override fun hideLoading() {
+        if (loadingDialog.isShowing) {
+            loadingDialog.hide()
+        }
+    }
+
 }
