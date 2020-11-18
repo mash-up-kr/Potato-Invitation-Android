@@ -11,6 +11,7 @@ import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.databinding.ActivityInvitationListBinding
 import com.mashup.nawainvitation.presentation.dialog.LoadingDialog
 import com.mashup.nawainvitation.presentation.invitationlist.adapter.InvitationListAdapter
+import com.mashup.nawainvitation.presentation.invitationlist.adapter.InvitationListItemDecoration
 import com.mashup.nawainvitation.presentation.invitationlist.viewmodel.InvitationListViewModel
 import com.mashup.nawainvitation.presentation.invitationlist.viewmodel.InvitationListViewModelFactory
 import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
@@ -48,6 +49,10 @@ class InvitationListActivity :
                 )
                 adapter = InvitationListAdapter(items, this::clickCallback)
                 it.adapter = adapter
+
+                if (it.itemDecorationCount == 0) {
+                    it.addItemDecoration(InvitationListItemDecoration(this))
+                }
             }
         })
 
