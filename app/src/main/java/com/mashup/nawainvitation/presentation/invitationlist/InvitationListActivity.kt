@@ -1,6 +1,9 @@
 package com.mashup.nawainvitation.presentation.invitationlist
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -38,6 +41,7 @@ class InvitationListActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.model = invitationListVM
+        setSupportActionBar(toolbar)
         initObserver()
     }
 
@@ -96,5 +100,31 @@ class InvitationListActivity :
 
     override fun hideEmptyView() {
         layoutListEmpty.visibility = View.GONE
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.appbar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        LandingPageActivity.apply {
+            return when (item.itemId) {
+                R.id.action_version -> {
+                    startLandingPageActivity(this@InvitationListActivity, EXTRA_VERSION_TYPE)
+                    true
+                }
+                R.id.action_landing -> {
+                    startLandingPageActivity(this@InvitationListActivity, EXTRA_LANDING_TYPE)
+                    true
+                }
+                R.id.action_feedback -> {
+                    startLandingPageActivity(this@InvitationListActivity, EXTRA_FEEDBACK_TYPE)
+                    true
+                }
+                else -> return super.onOptionsItemSelected(item)
+            }
+        }
     }
 }
