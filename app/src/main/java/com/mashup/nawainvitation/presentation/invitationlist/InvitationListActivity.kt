@@ -1,6 +1,7 @@
 package com.mashup.nawainvitation.presentation.invitationlist
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -60,6 +61,9 @@ class InvitationListActivity :
             this.toast(it)
         })
 
+        invitationListVM.showEmptyView.observe(this, Observer {
+            if (it) showEmptyView() else hideEmptyView()
+        })
     }
 
     private fun clickCallback(position: Int) {
@@ -86,4 +90,11 @@ class InvitationListActivity :
         }
     }
 
+    override fun showEmptyView() {
+        layoutListEmpty.visibility = View.VISIBLE
+    }
+
+    override fun hideEmptyView() {
+        layoutListEmpty.visibility = View.GONE
+    }
 }

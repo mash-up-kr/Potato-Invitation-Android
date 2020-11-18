@@ -24,6 +24,9 @@ class InvitationListViewModel(
     private val _showToast = MutableLiveData<String>()
     val showToast: LiveData<String> get() = _showToast
 
+    private val _showEmptyView = MutableLiveData<Boolean>().apply { value = false }
+    val showEmptyView: LiveData<Boolean> get() = _showEmptyView
+
 
     init {
         getAllInvitations()
@@ -105,6 +108,8 @@ class InvitationListViewModel(
         fun goMainActivity(data: List<TypeItem>)
         fun showLoading()
         fun hideLoading()
+        fun showEmptyView()
+        fun hideEmptyView()
     }
 
 }
