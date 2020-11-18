@@ -118,7 +118,7 @@ class InvitationPreviewActivity :
 
                     invitationRepository.updateInvitationHashcodeAndCreatedTime(
                         hashCode = invitationHashCode,
-                        createdTime = System.currentTimeMillis()
+                        createdTime = System.currentTimeMillis() / 1000L
                     )
 
                     val intent = Intent(Intent.ACTION_SEND)

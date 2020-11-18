@@ -2,6 +2,14 @@ package com.mashup.nawainvitation.presentation.main.model
 
 import com.mashup.nawainvitation.data.room.entity.InvitationEntityV2
 import com.mashup.nawainvitation.data.room.typeadpter.ImageListTypeAdapter
+import com.mashup.nawainvitation.presentation.invitationlist.adapter.InvitationListAdapter
+import com.mashup.nawainvitation.presentation.invitationlist.getTemplateIcon
+import com.mashup.nawainvitation.presentation.invitationlist.model.InvitationListItem
+import com.mashup.nawainvitation.utils.TimeUtils.getTimeStampToDate
+import com.mashup.nawainvitation.utils.TimeUtils.toMonthDay
+import com.mashup.nawainvitation.utils.TimeUtils.toTime
+import com.mashup.nawainvitation.utils.TimeUtils.toYearMonth
+import com.mashup.nawainvitation.utils.TimeUtils.toYearMonthDay
 
 data class InvitationsItem(
     val templateId: Int?,
@@ -60,4 +68,20 @@ fun InvitationEntityV2.mapToPresentation() = InvitationsItem(
     createdTime = createdTime
 )
 
+fun InvitationsItem.mapToInvitationListItem() = InvitationListItem(
+    viewType = InvitationListAdapter.TYPE_INVITATION,
+    templateId = templateId,
+    templateImage = templateId.getTemplateIcon(),
+    templateTypeName = templateTypeName,
+
+    invitationTitle = invitationTitle,
+    invitationDate = invitationTime?.toMonthDay(),
+    invitationTime = invitationTime?.toTime(),
+    place = mapInfo?.invitationPlaceName,
+    hashcode = hashcode,
+    //포맷 바꿔서 사용
+    createdTime = createdTime?.let { getTimeStampToDate(it).toYearMonthDay() },
+    //toYearMonth() 사용
+    createdYearMonth = createdTime?.let { getTimeStampToDate(it).toYearMonth() }
+)
 
