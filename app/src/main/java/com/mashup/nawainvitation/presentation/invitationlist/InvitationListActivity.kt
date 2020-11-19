@@ -72,7 +72,7 @@ class InvitationListActivity :
 
     private fun clickCallback(position: Int) {
         val data = adapter.getItemWithPosition(position)
-        InvitationPreviewActivity.startPreviewActivityForShare(this, data.hashcode)
+        InvitationPreviewActivity.startPreviewActivityForAgainView(this, data.hashcode)
     }
 
     private val loadingDialog by lazy {
