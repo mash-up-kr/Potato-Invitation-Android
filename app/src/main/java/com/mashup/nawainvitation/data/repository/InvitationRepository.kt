@@ -46,4 +46,6 @@ interface InvitationRepository {
         templateInfo: TypeItem,
         callback: BaseResponse<String>
     ): Disposable
+
+    fun deleteAllImage()
 }

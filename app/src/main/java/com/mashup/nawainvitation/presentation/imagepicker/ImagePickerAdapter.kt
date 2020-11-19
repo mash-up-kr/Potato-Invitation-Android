@@ -34,7 +34,8 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
                 LayoutInflater.from(context).inflate(R.layout.item_image_picker, parent, false)
             )
             TYPE_PLUS_INIT -> InitPlusViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.item_image_picker_plus_init, parent, false)
+                LayoutInflater.from(context)
+                    .inflate(R.layout.item_image_picker_plus_init, parent, false)
             )
             TYPE_PLUS -> PlusImageViewHolder(
                 LayoutInflater.from(context).inflate(R.layout.item_image_picker_plus, parent, false)
@@ -71,11 +72,11 @@ class ImagePickerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerVi
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(_data.isEmpty() && position == 0){
+        if (_data.isEmpty() && position == 0) {
             (holder as InitPlusViewHolder).bind()
-        }else if(position >= _data.size){
+        } else if (position >= _data.size) {
             (holder as PlusImageViewHolder).bind()
-        }else{
+        } else {
             (holder as ImagePickerViewHolder).bind(_data[position])
         }
     }

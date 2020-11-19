@@ -258,6 +258,12 @@ class InvitationRepositoryImpl(
         return Pair(isValid, bodyImages.toTypedArray())
     }
 
+    override fun deleteAllImage() {
+        makeCompletable {
+            invitationDao.deleteAllImage()
+        }
+    }
+
     private fun makeCompletable(call: () -> Unit) =
         Completable.fromCallable {
             call.invoke()

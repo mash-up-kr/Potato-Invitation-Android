@@ -105,4 +105,17 @@ interface InvitationDaoV2 {
             )
         }
     }
+
+    @Transaction
+    fun deleteAllImage() {
+        val items = getInvitations().lastOrNull()
+        if (items != null) {
+            updateInvitation(
+                items.copy(
+                    images = null
+                )
+            )
+        }
+    }
+
 }

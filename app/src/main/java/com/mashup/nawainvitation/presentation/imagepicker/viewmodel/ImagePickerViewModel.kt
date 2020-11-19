@@ -75,13 +75,13 @@ class ImagePickerViewModel(
             .addTo(compositeDisposable)
     }
 
-    fun addImageUriList(uriList: List<Uri>) {
+    private fun addImageUriList(uriList: List<Uri>) {
         val list = _imageUriList.value ?: return
         list.addAll(uriList)
         _imageUriList.value = list
     }
 
-    fun updateImage(uri: Uri, position: Int) {
+    private fun updateImage(uri: Uri, position: Int) {
         val list = _imageUriList.value ?: return
         list[position] = uri
         _imageUriList.value = list
@@ -120,5 +120,9 @@ class ImagePickerViewModel(
             uriList.add(Uri.parse(data.imageUri))
         }
         return uriList
+    }
+
+    fun deleteAllImage() {
+        repository.deleteAllImage()
     }
 }
