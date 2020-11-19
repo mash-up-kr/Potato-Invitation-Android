@@ -22,11 +22,14 @@ class InvitationPreviewActivity :
 
         private const val INVITATION_PREVIEW_URL = "${DEFAULT_URL}preview"
 
+
         private const val EXTRA_VIEW_TYPE = "view_type"
 
         private const val EXTRA_TYPE_DATA = "type_data"
 
         private const val EXTRA_HASH_CODE = "hash_code"
+
+        private const val EXTRA_ALREADY_VIEW = "already_view"
 
         fun startPreviewActivity(context: Context, typeItem: TypeItem) {
             context.startActivity(
@@ -45,6 +48,17 @@ class InvitationPreviewActivity :
                 }
             )
         }
+
+        fun startPreviewActivityForAgainView(context: Context, invitationHashCode: String?) {
+            context.startActivity(
+                Intent(context, InvitationPreviewActivity::class.java).apply {
+                    putExtra(EXTRA_VIEW_TYPE, ViewType.SHARE_VIEW)
+                    putExtra(EXTRA_VIEW_TYPE, ViewType.SHARE_VIEW)
+                    putExtra(EXTRA_HASH_CODE, invitationHashCode)
+                    putExtra(EXTRA_ALREADY_VIEW, true)
+                }
+            )
+        }
     }
 
     enum class ViewType {
@@ -55,12 +69,16 @@ class InvitationPreviewActivity :
         Injection.provideInvitationRepository()
     }
 
+    private var alreadyShared = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initView()
         initButton()
         initWebview()
+
+        alreadyShared = intent?.getBooleanExtra(EXTRA_ALREADY_VIEW, false) ?: false
 
         when (getViewType()) {
             ViewType.PREVIEW -> {
@@ -113,10 +131,15 @@ class InvitationPreviewActivity :
                     val invitationHashCode =
                         intent?.getStringExtra(EXTRA_HASH_CODE) ?: return@setOnClickListener
 
-                    invitationRepository.updateInvitationHashcodeAndCreatedTime(
-                        hashCode = invitationHashCode,
-                        createdTime = System.currentTimeMillis() / 1000L
-                    )
+                    if (alreadyShared.not()) {
+                        invitationRepository.updateInvitationHashcodeAndCreatedTime(
+                            hashCode = invitationHashCode,
+                            createdTime = System.currentTimeMillis() / 1000L
+                        )
+
+                        alreadyShared = true
+                    }
+
 
                     val intent = Intent(Intent.ACTION_SEND)
                     intent.type = "text/plain"

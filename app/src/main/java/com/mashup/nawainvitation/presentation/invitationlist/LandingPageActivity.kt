@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.mashup.nawainvitation.BuildConfig
 import com.mashup.nawainvitation.R
 import kotlinx.android.synthetic.main.activity_landing_page.*
 
@@ -34,8 +35,8 @@ class LandingPageActivity : AppCompatActivity() {
 
     private fun setVersionTypeData() {
         tvLandingTitle.text = getText(R.string.vesion_title)
-        tvLandingFirstTitle.text = getText(R.string.vesion_first_title)
-        tvLandingFirstText.text = getText(R.string.vesion_first_text)
+        tvLandingFirstTitle.text = ("Ver. ${BuildConfig.VERSION_NAME}")
+        //tvLandingFirstText.text = getText(R.string.vesion_first_text)
     }
 
     private fun setLandingTypeData() {
