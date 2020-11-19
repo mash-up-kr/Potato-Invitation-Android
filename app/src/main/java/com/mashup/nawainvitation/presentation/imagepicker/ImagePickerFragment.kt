@@ -1,5 +1,6 @@
 package com.mashup.nawainvitation.presentation.imagepicker
 
+import android.app.AlertDialog
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
@@ -59,6 +60,7 @@ class ImagePickerFragment :
         super.onViewCreated(view, savedInstanceState)
         initComponent()
         initView()
+        initButton()
         observeLiveData()
         binding.imageModel = imagePickerViewModel
     }
@@ -101,12 +103,29 @@ class ImagePickerFragment :
         }
     }
 
+    private fun initButton() {
+        binding.ivTrashImage.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext()).apply {
+                setMessage("전체 이미지를 삭제합니다.")
+                setPositiveButton("삭제") { _, _ ->
+                    imagePickerViewModel.deleteAllImage()
+                    //TODO [두한] imagePickAdapter 에서 데이터를 어떻게 해야 삭제되는지 모르겠습니다.
+                    mainViewModel.listener.goToInvitationMain()
+                }
+                setNegativeButton("취소") { _, _ -> }
+            }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.clear()
     }
 
-    fun onClicked(data: ImageClickData) {
+    private fun onClicked(data: ImageClickData) {
         when (data.view.id) {
             R.id.clRootImagePicker -> {
                 // 이미지 수정
@@ -119,9 +138,9 @@ class ImagePickerFragment :
         }
     }
 
-    fun onLongClicked(data: ImageClickData) {
+    private fun onLongClicked(data: ImageClickData) {
         // 이미지 삭제
-//        imagePickerViewModel.deleteImage(data.position)
+        // imagePickerViewModel.deleteImage(data.position)
     }
 
     private fun Disposable.addTo(compositeDisposable: CompositeDisposable) =
