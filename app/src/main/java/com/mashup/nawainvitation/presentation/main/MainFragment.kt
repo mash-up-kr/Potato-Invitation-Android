@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
 import com.mashup.nawainvitation.base.ext.toast
@@ -44,6 +45,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private fun initViewPager() {
         with(binding.vpMain) {
             adapter = typePagerAdapter
+
+            TabLayoutMediator(binding.tlMain, binding.vpMain) { _, _ -> }.attach()
 
             typePagerAdapter.replaceAll(mainViewModel.typeItems)
 

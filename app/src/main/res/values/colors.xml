@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#66000000</color>
     <color name="colorAccent">#03DAC5</color>
 
-    <color name="colorTypeIndicatorSelectedDot">#1f4bb3</color>
-    <color name="colorTypeIndicatorUnSelectedDot">#4c1f4bb3</color>
+    <color name="colorTypeIndicatorSelectedDot">#60d170</color>
+    <color name="colorTypeIndicatorUnSelectedDot">#e2dcd7</color>
 
     <color name="black">#000000</color>
     <color name="blue_blue">#234eb6</color>
