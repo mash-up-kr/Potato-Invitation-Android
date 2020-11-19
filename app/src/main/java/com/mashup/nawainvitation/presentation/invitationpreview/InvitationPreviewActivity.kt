@@ -106,10 +106,7 @@ class InvitationPreviewActivity :
         btnInvitationPreview.setOnClickListener {
             when (getViewType()) {
                 ViewType.PREVIEW -> {
-                    //TODO 샘플 보기 화면
-                    //MainActivity.startMainActivityWithData(this, getTypeData())
-                    //finish()
-
+                    finish()
                 }
                 ViewType.SHARE_VIEW -> {
 

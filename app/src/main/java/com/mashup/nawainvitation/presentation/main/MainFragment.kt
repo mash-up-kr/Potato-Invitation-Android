@@ -10,6 +10,7 @@ import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
 import com.mashup.nawainvitation.base.ext.toast
 import com.mashup.nawainvitation.databinding.FragmentMainBinding
+import com.mashup.nawainvitation.presentation.invitationpreview.InvitationPreviewActivity
 import com.mashup.nawainvitation.presentation.main.adapter.TypePagerAdapter
 
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -37,6 +38,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         binding.documents = null
 
         initViewPager()
+        initButton()
         initObserver()
 
         mainViewModel.loadInvitations()
@@ -65,6 +67,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
             goLeft()
             goRight()
+        }
+    }
+
+    private fun initButton() {
+        binding.tvSeePreview.setOnClickListener {
+            mainViewModel.currentTypeItem.value?.let { item ->
+                InvitationPreviewActivity.startPreviewActivity(
+                    requireContext(), item
+                )
+            }
         }
     }
 

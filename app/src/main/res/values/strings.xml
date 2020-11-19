@@ -62,4 +62,5 @@
     <string name="fedb_first_text">문의 및 건의사항 연락주세요!</string>
     <string name="limit_count_format">/ %d자</string>
 
+    <string name="see_preview_complete_invitation"><u>초대장 완성 모습 미리보기</u></string>
 </resources>
