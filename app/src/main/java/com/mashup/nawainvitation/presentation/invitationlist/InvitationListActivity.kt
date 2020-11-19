@@ -1,5 +1,7 @@
 package com.mashup.nawainvitation.presentation.invitationlist
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -8,6 +10,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.mashup.nawainvitation.BuildConfig
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseActivity
 import com.mashup.nawainvitation.base.ext.toast
@@ -120,11 +123,25 @@ class InvitationListActivity :
                     true
                 }
                 R.id.action_feedback -> {
-                    startLandingPageActivity(this@InvitationListActivity, EXTRA_FEEDBACK_TYPE)
+                    sendEmail()
                     true
                 }
                 else -> return super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    private fun sendEmail() {
+        val email = Intent(Intent.ACTION_SEND).apply {
+            type = "plain/Text"
+            val address = arrayOf("dlwls5201@gmail.com")
+            putExtra(Intent.EXTRA_EMAIL, address)
+            putExtra(Intent.EXTRA_SUBJECT, "<" + getString(R.string.app_name) + ">")
+            putExtra(
+                Intent.EXTRA_TEXT,
+                "AppVersion :${BuildConfig.VERSION_NAME}\nDevice : ${Build.MODEL}\nAndroid OS : ${Build.VERSION.SDK_INT}\n\n Content :\n"
+            )
+        }
+        startActivity(email)
     }
 }
