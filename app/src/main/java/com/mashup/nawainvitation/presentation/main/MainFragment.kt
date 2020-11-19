@@ -62,6 +62,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                     mainViewModel.setCurrentTypeIndex(position)
                 }
             })
+
+            goLeft()
+            goRight()
         }
     }
 
@@ -70,4 +73,33 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             requireContext().toast(it)
         })
     }
+
+    private fun goLeft() {
+        binding.ibLeftMain.setOnClickListener {
+            val current = getItem(-1)
+            when {
+                current >= 0 -> setCurrentItem(current)
+                current < 0 -> setCurrentItem(5)
+            }
+        }
+    }
+
+    private fun goRight() {
+        binding.ibRightMain.setOnClickListener {
+            val current = getItem(1)
+            when {
+                current < 6 -> setCurrentItem(current)
+                current == 6 -> setCurrentItem(0)
+            }
+        }
+    }
+
+    private val getItem = { i: Int -> binding.vpMain.currentItem + i }
+    private val setCurrentItem = { current: Int ->
+        binding.vpMain.apply {
+            currentItem = current
+            adapter?.notifyDataSetChanged()
+        }
+    }
+
 }
