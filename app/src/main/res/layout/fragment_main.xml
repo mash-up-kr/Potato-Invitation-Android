@@ -56,8 +56,8 @@
             android:layout_gravity="bottom"
             android:background="@color/white_two"
             app:tabBackground="@drawable/selector_type_indicator"
-            app:tabIndicator="@null"
             app:tabGravity="center"
+            app:tabIndicator="@null"
             app:tabPaddingStart="0.1dp" />
 
         <androidx.cardview.widget.CardView
@@ -77,15 +77,14 @@
                 android:orientation="vertical"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="40dp">
+                android:paddingEnd="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{model.currentTypeItem.description}"
                     android:textColor="@color/black"
                     android:textSize="16dp"
-                    android:text="@{model.currentTypeItem.description}"
                     tools:text="난 너가 꼭 와주면 좋겠어💖 와줄꺼지?" />
 
                 <include
@@ -123,6 +122,19 @@
                     android:onClick="@{() -> model.listener.goToInvitationPhoto()}"
                     bind:isChecked="@{model.isPhoto()}"
                     bind:title="@{@string/input_photo}" />
+
+                <TextView
+                    android:id="@+id/tv_see_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="18dp"
+                    android:gravity="center"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/see_preview_complete_invitation"
+                    android:textColor="#9e9e9e"
+                    android:textSize="12dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
