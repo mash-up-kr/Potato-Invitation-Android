@@ -100,7 +100,7 @@ class MainViewModel(
 
                 override fun onError(throwable: Throwable) {
                     Dlog.e("onError ${throwable.message}")
-                    _showToast.postValue("error")
+                    _showToast.postValue(throwable.message)
                 }
 
                 override fun onLoading() {

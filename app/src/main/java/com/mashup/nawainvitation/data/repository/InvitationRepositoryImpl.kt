@@ -1,5 +1,6 @@
 package com.mashup.nawainvitation.data.repository
 
+import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.data.api.InvitationApi
 import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.room.dao.InvitationDaoV2
@@ -21,6 +22,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.net.URLDecoder
 
 
 class InvitationRepositoryImpl(
@@ -150,40 +152,56 @@ class InvitationRepositoryImpl(
 
             val bodyTemplatesId =
                 RequestBody.create(MEDIA_TYPE_TEXT, templateInfo.templateId.toString())
+
             val bodyInvitationTitle =
                 RequestBody.create(MEDIA_TYPE_TEXT, data.invitationTitle ?: "")
+
             val bodyInvitationContents =
                 RequestBody.create(MEDIA_TYPE_TEXT, data.invitationContents ?: "")
+
             val bodyInvitationTime =
                 RequestBody.create(MEDIA_TYPE_TEXT, data.invitationTime ?: "")
+
             val bodyInvitationAddressName = RequestBody.create(
                 MEDIA_TYPE_TEXT,
                 data.locationEntity?.invitationAddressName ?: ""
             )
+
             val bodyInvitationRoadAddressName = RequestBody.create(
                 MEDIA_TYPE_TEXT,
                 data.locationEntity?.invitationRoadAddressName ?: ""
             )
+
             val bodyInvitationPlaceName = RequestBody.create(
                 MEDIA_TYPE_TEXT,
                 data.locationEntity?.invitationPlaceName ?: ""
             )
+
             val mLatitude = data.locationEntity?.latitude
             val bodyLatitude = RequestBody.create(
                 MEDIA_TYPE_TEXT,
                 if (mLatitude == null) "" else data.locationEntity.latitude.toString()
             )
+
             val mLongitude = data.locationEntity?.longitude
             val bodyLongitude = RequestBody.create(
                 MEDIA_TYPE_TEXT,
                 if (mLongitude == null) "" else data.locationEntity.longitude.toString()
             )
+
             var bodyImages: Array<MultipartBody.Part>? = null
             val imageList = ImageListTypeAdapter.jsonStringToImageList(data.images)
             if (!imageList.isNullOrEmpty()) {
-                bodyImages = getImagesMultiPartBody(imageList)
+                val (isValid, body) = getImagesMultiPartBody(imageList)
+                if (isValid.not()) {
+                    //사진이 경로에 존재하지 않는 경우
+                    error("사진이 디바이스에 존재하지 않습니다.")
+                }
+                bodyImages = body
             }
+
             invitationDao.updateTemplateInfo(templateInfo)
+
             invitationApi.postInvitations(
                 templateId = bodyTemplatesId,
                 invitationTitle = bodyInvitationTitle,
@@ -212,16 +230,32 @@ class InvitationRepositoryImpl(
             }
     }
 
-    private fun getImagesMultiPartBody(imageList: List<ImageInfoItem>): Array<MultipartBody.Part> {
+    private fun getImagesMultiPartBody(imageList: List<ImageInfoItem>): Pair<Boolean, Array<MultipartBody.Part>> {
         val bodyImages = mutableListOf<MultipartBody.Part>()
+
+        var isValid = true
 
         for (i in imageList.indices) {
             val imageUri = imageList[i].imageUri!!
-            val file = File(imageUri.replace("file://", ""))
+
+            //Dlog.d("imageUri : ${File(imageUri).exists()} -> $imageUri")
+
+            val imagePath = imageUri.replace("file://", "")
+            val decodingPath = URLDecoder.decode(imagePath, "UTF-8")
+            val file = File(decodingPath)
+
+            Dlog.d("imagePath : ${file.exists()} -> $decodingPath")
+
+            if (file.exists().not()) {
+                isValid = false
+                break
+            }
+
             val requestBody = file.asRequestBody(MEDIA_TYPE_MULTIPART)
             bodyImages.add(MultipartBody.Part.createFormData("files", file.name, requestBody))
         }
-        return bodyImages.toTypedArray()
+
+        return Pair(isValid, bodyImages.toTypedArray())
     }
 
     private fun makeCompletable(call: () -> Unit) =
