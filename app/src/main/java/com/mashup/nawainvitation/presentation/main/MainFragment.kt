@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
 import com.mashup.nawainvitation.base.ext.toast
@@ -45,6 +46,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         with(binding.vpMain) {
             adapter = typePagerAdapter
 
+            TabLayoutMediator(binding.tlMain, binding.vpMain) { _, _ -> }.attach()
+
             typePagerAdapter.replaceAll(mainViewModel.typeItems)
 
             val currentIndex = typePagerAdapter.getIndexFromTemplateId(
@@ -59,6 +62,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                     mainViewModel.setCurrentTypeIndex(position)
                 }
             })
+
+            goLeft()
+            goRight()
         }
     }
 
@@ -67,4 +73,33 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             requireContext().toast(it)
         })
     }
+
+    private fun goLeft() {
+        binding.ibLeftMain.setOnClickListener {
+            val current = getItem(-1)
+            when {
+                current >= 0 -> setCurrentItem(current)
+                current < 0 -> setCurrentItem(5)
+            }
+        }
+    }
+
+    private fun goRight() {
+        binding.ibRightMain.setOnClickListener {
+            val current = getItem(1)
+            when {
+                current < 6 -> setCurrentItem(current)
+                current == 6 -> setCurrentItem(0)
+            }
+        }
+    }
+
+    private val getItem = { i: Int -> binding.vpMain.currentItem + i }
+    private val setCurrentItem = { current: Int ->
+        binding.vpMain.apply {
+            currentItem = current
+            adapter?.notifyDataSetChanged()
+        }
+    }
+
 }

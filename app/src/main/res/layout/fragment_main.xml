@@ -21,11 +21,44 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_main"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:background="@color/white_two" />
+            android:layout_height="wrap_content">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_main"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:background="@color/white_two" />
+
+            <ImageButton
+                android:id="@+id/ibLeftMain"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginStart="24dp"
+                android:background="@drawable/ic_icon_arrow_left_green" />
+
+            <ImageButton
+                android:id="@+id/ibRightMain"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/ic_icon_arrow_right_green" />
+
+        </FrameLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tlMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/white_two"
+            app:tabBackground="@drawable/selector_type_indicator"
+            app:tabIndicator="@null"
+            app:tabGravity="center"
+            app:tabPaddingStart="0.1dp" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
