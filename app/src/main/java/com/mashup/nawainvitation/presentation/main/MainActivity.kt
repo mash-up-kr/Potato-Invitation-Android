@@ -19,6 +19,7 @@ import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
 import com.mashup.nawainvitation.presentation.searchlocation.view.InputLocationFragment
 import com.mashup.nawainvitation.presentation.searchlocation.view.SearchLocationFragment
 import com.mashup.nawainvitation.presentation.selectdatatime.SelectingDateTimeFragment
+import com.mashup.nawainvitation.presentation.tutorial.TutorialActivity
 import com.mashup.nawainvitation.utils.AppUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -66,6 +67,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
 
     private fun initFragment() {
         goToInvitationMain()
+        mainViewModel.isFirstInvitation()
     }
 
     private fun replaceFragmentWithTitle(title: String, fragment: Fragment, tag: String? = null) {
@@ -135,6 +137,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
             this,
             hashCode
         )
+    }
+
+    override fun gotoTutorial() {
+        TutorialActivity.startTutorialActivity(this)
     }
 
     private val loadingDialog by lazy {

@@ -37,6 +37,11 @@
         <activity android:name=".presentation.invitationlist.InvitationListActivity" />
 
         <activity android:name=".presentation.invitationlist.LandingPageActivity" />
+
+        <activity
+            android:name=".presentation.tutorial.TutorialActivity"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="16e5c5f8df2c682432c3659bd5c2a8d5" />
