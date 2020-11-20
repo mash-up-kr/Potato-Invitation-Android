@@ -49,7 +49,7 @@ class SelectingDateTimeFragment : Fragment() {
     var hourNowInt = hourNow.format(mDate).toInt()
     var minNow: SimpleDateFormat = SimpleDateFormat("mm")
 
-    var userHour = "$hourNowInt"
+    var userHour = if (hourNowInt < 10) "0$hourNowInt" else "$hourNowInt"
     var userMin = "" + minNow.format(mDate)
 
     val today = Calendar.getInstance()
