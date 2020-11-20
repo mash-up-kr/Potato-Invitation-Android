@@ -3,12 +3,14 @@ package com.mashup.nawainvitation.presentation.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import com.mashup.nawainvitation.NawaInvitationApplication
 import com.mashup.nawainvitation.base.BaseViewModel
 import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.presentation.main.model.TypeItem
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
+import com.mashup.nawainvitation.utils.PreferenceUtils
 
 class MainViewModel(
     private val invitationRepository: InvitationRepository,
@@ -114,6 +116,21 @@ class MainViewModel(
         )
     }
 
+    fun isFirstInvitation() {
+        val checkFirst = PreferenceUtils
+            .getBoolean(
+                NawaInvitationApplication.INSTANCE,
+                PreferenceUtils.CHECK_FIRST_INVITATION,
+                true
+            )
+        if (checkFirst) {
+            listener.gotoTutorial()
+            PreferenceUtils.putBoolean(
+                NawaInvitationApplication.INSTANCE, PreferenceUtils.CHECK_FIRST_INVITATION, false
+            )
+        }
+    }
+
     interface MainListener {
 
         fun goToInvitationMain()
@@ -129,6 +146,8 @@ class MainViewModel(
         fun goToInvitationPhoto()
 
         fun goToPreview(hashCode: String)
+
+        fun gotoTutorial()
 
         fun showLoading()
 

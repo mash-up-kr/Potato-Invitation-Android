@@ -7,6 +7,7 @@ object PreferenceUtils {
     private val TAG = PreferenceUtils::class.java.simpleName
 
     const val PREFERENCES_NAME = "preference_util"
+    const val CHECK_FIRST_INVITATION = "check_first_invitation"
 
     private const val DEFAULT_STRING = ""
     private const val DEFAULT_BOOLEAN = false
