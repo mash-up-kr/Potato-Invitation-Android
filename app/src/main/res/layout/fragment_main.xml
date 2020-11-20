@@ -146,6 +146,7 @@
         <com.mashup.nawainvitation.custom.LemonButton
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:foreground="?attr/selectableItemBackground"
             android:enabled="@{model.enableBtn}"
             android:onClick="@{() -> model.completeInvitation()}"
             android:text="@string/complete"

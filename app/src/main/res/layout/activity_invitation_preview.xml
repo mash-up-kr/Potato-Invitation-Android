@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -57,8 +58,29 @@
                 android:layout_height="60dp"
                 android:layout_gravity="bottom"
                 android:enabled="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:text="@string/input_complete"
                 android:textSize="24dp" />
+
+            <FrameLayout
+                android:id="@+id/flInvitationPreviewProgress"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                android:background="@color/black_54"
+                android:clickable="true"
+                android:focusable="true"
+                android:translationZ="10dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ProgressBar
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/white" />
+
+            </FrameLayout>
         </FrameLayout>
     </LinearLayout>
 </layout>

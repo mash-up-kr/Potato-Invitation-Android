@@ -45,6 +45,12 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="16e5c5f8df2c682432c3659bd5c2a8d5" />
+
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        <!--  TODO 광고 테스트 아이디 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
     </application>
 
 </manifest>
