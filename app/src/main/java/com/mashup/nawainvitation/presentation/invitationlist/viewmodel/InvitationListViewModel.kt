@@ -24,7 +24,7 @@ class InvitationListViewModel(
     private val _showToast = MutableLiveData<String>()
     val showToast: LiveData<String> get() = _showToast
 
-    private val _showEmptyView = MutableLiveData<Boolean>().apply { value = false }
+    private val _showEmptyView = MutableLiveData(true)
     val showEmptyView: LiveData<Boolean> get() = _showEmptyView
 
 
@@ -98,6 +98,7 @@ class InvitationListViewModel(
             .subscribe({ items ->
                 val invitations =
                     items.filter { it.hashcode.isNullOrEmpty().not() && it.templateId != -1 }
+                if (invitations.isNullOrEmpty().not()) _showEmptyView.value = false
                 func(invitations)
             }) {
                 Dlog.e(it.message)
