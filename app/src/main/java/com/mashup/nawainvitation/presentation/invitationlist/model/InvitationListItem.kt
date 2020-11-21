@@ -1,5 +1,7 @@
 package com.mashup.nawainvitation.presentation.invitationlist.model
 
+import java.util.*
+
 
 data class InvitationListItem(
     val viewType: Int,
@@ -9,6 +11,7 @@ data class InvitationListItem(
     val templateTypeName: String? = null,
 
     val invitationTitle: String? = null,
+    val invitationDateDefault: Date? = null,
     val invitationDate: String? = null,
     val invitationTime: String? = null,
     val place: String? = null,

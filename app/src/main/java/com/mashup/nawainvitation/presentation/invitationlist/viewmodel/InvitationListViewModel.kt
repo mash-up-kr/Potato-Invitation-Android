@@ -71,7 +71,13 @@ class InvitationListViewModel(
     }
 
     private fun setTestData(data: List<InvitationListItem>) {
-        val invitations = data.sortedBy { it.createdTime }.groupBy { it.createdYearMonth }
+        val invitations = data
+            .sortedWith(
+                compareBy(InvitationListItem::createdTime).thenByDescending(
+                    InvitationListItem::invitationDateDefault
+                )
+            )
+            .groupBy { it.createdYearMonth }
 
         // header list 생성
         val headerList = mutableListOf<InvitationListItem>()

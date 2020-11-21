@@ -24,7 +24,7 @@ object TimeUtils {
         return "$year-$month-${day}T$mHour:${minute}:00.000Z"
     }
 
-    private fun String.toDateTimeDefault(): Date {
+    fun String.toDateTimeDefault(): Date {
         val defaultFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         return defaultFormat.parse(this)
     }

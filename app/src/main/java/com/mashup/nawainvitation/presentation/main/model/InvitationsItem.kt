@@ -6,6 +6,7 @@ import com.mashup.nawainvitation.presentation.invitationlist.adapter.InvitationL
 import com.mashup.nawainvitation.presentation.invitationlist.getTemplateIcon
 import com.mashup.nawainvitation.presentation.invitationlist.model.InvitationListItem
 import com.mashup.nawainvitation.utils.TimeUtils.getTimeStampToDate
+import com.mashup.nawainvitation.utils.TimeUtils.toDateTimeDefault
 import com.mashup.nawainvitation.utils.TimeUtils.toMonthDay
 import com.mashup.nawainvitation.utils.TimeUtils.toTime
 import com.mashup.nawainvitation.utils.TimeUtils.toYearMonth
@@ -75,6 +76,7 @@ fun InvitationsItem.mapToInvitationListItem() = InvitationListItem(
     templateTypeName = templateTypeName,
 
     invitationTitle = invitationTitle,
+    invitationDateDefault = invitationTime?.toDateTimeDefault(),
     invitationDate = invitationTime?.toMonthDay(),
     invitationTime = invitationTime?.toTime(),
     place = mapInfo?.invitationPlaceName,
