@@ -29,6 +29,7 @@ class InvitationPreviewActivity :
     companion object {
 
         //TODO 광고 테스트 아이디
+        //ca-app-pub-3940256099942544/5224354917
         private const val REWARD_ID = "ca-app-pub-3940256099942544/5224354917"
 
         private const val TAG = "AdMob"
@@ -177,10 +178,24 @@ class InvitationPreviewActivity :
                         })
                     } else {
                         Log.d(TAG, "The rewarded ad wasn't loaded yet.")
+                        shareHashCodeWithoutReward(invitationHashCode)
                     }
                 }
             }
         }
+    }
+
+    private fun shareHashCodeWithoutReward(invitationHashCode: String) {
+        alreadyShared = true
+
+        invitationRepository.updateInvitationHashcodeAndCreatedTime(
+            hashCode = invitationHashCode,
+            createdTime = System.currentTimeMillis() / 1000L
+        )
+
+        longToast("초대장이 생성되었습니다.")
+
+        shareHashcode()
     }
 
     private fun shareHashcode() {
