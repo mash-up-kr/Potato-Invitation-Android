@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiProvider {
 
-    private const val baseUrl = "http://15.165.190.104/"
+    private const val baseUrl = "http://15.165.190.104/apis/v2/"
 
     fun provideInvitationApi(): InvitationApi = getRetrofitBuild().create(InvitationApi::class.java)
 

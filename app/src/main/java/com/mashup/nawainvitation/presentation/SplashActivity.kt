@@ -7,7 +7,7 @@ import com.mashup.nawainvitation.base.BaseActivity
 import com.mashup.nawainvitation.data.base.BaseResponse
 import com.mashup.nawainvitation.data.injection.Injection
 import com.mashup.nawainvitation.databinding.ActivitySplashBinding
-import com.mashup.nawainvitation.presentation.typechoice.TypeChoiceActivity
+import com.mashup.nawainvitation.presentation.invitationlist.InvitationListActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
@@ -20,7 +20,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
         userRepository.getUsers(object : BaseResponse<Any> {
             override fun onSuccess(data: Any) {
-                startActivity(Intent(this@SplashActivity, TypeChoiceActivity::class.java))
+                startActivity(
+                    Intent(this@SplashActivity, InvitationListActivity::class.java)
+                )
                 finish()
             }
 

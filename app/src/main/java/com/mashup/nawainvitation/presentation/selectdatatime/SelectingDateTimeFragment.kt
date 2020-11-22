@@ -1,5 +1,6 @@
 package com.mashup.nawainvitation.presentation.selectdatatime
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Build
@@ -8,15 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.TimePicker
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.util.Dlog
-import com.mashup.nawainvitation.data.api.ApiProvider
-import com.mashup.nawainvitation.data.base.BaseResponse
-import com.mashup.nawainvitation.data.repository.InvitationRepositoryImpl
+import com.mashup.nawainvitation.data.injection.Injection
+import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.presentation.main.MainViewModel
 import com.mashup.nawainvitation.utils.TimeUtils
 import kotlinx.android.synthetic.main.fragment_selecting_datetime.*
@@ -39,24 +38,19 @@ class SelectingDateTimeFragment : Fragment() {
             .get(MainViewModel::class.java)
     }
 
-    private val invitationRepository by lazy {
-        InvitationRepositoryImpl(
-            ApiProvider.provideInvitationApi()
-        )
+    private val invitationRepository: InvitationRepository by lazy {
+        Injection.provideInvitationRepository()
     }
 
     var now = System.currentTimeMillis()
     var mDate = Date(now)
 
-    var hourNow: SimpleDateFormat = SimpleDateFormat("hh")
+    var hourNow: SimpleDateFormat = SimpleDateFormat("HH")
     var hourNowInt = hourNow.format(mDate).toInt()
-    var hourNow12 = if (hourNowInt < 12) hourNowInt else hourNowInt - 12
     var minNow: SimpleDateFormat = SimpleDateFormat("mm")
-    var ampmNow: SimpleDateFormat = SimpleDateFormat("aa")
 
-    var userHour = if (hourNow12 < 10) "0" + hourNow12 else "" + hourNow12
+    var userHour = if (hourNowInt < 10) "0$hourNowInt" else "$hourNowInt"
     var userMin = "" + minNow.format(mDate)
-    var userAmPm = "" + ampmNow.format(mDate)
 
     val today = Calendar.getInstance()
     val minDate = Calendar.getInstance()
@@ -88,13 +82,14 @@ class SelectingDateTimeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_selecting_datetime, container, false)
     }
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel.invitations.value?.let {
-            val mTime = it.invitationTime
-            if (mTime.isNullOrEmpty().not()){
-                val tvInputDate = getView()?.findViewById<TextView>(R.id.tvInputDate) as TextView
+        invitationRepository.getLatestInvitation().subscribe({
+            val mTime = it?.invitationTime
+            if (mTime.isNullOrEmpty().not()) {
+                val tvInputDate = getView()?.findViewById(R.id.tvInputDate) as TextView
 
                 val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 val yearF = SimpleDateFormat("yyyy")
@@ -104,17 +99,22 @@ class SelectingDateTimeFragment : Fragment() {
                 val minuteF = SimpleDateFormat("mm")
 
                 try {
-                    val str_source = mTime //입력포멧 문자열
-                    val date_parsed = inputFormat.parse(str_source) // 문자열을 파싱해 Date형으로 저장한다
-                    val saveHourInt = hourF.format(date_parsed).toInt()
-                    val saveHour12 = if (saveHourInt < 12) saveHourInt else saveHourInt - 12
-                    userAmPm = if (saveHourInt < 12) "오전" else "오후"
-                    userHour = if (saveHour12 < 10) "0" + saveHour12 else "" + saveHour12
-                    userMin = minuteF.format(date_parsed)
+                    val dateParsed = inputFormat.parse(mTime) // 문자열을 파싱해 Date형으로 저장한다
+                    val saveHourInt = hourF.format(dateParsed).toInt()
+                    val mUserHour = saveHourInt.toString()
+                    val mUserMin = minuteF.format(dateParsed)
 
-                    userDay = dayF.format(date_parsed)
-                    userMonth = monthF.format(date_parsed)
-                    userYear = yearF.format(date_parsed)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        timePicker.hour = mUserHour.toInt()
+                        timePicker.minute = mUserMin.toInt()
+                    }
+
+                    userHour = mUserHour
+                    userMin = mUserMin
+
+                    userDay = dayF.format(dateParsed)
+                    userMonth = monthF.format(dateParsed)
+                    userYear = yearF.format(dateParsed)
 
                     val dateMsg = userYear + "년 " + userMonth + "월 " + userDay + "일"
                     tvInputDate.text = dateMsg
@@ -126,11 +126,13 @@ class SelectingDateTimeFragment : Fragment() {
                     e.printStackTrace()
                 }
             }
+        }) {
+            Dlog.e(it.message)
         }
 
         //date
         cvInputDate.setOnClickListener {
-            this.InitializeListener()
+            this.initializeListener()
 
             //선택된 초기 날짜 설정
             val dialog =
@@ -157,7 +159,7 @@ class SelectingDateTimeFragment : Fragment() {
         }
 
         //time
-        OnClickTime()
+        onClickTime()
 
         //finish
         btnDateTimeFinish.setOnClickListener {
@@ -179,40 +181,17 @@ class SelectingDateTimeFragment : Fragment() {
                 month = userMonth,
                 day = userDay,
                 hour = userHour,
-                minute = userMin,
-                userAmPm = userAmPm
+                minute = userMin
             )
 
             Dlog.d("invitationTime : $invitationTime")
 
-            invitationRepository.patchInvitationTime(
-                invitationTime,
-                mainViewModel.typeData.templateId,
-                object : BaseResponse<Any> {
-                    override fun onSuccess(data: Any) {
-                        mainViewModel.listener.goToInvitationMain()
-                    }
-
-                    override fun onFail(description: String) {
-                        Dlog.e("onFail : $description")
-                    }
-
-                    override fun onError(throwable: Throwable) {
-                        Dlog.e("onError : ${throwable.message}")
-                    }
-
-                    override fun onLoading() {
-                        mainViewModel.listener.showLoading()
-                    }
-
-                    override fun onLoaded() {
-                        mainViewModel.listener.hideLoading()
-                    }
-                })
+            invitationRepository.updateInvitationTime(invitationTime)
+            mainViewModel.listener.goToInvitationMain()
         }
     }
 
-    fun InitializeListener() {
+    private fun initializeListener() {
         val tvInputDate = view?.findViewById<View>(R.id.tvInputDate) as TextView
 
         callbackMethod =
@@ -232,40 +211,21 @@ class SelectingDateTimeFragment : Fragment() {
             }
     }
 
-    private fun OnClickTime() {
-        val timePicker = view?.findViewById<View>(R.id.timePicker) as TimePicker
+    private fun onClickTime() {
 
         //선택된 초기 시간 설정
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (userAmPm == "오후") { timePicker.setHour(userHour.toInt()+12)}
-            else
-                timePicker.setHour(userHour.toInt())
 
-            timePicker.setMinute(userMin.toInt())
+            timePicker.hour = userHour.toInt()
+            timePicker.minute = userMin.toInt()
         }
 
         //listner
         timePicker.setOnTimeChangedListener { _, hour, minute ->
             var hour = hour
-            var am_pm = ""
-
-            // AM_PM decider logic
-            when {
-                hour == 0 -> {
-                    hour += 12
-                    am_pm = "오전"
-                }
-                hour == 12 -> am_pm = "오후"
-                hour > 12 -> {
-                    hour -= 12
-                    am_pm = "오후"
-                }
-                else -> am_pm = "오전"
-            }
 
             userHour = if (hour < 10) "0" + hour else "" + hour
             userMin = if (minute < 10) "0" + minute else "" + minute
-            userAmPm = am_pm
         }
     }
 }

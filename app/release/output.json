@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.mashup.nawainvitation",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "properties": [],
+      "versionCode": 200,
+      "versionName": "200",
+      "enabled": true,
+      "outputFile": "app-release.apk"
+    }
+  ]
+}

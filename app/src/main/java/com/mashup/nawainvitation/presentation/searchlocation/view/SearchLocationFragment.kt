@@ -1,5 +1,6 @@
 package com.mashup.nawainvitation.presentation.searchlocation.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -11,6 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.nawainvitation.R
 import com.mashup.nawainvitation.base.BaseFragment
 import com.mashup.nawainvitation.base.ext.toast
+import com.mashup.nawainvitation.base.util.Dlog
+import com.mashup.nawainvitation.data.injection.Injection
+import com.mashup.nawainvitation.data.repository.InvitationRepository
 import com.mashup.nawainvitation.databinding.FragmentSearchLocationBinding
 import com.mashup.nawainvitation.presentation.main.MainViewModel
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
@@ -26,6 +30,10 @@ class SearchLocationFragment :
     SearchLocationViewModel.SearchListener {
 
     private var data = Documents("", "", "")
+
+    private val invitationRepository: InvitationRepository by lazy {
+        Injection.provideInvitationRepository()
+    }
 
     private val searchAddressAdapter: SearchLocationAdapter by lazy {
         SearchLocationAdapter { clickCallback(it) }
@@ -86,13 +94,14 @@ class SearchLocationFragment :
         goToInput()
     }
 
+    @SuppressLint("CheckResult")
     private fun loadData() {
-        mainViewModel.invitations.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                setEditText(it.invitationPlaceName)
-                observableLocationData(it.invitationPlaceName)
-            }
-        })
+        invitationRepository.getLatestInvitation().subscribe({
+            setEditText(it?.mapInfo?.invitationPlaceName)
+            observableLocationData(it?.mapInfo?.invitationPlaceName)
+        }) {
+            Dlog.e(it.message)
+        }
     }
 
     private fun getData() {

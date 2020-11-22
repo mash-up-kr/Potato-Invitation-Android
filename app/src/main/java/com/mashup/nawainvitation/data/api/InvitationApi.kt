@@ -1,37 +1,36 @@
 package com.mashup.nawainvitation.data.api
 
-import com.mashup.nawainvitation.data.model.request.InvitationAddressRequest
-import com.mashup.nawainvitation.data.model.request.InvitationTimeRequest
-import com.mashup.nawainvitation.data.model.request.InvitationWordsRequest
 import com.mashup.nawainvitation.data.model.response.InvitationTypeResponse
 import com.mashup.nawainvitation.data.model.response.InvitationsResponse
 import io.reactivex.Single
-import retrofit2.Response
-import retrofit2.http.Body
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.Query
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
+
 
 interface InvitationApi {
 
-    @GET("template-types-list")
+    @GET("template-types")
     fun getTemplateTypes(): Single<InvitationTypeResponse>
 
-    @GET("invitations")
-    fun getInvitations(@Query("template-id") templateId: Int): Single<InvitationsResponse>
+    //@POST("invitations")
+    //fun postInvitations(@Body request: InvitationsRequest): Single<InvitationsResponse>
 
-    @PATCH("invitation/words")
-    fun patchInvitationWords(
-        @Body request: InvitationWordsRequest
-    ): Single<Response<Void>>
-
-    @PATCH("invitations/time")
-    fun patchInvitationTime(
-        @Body request: InvitationTimeRequest
-    ): Single<Response<Void>>
-
-    @PATCH("invitations/address")
-    fun patchInvitationAddress(
-        @Body request: InvitationAddressRequest
-    ): Single<Response<Void>>
+    @Multipart
+    @POST("invitations")
+    fun postInvitations(
+        @Part("templateId") templateId: RequestBody,
+        @Part("invitationTitle") invitationTitle: RequestBody,
+        @Part("invitationContents") invitationContents: RequestBody,
+        @Part("invitationTime") invitationTime: RequestBody,
+        @Part("invitationAddressName") invitationAddressName: RequestBody,
+        @Part("invitationRoadAddressName") invitationRoadAddressName: RequestBody,
+        @Part("invitationPlaceName") invitationPlaceName: RequestBody,
+        @Part("latitude") latitude: RequestBody,
+        @Part("longitude") longitude: RequestBody,
+        @Part images: Array<MultipartBody.Part>?
+    ): Single<InvitationsResponse>
 }

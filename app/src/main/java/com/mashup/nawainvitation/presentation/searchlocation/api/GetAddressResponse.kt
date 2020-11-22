@@ -13,6 +13,6 @@ data class Documents(
     @SerializedName("address_name") val addressName: String? = "",
     @SerializedName("road_address_name") val roadAddressName: String? = "",
     @SerializedName("place_name") val placeName: String?,
-    val x: Double? = null,
-    val y: Double? = null
+    val x: Double? = null, //longitude
+    val y: Double? = null //latitude
 ) : Parcelable

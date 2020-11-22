@@ -23,42 +23,46 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:background="@color/white_two">
+            android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
-
-                <View
-                    android:layout_width="174dp"
-                    android:layout_height="11dp"
-                    android:layout_gravity="bottom"
-                    android:background="@color/lemon" />
-
-                <TextView
-                    android:text="@{model.typeData.title}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@color/black"
-                    android:textSize="24dp"
-                    android:textStyle="bold"
-                    tools:text="title" />
-            </FrameLayout>
-
-            <ImageView
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_main"
                 android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:layout_gravity="center|bottom"
-                bind:setInvitationImageUrl="@{model.invitations.templateBackgroundImageUrl}"
-                tools:background="@color/white" />
+                android:layout_height="140dp"
+                android:background="@color/white_two" />
+
+            <ImageButton
+                android:id="@+id/ibLeftMain"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginStart="24dp"
+                android:background="@drawable/ic_icon_arrow_left_green" />
+
+            <ImageButton
+                android:id="@+id/ibRightMain"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/ic_icon_arrow_right_green" />
+
         </FrameLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tlMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/white_two"
+            app:tabBackground="@drawable/selector_type_indicator"
+            app:tabGravity="center"
+            app:tabIndicator="@null"
+            app:tabPaddingStart="0.1dp" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="270dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
@@ -78,8 +82,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{model.currentTypeItem.description}"
                     android:textColor="@color/black"
-                    android:text="@{model.invitations.templateTypeDescription}"
                     android:textSize="16dp"
                     tools:text="난 너가 꼭 와주면 좋겠어💖 와줄꺼지?" />
 
@@ -116,9 +120,21 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="16dp"
                     android:onClick="@{() -> model.listener.goToInvitationPhoto()}"
-                    android:visibility="gone"
                     bind:isChecked="@{model.isPhoto()}"
                     bind:title="@{@string/input_photo}" />
+
+                <TextView
+                    android:id="@+id/tv_see_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="18dp"
+                    android:gravity="center"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/see_preview_complete_invitation"
+                    android:textColor="#9e9e9e"
+                    android:textSize="12dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -130,8 +146,9 @@
         <com.mashup.nawainvitation.custom.LemonButton
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:onClick="@{() -> model.listener.goToPreview()}"
+            android:foreground="?attr/selectableItemBackground"
             android:enabled="@{model.enableBtn}"
+            android:onClick="@{() -> model.completeInvitation()}"
             android:text="@string/complete"
             android:textSize="24dp" />
     </LinearLayout>

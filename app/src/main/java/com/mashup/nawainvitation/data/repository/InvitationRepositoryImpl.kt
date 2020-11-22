@@ -1,86 +1,221 @@
 package com.mashup.nawainvitation.data.repository
 
+import com.mashup.nawainvitation.base.util.Dlog
 import com.mashup.nawainvitation.data.api.InvitationApi
 import com.mashup.nawainvitation.data.base.BaseResponse
-import com.mashup.nawainvitation.data.model.request.InvitationAddressRequest
-import com.mashup.nawainvitation.data.model.request.InvitationTimeRequest
-import com.mashup.nawainvitation.data.model.request.InvitationWordsRequest
-import com.mashup.nawainvitation.data.model.response.InvitationsResponse
-import com.mashup.nawainvitation.data.model.response.mapToItem
+import com.mashup.nawainvitation.data.room.dao.InvitationDaoV2
+import com.mashup.nawainvitation.data.room.entity.InvitationEntityV2
+import com.mashup.nawainvitation.data.room.typeadpter.ImageListTypeAdapter
+import com.mashup.nawainvitation.presentation.main.model.ImageInfoItem
+import com.mashup.nawainvitation.presentation.main.model.InvitationsItem
+import com.mashup.nawainvitation.presentation.main.model.TypeItem
+import com.mashup.nawainvitation.presentation.main.model.mapToPresentation
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
-import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import retrofit2.HttpException
+import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
+import java.net.URLDecoder
+
 
 class InvitationRepositoryImpl(
-    private val invitationApi: InvitationApi
+    private val invitationApi: InvitationApi,
+    private val invitationDao: InvitationDaoV2
 ) : InvitationRepository {
 
-    override fun getInvitations(
-        templateId: Int,
-        callback: BaseResponse<InvitationsResponse>
-    ): Disposable {
-        return invitationApi.getInvitations(templateId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                callback.onLoading()
-            }
-            .doOnTerminate {
-                callback.onLoaded()
-            }
-            .subscribe({
-                callback.onSuccess(it)
-            }) {
-                if (it is HttpException) {
-                    callback.onFail(it.message())
-                } else {
-                    callback.onError(it)
-                }
-            }
-    }
-
-    override fun getInvitationTypes(
-        callback: BaseResponse<List<TypeData>>
-    ): Disposable {
+    override fun getAllTypes(callback: BaseResponse<List<TypeItem>>): Disposable {
         return invitationApi.getTemplateTypes()
-            //이 이후에 수행되는 코드는 메인 쓰레드에서 실행됩니다.
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            //구독할 때 수행할 작업을 구현합니다.
             .doOnSubscribe {
                 callback.onLoading()
             }
-            //스트림이 종료될 때 수행할 작업을 구현합니다.
-            //Single에서 스트림이 종료되는 시점은 성공(Success)과 에러(Error) 입니다.
             .doOnTerminate {
                 callback.onLoaded()
             }
-            //옵서버블을 구독합니다.
             .subscribe({
-                callback.onSuccess(it.invitationTypeItemList.mapToItem())
+                callback.onSuccess(it.invitationTypeItemList.map { item ->
+                    item.mapToPresentation()
+                })
             }) {
-                // 에러 처리 작업을 구현합니다.
-                if (it is HttpException) {
-                    callback.onFail(it.message())
-                } else {
-                    callback.onError(it)
-                }
+                callback.onError(it)
             }
     }
 
-    override fun patchInvitationWords(
+    override fun insertTempInvitation() {
+        makeCompletable(
+            call = {
+                invitationDao.insertInvitation(
+                    InvitationEntityV2()
+                )
+            }
+        )
+    }
+
+    override fun getInvitations(): Flowable<List<InvitationsItem>> {
+        return invitationDao.getInvitationsRx().map {
+            it.map { item ->
+                item.mapToPresentation()
+            }
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun getLatestInvitation(): Flowable<InvitationsItem> {
+        return invitationDao.getInvitationsRx().flatMap {
+            val latestItem = it.lastOrNull()
+
+            if (latestItem == null) {
+                insertTempInvitation()
+                Flowable.just(InvitationEntityV2().mapToPresentation())
+            } else {
+                Flowable.just(latestItem.mapToPresentation())
+            }
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun updateInvitationWords(
         invitationTitle: String,
-        invitationContents: String,
-        templatesId: Int,
-        callback: BaseResponse<Any>
+        invitationContents: String
     ): Disposable {
-        val request = InvitationWordsRequest(
-            invitationTitle = invitationTitle,
-            invitationContents = invitationContents,
-            templatesId = templatesId
+        return makeCompletable(
+            call = {
+                invitationDao.updateWord(
+                    title = invitationTitle,
+                    content = invitationContents
+                )
+            }
         )
+    }
 
-        return invitationApi.patchInvitationWords(request)
+    override fun updateInvitationAddress(
+        documents: Documents
+    ): Disposable {
+        return makeCompletable(
+            call = {
+                invitationDao.updateAddress(documents)
+            }
+        )
+    }
+
+    override fun updateInvitationTime(
+        invitationTime: String
+    ): Disposable {
+        return makeCompletable(
+            call = {
+                invitationDao.updateTime(invitationTime)
+            }
+        )
+    }
+
+    override fun updateInvitationImages(
+        imageList: List<ImageInfoItem>
+    ): Disposable {
+        return makeCompletable(
+            call = {
+                invitationDao.updateImages(
+                    ImageListTypeAdapter.imageListToJsonString(imageList)
+                )
+            }
+        )
+    }
+
+    override fun updateInvitationHashcodeAndCreatedTime(
+        hashCode: String,
+        createdTime: Long
+    ): Disposable {
+        return makeCompletable(
+            call = {
+                invitationDao.updateHashCodeAndCreatedTime(hashCode, createdTime)
+            }
+        )
+    }
+
+    private val MEDIA_TYPE_TEXT = "text/plain".toMediaTypeOrNull()
+    private val MEDIA_TYPE_MULTIPART = "multipart/form-data".toMediaTypeOrNull()
+
+    override fun pathInvitation(
+        templateInfo: TypeItem,
+        callback: BaseResponse<String>
+    ): Disposable {
+        return Single.fromCallable { }.flatMap {
+            val invitations = invitationDao.getInvitations()
+            val data = invitations.last()
+
+            val bodyTemplatesId =
+                RequestBody.create(MEDIA_TYPE_TEXT, templateInfo.templateId.toString())
+
+            val bodyInvitationTitle =
+                RequestBody.create(MEDIA_TYPE_TEXT, data.invitationTitle ?: "")
+
+            val bodyInvitationContents =
+                RequestBody.create(MEDIA_TYPE_TEXT, data.invitationContents ?: "")
+
+            val bodyInvitationTime =
+                RequestBody.create(MEDIA_TYPE_TEXT, data.invitationTime ?: "")
+
+            val bodyInvitationAddressName = RequestBody.create(
+                MEDIA_TYPE_TEXT,
+                data.locationEntity?.invitationAddressName ?: ""
+            )
+
+            val bodyInvitationRoadAddressName = RequestBody.create(
+                MEDIA_TYPE_TEXT,
+                data.locationEntity?.invitationRoadAddressName ?: ""
+            )
+
+            val bodyInvitationPlaceName = RequestBody.create(
+                MEDIA_TYPE_TEXT,
+                data.locationEntity?.invitationPlaceName ?: ""
+            )
+
+            val mLatitude = data.locationEntity?.latitude
+            val bodyLatitude = RequestBody.create(
+                MEDIA_TYPE_TEXT,
+                if (mLatitude == null) "" else data.locationEntity.latitude.toString()
+            )
+
+            val mLongitude = data.locationEntity?.longitude
+            val bodyLongitude = RequestBody.create(
+                MEDIA_TYPE_TEXT,
+                if (mLongitude == null) "" else data.locationEntity.longitude.toString()
+            )
+
+            var bodyImages: Array<MultipartBody.Part>? = null
+            val imageList = ImageListTypeAdapter.jsonStringToImageList(data.images)
+            if (!imageList.isNullOrEmpty()) {
+                val (isValid, body) = getImagesMultiPartBody(imageList)
+                if (isValid.not()) {
+                    //사진이 경로에 존재하지 않는 경우
+                    error("사진이 디바이스에 존재하지 않습니다.")
+                }
+                bodyImages = body
+            }
+
+            invitationDao.updateTemplateInfo(templateInfo)
+
+            invitationApi.postInvitations(
+                templateId = bodyTemplatesId,
+                invitationTitle = bodyInvitationTitle,
+                invitationContents = bodyInvitationContents,
+                invitationTime = bodyInvitationTime,
+                invitationAddressName = bodyInvitationAddressName,
+                invitationRoadAddressName = bodyInvitationRoadAddressName,
+                invitationPlaceName = bodyInvitationPlaceName,
+                latitude = bodyLatitude,
+                longitude = bodyLongitude,
+                images = bodyImages
+            )
+
+        }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 callback.onLoading()
@@ -89,31 +224,57 @@ class InvitationRepositoryImpl(
                 callback.onLoaded()
             }
             .subscribe({
-                callback.onSuccess(it)
+                callback.onSuccess(it.invitationHashCode ?: "")
             }) {
-                if (it is HttpException) {
-                    callback.onFail(it.message())
-                } else {
-                    callback.onError(it)
-                }
+                callback.onError(it)
             }
     }
 
-    override fun patchInvitationAddress(
-        documents: Documents,
-        templatesId: Int,
-        callback: BaseResponse<Any>
-    ): Disposable {
-        val request = InvitationAddressRequest(
-            invitationAddressName = documents.addressName,
-            invitationPlaceName = documents.placeName,
-            invitationRoadAddressName = documents.roadAddressName,
-            x = documents.x,
-            y = documents.y,
-            templatesId = templatesId
-        )
+    private fun getImagesMultiPartBody(imageList: List<ImageInfoItem>): Pair<Boolean, Array<MultipartBody.Part>> {
+        val bodyImages = mutableListOf<MultipartBody.Part>()
 
-        return invitationApi.patchInvitationAddress(request)
+        var isValid = true
+
+        for (i in imageList.indices) {
+            val imageUri = imageList[i].imageUri!!
+
+            //Dlog.d("imageUri : ${File(imageUri).exists()} -> $imageUri")
+
+            val imagePath = imageUri.replace("file://", "")
+            val decodingPath = URLDecoder.decode(imagePath, "UTF-8")
+            val file = File(decodingPath)
+
+            Dlog.d("imagePath : ${file.exists()} -> $decodingPath")
+
+            if (file.exists().not()) {
+                isValid = false
+                break
+            }
+
+            val requestBody = file.asRequestBody(MEDIA_TYPE_MULTIPART)
+            bodyImages.add(MultipartBody.Part.createFormData("files", file.name, requestBody))
+        }
+
+        return Pair(isValid, bodyImages.toTypedArray())
+    }
+
+    override fun deleteAllImage() {
+        makeCompletable {
+            invitationDao.deleteAllImage()
+        }
+    }
+
+    private fun makeCompletable(call: () -> Unit) =
+        Completable.fromCallable {
+            call.invoke()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
+
+    private fun makeCompletable(call: () -> Unit, callback: BaseResponse<Any>) =
+        Completable.fromCallable {
+            call.invoke()
+        }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 callback.onLoading()
@@ -122,41 +283,8 @@ class InvitationRepositoryImpl(
                 callback.onLoaded()
             }
             .subscribe({
-                callback.onSuccess(it)
+                callback.onSuccess(Unit)
             }) {
-                if (it is HttpException) {
-                    callback.onFail(it.message())
-                } else {
-                    callback.onError(it)
-                }
+                callback.onError(it)
             }
-    }
-
-    override fun patchInvitationTime(
-        invitationTime: String,
-        templatesId: Int,
-        callback: BaseResponse<Any>
-    ): Disposable {
-        val request = InvitationTimeRequest(
-            invitationTime = invitationTime,
-            templatesId = templatesId
-        )
-        return invitationApi.patchInvitationTime(request)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                callback.onLoading()
-            }
-            .doOnTerminate {
-                callback.onLoaded()
-            }
-            .subscribe({
-                callback.onSuccess(it)
-            }) {
-                if (it is HttpException) {
-                    callback.onFail(it.message())
-                } else {
-                    callback.onError(it)
-                }
-            }
-    }
 }

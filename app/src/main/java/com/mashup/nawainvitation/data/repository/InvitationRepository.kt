@@ -1,37 +1,51 @@
 package com.mashup.nawainvitation.data.repository
 
 import com.mashup.nawainvitation.data.base.BaseResponse
-import com.mashup.nawainvitation.data.model.response.InvitationsResponse
+import com.mashup.nawainvitation.presentation.main.model.ImageInfoItem
+import com.mashup.nawainvitation.presentation.main.model.InvitationsItem
+import com.mashup.nawainvitation.presentation.main.model.TypeItem
 import com.mashup.nawainvitation.presentation.searchlocation.api.Documents
-import com.mashup.nawainvitation.presentation.typechoice.data.TypeData
+import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 
 interface InvitationRepository {
-    fun getInvitationTypes(
-        callback: BaseResponse<List<TypeData>>
+
+    fun getAllTypes(
+        callback: BaseResponse<List<TypeItem>>
     ): Disposable
 
-    fun getInvitations(
-        templateId: Int,
-        callback: BaseResponse<InvitationsResponse>
-    ): Disposable
+    fun insertTempInvitation()
 
-    fun patchInvitationWords(
+    fun getInvitations(): Flowable<List<InvitationsItem>>
+
+    fun getLatestInvitation(): Flowable<InvitationsItem>
+
+    fun updateInvitationWords(
         invitationTitle: String,
-        invitationContents: String,
-        templatesId: Int,
-        callback: BaseResponse<Any>
+        invitationContents: String
     ): Disposable
 
-    fun patchInvitationTime(
-        invitationTime: String,
-        templatesId: Int,
-        callback: BaseResponse<Any>
+    fun updateInvitationTime(
+        invitationTime: String
     ): Disposable
 
-    fun patchInvitationAddress(
-        documents: Documents,
-        templatesId: Int,
-        callback: BaseResponse<Any>
+    fun updateInvitationAddress(
+        documents: Documents
     ): Disposable
+
+    fun updateInvitationImages(
+        imageList: List<ImageInfoItem>
+    ): Disposable
+
+    fun updateInvitationHashcodeAndCreatedTime(
+        hashCode: String,
+        createdTime: Long
+    ): Disposable
+
+    fun pathInvitation(
+        templateInfo: TypeItem,
+        callback: BaseResponse<String>
+    ): Disposable
+
+    fun deleteAllImage()
 }

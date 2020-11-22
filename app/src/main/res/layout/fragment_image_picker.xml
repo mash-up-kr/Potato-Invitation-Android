@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-  
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="imageModel"
+            type="com.mashup.nawainvitation.presentation.imagepicker.viewmodel.ImagePickerViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,10 +20,20 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="23dp"
             android:text="초대 사진을\n추가해볼까요?"
-            android:textSize="24dp"
             android:textColor="@color/black"
+            android:textSize="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivTrashImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:padding="16dp"
+            android:src="@drawable/ic_delete_24px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvImagePlus" />
 
         <TextView
             android:id="@+id/tvImage"
@@ -47,9 +63,10 @@
             android:id="@+id/tvInput"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:enabled="@{imageModel.enableBtn}"
+            android:onClick="@{() -> imageModel.saveImage()}"
             android:text="@string/input_complete"
             android:textSize="24dp"
-            android:enabled="true"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
