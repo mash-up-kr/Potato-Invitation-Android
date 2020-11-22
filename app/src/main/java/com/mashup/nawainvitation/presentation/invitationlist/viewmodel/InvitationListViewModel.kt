@@ -72,7 +72,6 @@ class InvitationListViewModel(
 
     private fun setTestData(data: List<InvitationListItem>) {
         val invitations = data
-            .sortedByDescending { it.createdTime }
             .groupBy { it.createdYearMonth }
 
         // header list 생성
@@ -100,6 +99,7 @@ class InvitationListViewModel(
             .subscribe({ items ->
                 val invitations =
                     items.filter { it.hashcode.isNullOrEmpty().not() && it.templateId != -1 }
+                        .sortedByDescending { it.createdTime }
                 if (invitations.isNullOrEmpty().not()) _showEmptyView.value = false
                 func(invitations)
             }) {
