@@ -72,11 +72,7 @@ class InvitationListViewModel(
 
     private fun setTestData(data: List<InvitationListItem>) {
         val invitations = data
-            .sortedWith(
-                compareBy(InvitationListItem::createdTime).thenByDescending(
-                    InvitationListItem::invitationDateDefault
-                )
-            )
+            .sortedByDescending { it.createdTime }
             .groupBy { it.createdYearMonth }
 
         // header list 생성
